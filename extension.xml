@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root version="3.0">
+
+  <announcement text="QoL improvements for Fantasy Grounds Unity" font="emotefont" icon="sidebar_icon_mycategory" />
+
+	<properties>
+		<name>FGU fixes</name>
+		<version>1.0.0</version>
+		<loadorder>234</loadorder>
+    <author>SgtWhy</author>
+    <importruleset source="CoreRPG" />
+	</properties>
+
+	<base>
+    <!-- SF fixes -->
+    <includefile source="xml/sfrpg_fixes.xml" />
+
+    <!-- tokens -->
+    <tokenroot >	
+      <source >tokens</source>
+    </tokenroot>
+
+	</base>
+</root>
