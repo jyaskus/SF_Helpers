@@ -8,12 +8,23 @@
 		<version>1.0.0</version>
 		<loadorder>234</loadorder>
     <author>SgtWhy</author>
+
     <importruleset source="CoreRPG" />
+
+    <ruleset name="CoreRPG" />
+    <ruleset name="PFRPG" />
+    <ruleset name="SFRPG" />  
+
+    <description>Quality of Life improvements for Fantasy Grounds Unity (Pathfinder 1e and Starfinder 1e)</description>
 	</properties>
 
 	<base>
     <!-- SF fixes -->
     <includefile source="xml/sfrpg_fixes.xml" />
+
+    <script name="sf" file="scripts/sf_helper.lua" />
+
+    <string name="char_tooltip_abilitypointstotal">Total Ability Points (normally 10 pts)</string>
 
     <!-- tokens -->
     <tokenroot >	
