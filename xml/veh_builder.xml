@@ -1286,6 +1286,27 @@
 				</script>
 			</button_details>
 
+      <button_details name="button_create_vehicle">
+        <bounds>120,-80,20,20</bounds>
+        <icon normal="button_forward_add" />
+				<script>
+					function onButtonPress()
+            -- First update all totals
+            window.button_update_totals.onButtonPress();
+            
+            -- Get the character DB node that this window was opened with
+            local charNode = window.getDatabaseNode();
+            
+            -- Then create the vehicle record, passing the node and window
+            vehBuilder.vehBuilder_createVehicleRecord(charNode, window);
+					end
+				</script>
+			</button_details>
+      <label_fieldtop>
+				<bounds>90,-100,80,20</bounds>
+				<static>Create Vehicle</static>
+			</label_fieldtop>
+
       <number name="nTotalModSlots">
 				<frame name="fielddark" />
 				<bounds>30,-80,40,30</bounds>

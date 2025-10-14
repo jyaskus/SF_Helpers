@@ -30,6 +30,7 @@
     <includefile source="xml/veh_builder.xml" />
 
     <script name="sf" file="scripts/sf_helper.lua" />
+    <script name="vehBuilder" file="scripts/veh_builder.lua" />
 
     <string name="char_tooltip_abilitypointstotal">Total Ability Points (normally 10 pts)</string>
 
