@@ -1299,8 +1299,22 @@
             -- Get the character DB node that this window was opened with
             local charNode = window.getDatabaseNode();
             
-            -- Then create the vehicle record, passing the node and window
-            vehBuilder.vehBuilder_createVehicleRecord(charNode, window);
+            -- Create the vehicle record (returns the vehicle node)
+            local vehicleNode = vehBuilder.vehBuilder_createVehicleRecord(charNode, window);
+            
+            if vehicleNode then
+              -- Now that the vehicle is in the database, create the self-referencing link
+              vehBuilder.vehBuilder_createVehicleLink(vehicleNode);
+              
+              -- Send success message
+              local vehicleName = DB.getValue(vehicleNode, "name", "Vehicle");
+              sf.sendChat("Vehicle '" .. vehicleName .. "' added to character sheet!", true);
+              
+              -- Open the newly created vehicle window
+              Interface.openWindow("charvehicle", vehicleNode);
+            else
+              Debug.console("ERROR: Failed to create vehicle");
+            end
 					end
 				</script>
 			</button_details>
