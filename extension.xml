@@ -29,6 +29,9 @@
 
     <includefile source="xml/veh_builder.xml" />
 
+    <!-- icons -->
+    <includefile source="graphics/graphics_icons.xml" />
+
     <script name="sf" file="scripts/sf_helper.lua" />
     <script name="vehBuilder" file="scripts/veh_builder.lua" />
 
