@@ -437,7 +437,7 @@
               window.nVehTypeEACmod.setValue(2); -- adds 2 EAC
               local nHardness = math.floor(window.nBaseHardness.getValue() * 0.20); -- adds 20% Hardness
               window.nVehTypeHardness.setValue( nHardness );
-              window.sVehDescription.setValue("These heavily armored vehicles resist damage, maneuver ponderously, and are rarely available to civilians, without the right connections.");
+              window.sVehDescription.setValue("These heavily armored vehicles resist damage, maneuver ponderously, and are rarely available to civilians.");
             end
             if sVehType == "Truck" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
@@ -475,13 +475,14 @@
 			</stringcontrol>
 
       <stringcontrol name="sVehTypeNotes">
-				<bounds>50,10,-20,20</bounds>
+				<bounds>35,10,-20,16</bounds>
+        <color>220088</color>
         <font>reference-i</font>
 				<readonly />
 			</stringcontrol>
 
       <stringcontrol name="sVehDescription">
-				<bounds>300,25,-20,23</bounds>
+				<bounds>260,25,-20,23</bounds>
 				<static textres="" />
 				<readonly />
 			</stringcontrol>
@@ -1263,6 +1264,7 @@
 
             window.nTotalSpeed.update();
             window.nTotalFullSpeedMult.update();
+            window.nTotalOverlandSpeed.update();
 
             window.nTotalPilotingMod.update();
             window.nTotalAttackMod.update();
@@ -1376,12 +1378,43 @@
 
 
             setValue(nTotalFullSpeed);
+            
+            -- Update overland speed when full speed changes
+            window.nTotalOverlandSpeed.update();
           end
         </script>
 			</number>
       <label_fieldtop>
 				<bounds>290,-100,120,23</bounds>
 				<static>full speed</static>
+			</label_fieldtop>
+
+      <number name="nTotalOverlandSpeed">
+				<frame name="fielddark" />
+				<bounds>330,-50,60,30</bounds>
+				<default>0</default>
+				<hideonvalue>0</hideonvalue>
+        <script>
+          function update()
+            -- Base calculation: 1/10 of full speed
+            local nFullSpeed = window.nTotalFullSpeedMult.getValue();
+            local nOverlandSpeed = nFullSpeed / 10;
+            
+            -- Check if transport special ability is active
+            local sSpecial1 = window.StringCyclerVehSpecial1.getStringValue();
+            local sSpecial2 = window.StringCyclerVehSpecial2.getStringValue();
+            
+            if (sSpecial1 == "transport" or sSpecial2 == "transport") then
+              nOverlandSpeed = nOverlandSpeed * 1.20; -- +20% bonus for transport
+            end
+            
+            setValue(math.floor(nOverlandSpeed));
+          end
+        </script>
+			</number>
+      <label_fieldtop>
+				<bounds>310,-25,100,23</bounds>
+				<static>overland (mph)</static>
 			</label_fieldtop>
 
       <number name="nTotalPassengers">
