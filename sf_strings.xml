@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root version="3.0">
+
+  <string name="vhBuilder_LabelStep0_LabelCaption">Step 0: Vehicle Concept</string>
+	<string name="vhBuilder_LabelStep1_LabelCaption">Step 1: (Level) Array</string>
+	<string name="vhBuilder_LabelBasePrice_LabelCaption">Price</string>
+	<string name="vhBuilder_LabelBaseSpeed_LabelCaption">Speed</string>
+	<string name="vhBuilder_LabelBaseEAC_LabelCaption">EAC</string>
+	<string name="vhBuilder_LabelBaseKAC_LabelCaption">KAC</string>
+	<string name="vhBuilder_LabelBaseHP_LabelCaption">Hit Points</string>
+	<string name="vhBuilder_LabelBaseHardness_LabelCaption">Hardness</string>
+	<string name="vhBuilder_LabelBaseCollisionDMG_LabelCaption">Collision DMG</string>
+	<string name="vhBuilder_LabelCollisionDC_LabelCaption">DC</string>
+	<string name="vhBuilder_LabelBaseModSlots_LabelCaption">Mod Slots</string>
+	<string name="vhBuilder_LabelStep2_LabelCaption">Step 2: Vehicle Type Graft</string>
+	<string name="vhBuilder_StringCyclerVehType_Label_Boat__Water_Vehicle_">Boat</string>
+	<string name="vhBuilder_StringCyclerVehType_Label_Cruiser__Land_Vehicle_">Cruiser</string>
+	<string name="vhBuilder_StringCyclerVehType_Label_Cycle__Land_Vehicle_">Cycle</string>
+	<string name="vhBuilder_StringCyclerVehType_Label_Fast_Flyer__Air_Vehicle_">Fast Flyer</string>
+	<string name="vhBuilder_StringCyclerVehType_Label_Hovering_Flyer__Air_Vehicle_">Hovering Flyer</string>
+	<string name="vhBuilder_StringCyclerVehType_Label_Submersible__Water_Vehicle_">Submersible</string>
+	<string name="vhBuilder_StringCyclerVehType_Label_Tank__Land_Vehicle_">Tank</string>
+	<string name="vhBuilder_StringCyclerVehType_Label_Truck__Land_Vehicle_">Truck</string>
+	<string name="vhBuilder_StringCyclerVehType_Label_Walker__Land_Vehicle_">Walker</string>
+	<string name="vhBuilder_LabelPassengers_LabelCaption">passengers</string>
+	<string name="vhBuilder_LabelSpeedMult_LabelCaption">full speed mult</string>
+	<string name="vhBuilder_LabelBaseAttackMods_LabelCaption">Attack Mods</string>
+	<string name="vhBuilder_LabelStep3_LabelCaption">Step 3: Vehicle Size Graft</string>
+	<string name="vhBuilder_StringCyclerVehSize_Label_Medium">Medium</string>
+	<string name="vhBuilder_StringCyclerVehSize_Label_Large">Large</string>
+	<string name="vhBuilder_StringCyclerVehSize_Label_Huge">Huge</string>
+	<string name="vhBuilder_StringCyclerVehSize_Label_Gargantuan">Gargantuan</string>
+	<string name="vhBuilder_StringCyclerVehSize_Label_Colossal">Colossal</string>
+	<string name="vhBuilder_Label1_LabelCaption">Step 4: Vehicle Origin Graft</string>
+	<string name="vhBuilder_Label2_LabelCaption">Step 5: Vehicle Special Graft</string>
+	<string name="vhBuilder_StringCyclerVehSpecial1_Label_All_Terrain">All-Terrain</string>
+	<string name="vhBuilder_StringCyclerVehSpecial1_Label_Amphibious">Amphibious</string>
+	<string name="vhBuilder_StringCyclerVehSpecial1_Label_Armored">Armored</string>
+	<string name="vhBuilder_StringCyclerVehSpecial1_Label_Computer_Assisted">Computer-Assisted</string>
+	<string name="vhBuilder_StringCyclerVehSpecial1_Label_Hover">Hover</string>
+	<string name="vhBuilder_StringCyclerVehSpecial1_Label_Hybrid_Aircraft">Hybrid Aircraft</string>
+	<string name="vhBuilder_StringCyclerVehSpecial1_Label_Junk">Junk</string>
+	<string name="vhBuilder_StringCyclerVehSpecial1_Label_Luxury">Luxury</string>
+	<string name="vhBuilder_StringCyclerVehSpecial1_Label_Racer">Racer</string>
+	<string name="vhBuilder_StringCyclerVehSpecial1_Label_Transport">Transport</string>
+	<string name="vhBuilder_StringCyclerVehSpecial2_Label_All_Terrain">All-Terrain</string>
+	<string name="vhBuilder_StringCyclerVehSpecial2_Label_Amphibious">Amphibious</string>
+	<string name="vhBuilder_StringCyclerVehSpecial2_Label_Armored">Armored</string>
+	<string name="vhBuilder_StringCyclerVehSpecial2_Label_Computer_Assisted">Computer-Assisted</string>
+	<string name="vhBuilder_StringCyclerVehSpecial2_Label_Hover">Hover</string>
+	<string name="vhBuilder_StringCyclerVehSpecial2_Label_Hybrid_Aircraft">Hybrid Aircraft</string>
+	<string name="vhBuilder_StringCyclerVehSpecial2_Label_Junk">Junk</string>
+	<string name="vhBuilder_StringCyclerVehSpecial2_Label_Luxury">Luxury</string>
+	<string name="vhBuilder_StringCyclerVehSpecial2_Label_Racer">Racer</string>
+	<string name="vhBuilder_StringCyclerVehSpecial2_Label_Transport">Transport</string>
+
+  <string name="vhBuilder_StringCyclerOrigin_experimental">Experimental</string>
+  <string name="vhBuilder_StringCyclerOrigin_factory_made">Factory-made</string>
+  <string name="vhBuilder_StringCyclerOrigin_prototype">Prototype</string>
+
+</root>

@@ -1,0 +1,101 @@
+<vehicles>
+			<id-00001>
+				<attack>
+					<full type="number">-6</full>
+					<mod type="number">-3</mod>
+				</attack>
+				<collision>
+					<damage>
+						<total type="string">5d8 b</total>
+					</damage>
+					<dc>
+						<total type="number">13</total>
+					</dc>
+				</collision>
+				<converted type="number">1</converted>
+				<cover type="string">total</cover>
+				<defenses>
+					<eac>
+						<total type="number">14</total>
+					</eac>
+					<hardness>
+						<total type="number">2</total>
+					</hardness>
+					<kac>
+						<total type="number">15</total>
+					</kac>
+				</defenses>
+				<hp>
+					<base type="number">0</base>
+					<broken type="number">20</broken>
+					<total type="number">40</total>
+					<wounds type="number">0</wounds>
+				</hp>
+				<level type="number">5</level>
+				<link type="windowreference">
+					<class>charvehicle</class>
+					<recordname>charsheet.id-00002.vehicles.id-00001</recordname>
+				</link>
+				<locked type="number">0</locked>
+				<modslots>
+					<total type="number">0</total>
+				</modslots>
+				<movements>
+					<id-00001>
+						<fullspeed type="number">200</fullspeed>
+						<name type="string">water); 80 ft., full 900 ft., 105 mph (swim</name>
+						<overland type="number">22</overland>
+						<speed type="number">20</speed>
+					</id-00001>
+				</movements>
+				<name type="string">(maiwen) Wavecutter</name>
+				<origingraftlink type="windowreference">
+					<class />
+					<recordname />
+				</origingraftlink>
+				<parts />
+				<passengers type="number">1</passengers>
+				<picture type="token">tokens/wavecutter.png</picture>
+				<pilot>
+					<total type="number">-1</total>
+				</pilot>
+				<ppabilities />
+				<price type="string">7000</price>
+				<sizegraft type="string">Large water vehicle (10 ft. wide, 10 ft. long, 10 ft. high)</sizegraft>
+				<sizegraftlink type="windowreference">
+					<class />
+					<recordname />
+				</sizegraftlink>
+				<space type="number">0</space>
+				<specialabilities>
+					<id-00001>
+						<locked type="number">1</locked>
+						<name type="string">Planetary Comm Unit</name>
+						<shortcut type="windowreference">
+							<class>npc_specialability</class>
+							<recordname />
+						</shortcut>
+						<text type="string">A personal comm unit is pocket-sized device that combines a minor portable computer (treat as a tier-0 computer with no upgrades or modules) and a cellular communication device, allowing wireless communication with other comm units in both audio- and text-based formats at planetary range. A personal comm unit also includes a calculator, a flashlight (increases the light level one step in a 15-foot cone), and several entertainment options (including games and access to any local infospheres). You can upgrade a personal comm unit to function as some other devices (such as full computers and scanners) by spending credits equal to 110% of the additional device’s price.\nComm units that function at system-wide and unlimited ranges aren’t as portable; they include built-in generators that provide the necessary amount of power. Short-term use of these units can be purchased in most major settlements.</text>
+					</id-00001>
+					<id-00002>
+						<locked type="number">1</locked>
+						<name type="string">Convertible</name>
+						<shortcut type="windowreference">
+							<class>npc_specialability</class>
+							<recordname />
+						</shortcut>
+						<text type="string">A wavecutter has two movement modes: wave mode for traveling atop water and sea mode for submersible movement. Its pilot can change between modes as a swift action; changing to wave mode while underwater exposes the pilot to water. If the pilot changes to sea mode while underwater, the wavecutter pumps out the water and restores atmosphere to the cockpit over 6 rounds. While in wave mode, gyroscopic stabilizers make it easier for the wavecutter's pilot to attack.</text>
+					</id-00002>
+				</specialabilities>
+				<specialgraftlink type="windowreference">
+					<class />
+					<recordname />
+				</specialgraftlink>
+				<token type="token">tokens/wavecutter.png</token>
+				<token3Dflat type="token">tokens/SF Letter Tokens/Vehicle Token.png@Fly Free or Die AP 3, Professional Courtesy</token3Dflat>
+				<typegraftlink type="windowreference">
+					<class />
+					<recordname />
+				</typegraftlink>
+			</id-00001>
+		</vehicles>

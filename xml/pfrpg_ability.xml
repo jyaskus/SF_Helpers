@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <root>
   
-  <windowclass name="charsheet_abilityboost">
+  <windowclass name="charsheet_abilityboost_pfrpg">
     <frame>referenceblock-book</frame>
     <placement>
       <size width="510" height="250" />
@@ -33,18 +33,7 @@
 				<description textres="char_tooltip_strbonus" />
 			</number_charabilitybonus>
 
-      <basicnumber name="itembonus_strength" source="abilities.strength.itembonus">
-        <bounds>200,25,40,30</bounds>
-        <default>0</default>
-        <displaysign />
-        <frame name="fieldlight" />
-        <hideonvalue>0</hideonvalue>
-        <script>
-          function onValueChanged()
-            window.base_strength.updateStrength();
-          end
-        </script>
-      </basicnumber>
+      
 
       <number name="base_strength" source="abilities.strength.base">
         <bounds>240,25,40,30</bounds>
@@ -55,18 +44,8 @@
             local nBase = tonumber(self.getValue()) or 10;
             local nPoints = tonumber(window.points_strength.getValue()) or 0;
             local nRace = tonumber(window.race_strength.getValue()) or 0;
-            local nTheme = tonumber(window.theme_strength.getValue()) or 0;
             local nBoosts = tonumber(window.boosts_strength.getValue()) or 0;            
-            local nTotal = nBase + nRace + nPoints + nTheme;
-
-            -- apply boosts, if 16 or less add 2, if over 16 add 1
-            for i=1,nBoosts do
-              if sf.isGt(nTotal,16) then
-                nTotal = nTotal + 1;
-              else
-                nTotal = nTotal + 2;
-              end
-            end
+            local nTotal = nBase + nRace + nPoints + nBoosts;
 
             local nItemBonus = tonumber(window.itembonus_strength.getValue()) or 0;
             nTotal = nTotal + nItemBonus;
@@ -141,7 +120,7 @@
           end
         </script>
       </basicnumber>
-      <basicnumber name="theme_strength" source="abilities.strength.theme">
+      <basicnumber name="itembonus_strength" source="abilities.strength.itembonus">
         <bounds>380,25,40,30</bounds>
         <default>0</default>
         <displaysign />
@@ -188,8 +167,8 @@
         function onButtonPress()
           local nSize = window.boosts_strength.getValue();
           nSize = nSize +1;
-          if sf.isGt(nSize,4) then 
-            nSize = 4;
+          if sf.isGt(nSize,5) then 
+            nSize = 5;
           end
           window.boosts_strength.setValue(nSize);
         end
@@ -212,19 +191,6 @@
 				<description textres="char_tooltip_dexbonus" />
 			</number_charabilitybonus>
 
-      <basicnumber name="itembonus_dexterity" source="abilities.dexterity.itembonus">
-        <bounds>200,60,40,30</bounds>
-        <default>0</default>
-        <displaysign />
-        <frame name="fieldlight" />
-        <hideonvalue>0</hideonvalue>
-        <script>
-          function onValueChanged()
-            window.base_dexterity.updateDexterity();
-          end
-        </script>
-      </basicnumber>
-
       <number name="base_dexterity" source="abilities.dexterity.base">
 				<bounds>240,60,40,30</bounds>
         <default>10</default>
@@ -234,18 +200,8 @@
             local nBase = tonumber(self.getValue()) or 10;
             local nRace = tonumber(window.race_dexterity.getValue()) or 0;
             local nPoints = tonumber(window.points_dexterity.getValue()) or 0;
-            local nTheme = tonumber(window.theme_dexterity.getValue()) or 0;
             local nBoosts = tonumber(window.boosts_dexterity.getValue()) or 0;
-            local nTotal = nBase + nRace + nPoints + nTheme;
-
-            -- apply boosts, if 16 or less add 2, if over 16 add 1
-            for i=1,nBoosts do
-              if sf.isGt(nTotal,16) then
-                nTotal = nTotal + 1;
-              else
-                nTotal = nTotal + 2;
-              end
-            end
+            local nTotal = nBase + nRace + nPoints + nBoosts;
 
             local nItemBonus = tonumber(window.itembonus_dexterity.getValue()) or 0;
             nTotal = nTotal + nItemBonus;
@@ -320,8 +276,7 @@
           end
         </script>
       </basicnumber>
-
-      <basicnumber name="theme_dexterity" source="abilities.dexterity.theme">
+      <basicnumber name="itembonus_dexterity" source="abilities.dexterity.itembonus">
         <bounds>380,60,40,30</bounds>
         <default>0</default>
         <displaysign />
@@ -368,8 +323,8 @@
         function onButtonPress()
           local nSize = window.boosts_dexterity.getValue();
           nSize = nSize +1;
-          if sf.isGt(nSize,4) then 
-            nSize = 4;
+          if sf.isGt(nSize,5) then 
+            nSize = 5;
           end
           window.boosts_dexterity.setValue(nSize);
         end
@@ -392,19 +347,6 @@
 				<description textres="char_tooltip_conbonus" />
 			</number_charabilitybonus>
 
-      <basicnumber name="itembonus_constitution" source="abilities.constitution.itembonus">
-        <bounds>200,90,40,30</bounds>
-        <default>0</default>
-        <displaysign />
-        <frame name="fieldlight" />
-        <hideonvalue>0</hideonvalue>
-        <script>
-          function onValueChanged()
-            window.base_constitution.updateConstitution();
-          end
-        </script>
-      </basicnumber>
-
       <number name="base_constitution" source="abilities.constitution.base">
 				<bounds>240,90,40,30</bounds>
         <default>10</default>
@@ -414,18 +356,8 @@
             local nBase = tonumber(self.getValue()) or 10;
             local nRace = tonumber(window.race_constitution.getValue()) or 0;
             local nPoints = tonumber(window.points_constitution.getValue()) or 0;
-            local nTheme = tonumber(window.theme_constitution.getValue()) or 0;
             local nBoosts = tonumber(window.boosts_constitution.getValue()) or 0;
-            local nTotal = nBase + nRace + nPoints + nTheme;
-
-            -- apply boosts, if 16 or less add 2, if over 16 add 1
-            for i=1,nBoosts do
-              if sf.isGt(nTotal,16) then
-                nTotal = nTotal + 1;
-              else
-                nTotal = nTotal + 2;
-              end
-            end
+            local nTotal = nBase + nRace + nPoints + nBoosts;
 
             local nItemBonus = tonumber(window.itembonus_constitution.getValue()) or 0;
             nTotal = nTotal + nItemBonus;
@@ -500,7 +432,7 @@
           end
         </script>
       </basicnumber>
-      <basicnumber name="theme_constitution" source="abilities.constitution.theme">
+      <basicnumber name="itembonus_constitution" source="abilities.constitution.itembonus">
         <bounds>380,90,40,30</bounds>
         <default>0</default>
         <displaysign />
@@ -547,8 +479,8 @@
         function onButtonPress()
           local nSize = window.boosts_constitution.getValue();
           nSize = nSize +1;
-          if sf.isGt(nSize,4) then 
-            nSize = 4;
+          if sf.isGt(nSize,5) then 
+            nSize = 5;
           end
           window.boosts_constitution.setValue(nSize);
         end
@@ -571,19 +503,6 @@
 				<description textres="char_tooltip_intbonus" />
 			</number_charabilitybonus>
 
-      <basicnumber name="itembonus_intelligence" source="abilities.intelligence.itembonus">
-        <bounds>200,125,40,30</bounds>
-        <default>0</default>
-        <displaysign />
-        <frame name="fieldlight" />
-        <hideonvalue>0</hideonvalue>
-        <script>
-          function onValueChanged()
-            window.base_intelligence.updateIntelligence();
-          end
-        </script>
-      </basicnumber>
-
       <number name="base_intelligence" source="abilities.intelligence.base">
 				<bounds>240,125,40,30</bounds>
         <default>10</default>
@@ -593,18 +512,8 @@
             local nBase = tonumber(self.getValue()) or 10;
             local nRace = tonumber(window.race_intelligence.getValue()) or 0;
             local nPoints = tonumber(window.points_intelligence.getValue()) or 0;
-            local nTheme = tonumber(window.theme_intelligence.getValue()) or 0;
             local nBoosts = tonumber(window.boosts_intelligence.getValue()) or 0;
-            local nTotal = nBase + nRace + nPoints + nTheme;
-
-            -- apply boosts, if 16 or less add 2, if over 16 add 1
-            for i=1,nBoosts do
-              if sf.isGt(nTotal,16) then
-                nTotal = nTotal + 1;
-              else
-                nTotal = nTotal + 2;
-              end
-            end
+            local nTotal = nBase + nRace + nPoints + nBoosts;
 
             local nItemBonus = tonumber(window.itembonus_intelligence.getValue()) or 0;
             nTotal = nTotal + nItemBonus;
@@ -680,7 +589,7 @@
         </script>
       </basicnumber>
 
-      <basicnumber name="theme_intelligence" source="abilities.intelligence.theme">
+      <basicnumber name="itembonus_intelligence" source="abilities.intelligence.itembonus">
         <bounds>380,125,40,30</bounds>
         <default>0</default>
         <displaysign />
@@ -727,8 +636,8 @@
         function onButtonPress()
           local nSize = window.boosts_intelligence.getValue();
           nSize = nSize +1;
-          if sf.isGt(nSize,4) then 
-            nSize = 4;
+          if sf.isGt(nSize,5) then 
+            nSize = 5;
           end
           window.boosts_intelligence.setValue(nSize);
         end
@@ -751,19 +660,6 @@
 				<description textres="char_tooltip_wisbonus" />
 			</number_charabilitybonus>
 
-      <basicnumber name="itembonus_wisdom" source="abilities.wisdom.itembonus">
-        <bounds>200,155,40,30</bounds>
-        <default>0</default>
-        <displaysign />
-        <frame name="fieldlight" />
-        <hideonvalue>0</hideonvalue>
-        <script>
-          function onValueChanged()
-            window.base_wisdom.updateWisdom();
-          end
-        </script>
-      </basicnumber>
-
       <number name="base_wisdom" source="abilities.wisdom.base">
 				<bounds>240,155,40,30</bounds>
         <default>10</default>
@@ -773,18 +669,8 @@
             local nBase = tonumber(self.getValue()) or 10;
             local nRace = tonumber(window.race_wisdom.getValue()) or 0;
             local nPoints = tonumber(window.points_wisdom.getValue()) or 0;
-            local nTheme = tonumber(window.theme_wisdom.getValue()) or 0;
             local nBoosts = tonumber(window.boosts_wisdom.getValue()) or 0;
-            local nTotal = nBase + nRace + nPoints + nTheme;
-
-            -- apply boosts, if 16 or less add 2, if over 16 add 1
-            for i=1,nBoosts do
-              if sf.isGt(nTotal,16) then
-                nTotal = nTotal + 1;
-              else
-                nTotal = nTotal + 2;
-              end
-            end
+            local nTotal = nBase + nRace + nPoints + nBoosts;
 
             local nItemBonus = tonumber(window.itembonus_wisdom.getValue()) or 0;
             nTotal = nTotal + nItemBonus;
@@ -859,7 +745,7 @@
           end
         </script>
       </basicnumber>
-      <basicnumber name="theme_wisdom" source="abilities.wisdom.theme">
+      <basicnumber name="itembonus_wisdom" source="abilities.wisdom.itembonus">
         <bounds>380,155,40,30</bounds>
         <default>0</default>
         <displaysign />
@@ -906,8 +792,8 @@
         function onButtonPress()
           local nSize = window.boosts_wisdom.getValue();
           nSize = nSize +1;
-          if sf.isGt(nSize,4) then 
-            nSize = 4;
+          if sf.isGt(nSize,5) then 
+            nSize = 5;
           end
           window.boosts_wisdom.setValue(nSize);
         end
@@ -930,19 +816,6 @@
 				<description textres="char_tooltip_chabonus" />
 			</number_charabilitybonus>
 
-      <basicnumber name="itembonus_charisma" source="abilities.charisma.itembonus">
-        <bounds>200,185,40,30</bounds>
-        <default>0</default>
-        <displaysign />
-        <frame name="fieldlight" />
-        <hideonvalue>0</hideonvalue>
-        <script>
-          function onValueChanged()
-            window.base_charisma.updateCharisma();
-          end
-        </script>
-      </basicnumber>
-
       <number name="base_charisma" source="abilities.charisma.base">
 				<bounds>240,185,40,30</bounds>
         <default>10</default>
@@ -952,18 +825,8 @@
             local nBase = tonumber(self.getValue()) or 10;
             local nRace = tonumber(window.race_charisma.getValue()) or 0;
             local nPoints = tonumber(window.points_charisma.getValue()) or 0;
-            local nTheme = tonumber(window.theme_charisma.getValue()) or 0;
             local nBoosts = tonumber(window.boosts_charisma.getValue()) or 0;
-            local nTotal = nBase + nRace + nPoints + nTheme;
-
-            -- apply boosts, if 16 or less add 2, if over 16 add 1
-            for i=1,nBoosts do
-              if sf.isGt(nTotal,16) then
-                nTotal = nTotal + 1;
-              else
-                nTotal = nTotal + 2;
-              end
-            end
+            local nTotal = nBase + nRace + nPoints + nBoosts;
 
             local nItemBonus = tonumber(window.itembonus_charisma.getValue()) or 0;
             nTotal = nTotal + nItemBonus;
@@ -1038,7 +901,7 @@
           end
         </script>
       </basicnumber>
-      <basicnumber name="theme_charisma" source="abilities.charisma.theme">
+      <basicnumber name="itembonus_charisma" source="abilities.charisma.itembonus">
         <bounds>380,185,40,30</bounds>
         <default>0</default>
         <displaysign />
@@ -1085,8 +948,8 @@
         function onButtonPress()
           local nSize = window.boosts_charisma.getValue();
           nSize = nSize +1;
-          if sf.isGt(nSize,4) then 
-            nSize = 4;
+          if sf.isGt(nSize,5) then 
+            nSize = 5;
           end
           window.boosts_charisma.setValue(nSize);
         end
@@ -1105,10 +968,6 @@
 			</label_fieldtop>
 
       <label_fieldtop>
-				<bounds>200,12,40,20</bounds>
-				<static>item</static>
-			</label_fieldtop>
-      <label_fieldtop>
 				<bounds>240,12,40,20</bounds>
 				<static>base</static>
 			</label_fieldtop>
@@ -1122,7 +981,7 @@
 			</label_fieldtop>
       <label_fieldtop>
 				<bounds>380,12,40,20</bounds>
-				<static>theme</static>
+				<static>item</static>
 			</label_fieldtop>
       <label_fieldtop>
 				<bounds>430,12,40,20</bounds>
@@ -1166,24 +1025,6 @@
 				end
 				</script>
       </buttoncontrol>
-
-    </sheetdata>
-  </windowclass>
-
-
-  <windowclass name="charsheet_main" merge="join">
-    <sheetdata>
-
-      <button_details name="button_stats_details">
-        <bounds>5,100,20,20</bounds>
-				<script>
-					function onButtonPress()
-            local sDBnode = window.getDatabaseNode();
-            Debug.console("DB Node: " .. sDBnode.getPath());
-						Interface.openWindow("charsheet_abilityboost", sDBnode);
-					end
-				</script>
-			</button_details>
 
     </sheetdata>
   </windowclass>

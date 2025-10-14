@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root version="3.0">
 
-  <announcement text="QoL improvements for Fantasy Grounds Unity" font="emotefont" icon="sidebar_icon_mycategory" />
+  <announcement text="QoL improvements for Fantasy Grounds Unity" font="emotefont"  />
 
 	<properties>
 		<name>FGU fixes</name>
@@ -19,8 +19,15 @@
 	</properties>
 
 	<base>
+    <!--strings-->
+    <includefile source="sf_strings.xml" />
+
     <!-- SF fixes -->
-    <includefile source="xml/sfrpg_fixes.xml" />
+    <includefile source="xml/core_charsheet.xml" />
+    <includefile source="xml/sfrpg_ability.xml" />
+    <includefile source="xml/pfrpg_ability.xml" />
+
+    <includefile source="xml/veh_builder.xml" />
 
     <script name="sf" file="scripts/sf_helper.lua" />
 
