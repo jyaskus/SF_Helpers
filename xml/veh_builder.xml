@@ -393,7 +393,7 @@
               local nHP = 0 - (window.nBaseHP.getValue() * 0.10); -- decreases 10% HP
               window.nVehTypeHP.setValue(math.floor(nHP));             
               window.nVehTypeSpeedMod.setValue(15);  -- increase speed by 15
-              window.sVehTypeNotes.setValue("Fast Flyers can only move using the Fly movement mode and they cannot hover or move on Land.");
+              window.sVehTypeNotes.setValue("Fast Flyers move continuously forward to stay airborne and have no ground movement speed.");
               window.sVehDescription.setValue("These speedy vehicles are designed for continuous forward movement and generally have wings and landing gear.");
             end
             if sVehType == "Hovering Flyer" then
@@ -1485,6 +1485,13 @@
        <frame name="groupbox" />
      </genericcontrol>
 
+     <stringcontrol name="sVehName">
+        <empty textres="vhBuilder_sVehName_Label_Vehicle_Name" />
+        <font>reference-i</font>
+				<bounds>35,-35,200,20</bounds>
+        <frame name="filter"  offset="10,5,5,5" />
+      </stringcontrol>
+
       <button_details name="button_update_totals">
         <bounds>150,-80,20,20</bounds>
         <icon normal="button_dialog_ok" />
@@ -1515,6 +1522,8 @@
             window.nTotalCollisionDC.update();
 
             window.nTotalModSlots.update();
+
+            window.sTotalVehCover.update();
 					end
 				</script>
 			</button_details>

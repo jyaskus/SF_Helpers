@@ -58,4 +58,6 @@
   <string name="vhBuilder_StringCyclerOrigin_factory_made">Factory-made</string>
   <string name="vhBuilder_StringCyclerOrigin_prototype">Prototype</string>
 
+  <string name="vhBuilder_sVehName_Label_Vehicle_Name">Vehicle Name</string>
+
 </root>
