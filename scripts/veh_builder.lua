@@ -16,13 +16,6 @@ function vehBuilder_createVehicleRecord(charNode, w)
 
   Debug.console("Creating vehicle for character: " .. charNode.getPath());
 
-  -- Load vehicle graft reference data
-  local reference = loadVehicleGraftReference();
-  if not reference then
-    Debug.console("ERROR: Could not load vehicle graft reference data");
-    return;
-  end
-
   -- Get vehicle properties from the builder
   local nLevel = w.nLevel.getValue() or 1;
   local sVehType = w.StringCyclerVehType.getStringValue() or "cruiser";
@@ -90,6 +83,10 @@ function vehBuilder_createVehicleRecord(charNode, w)
     Debug.console("ERROR: Could not create new vehicle entry");
     return;
   end
+  
+  -- Get the vehicle's database node name (e.g., "id-00001")
+  local newVehicleID = newVehicle.getName();
+  Debug.console("Created vehicle with ID: " .. newVehicleID);
 
   -- Set basic properties
   DB.setValue(newVehicle, "name", "string", sVehicleName);
@@ -173,7 +170,7 @@ function vehBuilder_createVehicleRecord(charNode, w)
   -- Origin Graft (always id-00005 if exists)
   if sOrigin ~= "" and sOrigin ~= "none" and sOrigin ~= "standard" then
     local originGraftPart = DB.createChild(partsNode, "id-00005");
-    createOriginGraftPart(originGraftPart, sOrigin, reference);
+    createOriginGraftPart(originGraftPart, sOrigin);
   end
   
   DB.createChild(newVehicle, "ppabilities");
@@ -181,49 +178,37 @@ function vehBuilder_createVehicleRecord(charNode, w)
   -- Set size string (in addition to sizegraft)
   DB.setValue(newVehicle, "size", "string", sSize:gsub("^%l", string.upper));
   
-  -- Set typegraft string and link (always links to id-00001)
+  -- Set typegraft string and link (always links to id-00001 in parts)
   local sTypeGraftName = getTypeGraftName(sVehType);
   DB.setValue(newVehicle, "typegraft", "string", sTypeGraftName);
-  local typegraftlink = DB.createChild(newVehicle, "typegraftlink", "windowreference");
-  DB.setValue(typegraftlink, "class", "string", "item");
-  -- Use hardcoded relative path to type graft (always id-00001)
-  local typeGraftRelPath = "....vehicles." .. newVehicle.getName() .. ".parts.id-00001";
-  DB.setValue(typegraftlink, "recordname", "string", typeGraftRelPath);
   
-  -- Set sizegraft link (always links to id-00002)
-  local sizegraftlink = DB.createChild(newVehicle, "sizegraftlink", "windowreference");
-  DB.setValue(sizegraftlink, "class", "string", "item");
-  -- Use hardcoded relative path to size graft (always id-00002)
-  local sizeGraftRelPath = "....vehicles." .. newVehicle.getName() .. ".parts.id-00002";
-  DB.setValue(sizegraftlink, "recordname", "string", sizeGraftRelPath);
+  -- Link to the type graft part entry (id-00001) using relative path
+  DB.setValue(newVehicle, "typegraftlink", "windowreference", "item", "....vehicles." .. newVehicleID .. ".parts.id-00001");
+  
+  -- Set sizegraft link (always links to id-00002 in parts)
+  -- Link to the size graft part entry (id-00002) using relative path
+  DB.setValue(newVehicle, "sizegraftlink", "windowreference", "item", "....vehicles." .. newVehicleID .. ".parts.id-00002");
   
   -- Set specialgraft string and links if applicable
   if sSpecial1 ~= "none" then
     DB.setValue(newVehicle, "specialgraft", "string", sSpecial1:gsub("^%l", string.upper));
-    local specialgraftlink = DB.createChild(newVehicle, "specialgraftlink", "windowreference");
-    DB.setValue(specialgraftlink, "class", "string", "item");
-    -- Use hardcoded relative path to first special graft (always id-00003)
-    local specialGraftRelPath = "....vehicles." .. newVehicle.getName() .. ".parts.id-00003";
-    DB.setValue(specialgraftlink, "recordname", "string", specialGraftRelPath);
+    
+    -- Link to the special graft part entry (id-00003) using relative path
+    DB.setValue(newVehicle, "specialgraftlink", "windowreference", "item", "....vehicles." .. newVehicleID .. ".parts.id-00003");
   else
-    local specialgraftlink = DB.createChild(newVehicle, "specialgraftlink", "windowreference");
-    DB.setValue(specialgraftlink, "class", "string", "");
-    DB.setValue(specialgraftlink, "recordname", "string", "");
+    DB.setValue(newVehicle, "specialgraftlink", "windowreference", "", "");
   end
 
   -- Set origin graft link if applicable
-  if sOrigin ~= "none" and sOrigin ~= "standard" and sOrigin ~= "" then
+  if sOrigin ~= "" and sOrigin ~= "none" and sOrigin ~= "standard" then
     -- Origin graft is always created as id-00005
     DB.setValue(newVehicle, "origingraft", "string", sOrigin:gsub("^%l", string.upper));
-    local origingraftlink = DB.createChild(newVehicle, "origingraftlink", "windowreference");
-    DB.setValue(origingraftlink, "class", "string", "item");
-    local originGraftRelPath = "....vehicles." .. newVehicle.getName() .. ".parts.id-00005";
-    DB.setValue(origingraftlink, "recordname", "string", originGraftRelPath);
+    
+    -- Link to the origin graft part entry (id-00005) using relative path
+    DB.setValue(newVehicle, "origingraftlink", "windowreference", "item", "....vehicles." .. newVehicleID .. ".parts.id-00005");
   else
     -- Create empty origin graft link
-    local origingraftlink = DB.createChild(newVehicle, "origingraftlink", "windowreference");
-    DB.setValue(origingraftlink, "class", "string", "");
-    DB.setValue(origingraftlink, "recordname", "string", "");
+    DB.setValue(newVehicle, "origingraftlink", "windowreference", "", "");
   end
 
   Debug.console("Vehicle base data created successfully: " .. sVehicleName);
@@ -377,14 +362,8 @@ function createTypeGraftPart(partNode, sVehType)
   DB.setValue(partNode, "passengers", "number", typeData.passengers);
   DB.setValue(partNode, "speed", "string", typeData.speed);
   
-  -- Create link pointing to self (always id-00001 for type graft)
-  local linkNode = DB.createChild(partNode, "link", "windowreference");
-  DB.setValue(linkNode, "class", "string", "item");
-  -- Use hardcoded relative path for type graft
-  local relativePath = "..parts.id-00001";
-  DB.setValue(linkNode, "recordname", "string", relativePath);
-  
-  Debug.console("Type graft link created: class=item, recordname=" .. relativePath);
+  -- Create self-referencing link (points to itself in parts list)
+  DB.setValue(partNode, "link", "windowreference", "item", "..parts.id-00001");
   
   -- Set standard item fields
   DB.setValue(partNode, "ac", "number", 10);
@@ -410,12 +389,8 @@ function createSizeGraftPart(partNode, sSize)
     DB.setValue(partNode, "adjustments", "string", sizeData.adjustments);
   end
   
-  -- Create link pointing to self (always id-00002 for size graft)
-  local linkNode = DB.createChild(partNode, "link", "windowreference");
-  DB.setValue(linkNode, "class", "string", "item");
-  -- Use hardcoded relative path for size graft
-  local relativePath = "..parts.id-00002";
-  DB.setValue(linkNode, "recordname", "string", relativePath);
+  -- Create self-referencing link (points to itself in parts list)
+  DB.setValue(partNode, "link", "windowreference", "item", "..parts.id-00002");
   
   -- Set standard item fields
   DB.setValue(partNode, "ac", "number", 10);
@@ -447,8 +422,9 @@ function createSpecialGraftPart(partNode, sSpecial, window)
   
   -- Get the part node name (should be id-00003 or id-00004)
   local partNodeName = partNode.getName();
-  -- Set the self-link using hardcoded relative path
-  DB.setValue(partNode, "link", "windowreference", "reference_vehicle_part", "..parts." .. partNodeName);
+  
+  -- Create self-referencing link (points to itself in parts list)
+  DB.setValue(partNode, "link", "windowreference", "item", "..parts." .. partNodeName);
   
   -- Set standard item fields
   DB.setValue(partNode, "ac", "number", 10);
@@ -684,19 +660,13 @@ function hasMovementType(movementTypes, targetType)
 end
 
 -- Function to create origin graft parts
-function createOriginGraftPart(partNode, originGraft, reference)
+function createOriginGraftPart(partNode, originGraft)
   if not originGraft or originGraft == "" then
     return;
   end
   
-  local originData = nil;
-  for _, origin in ipairs(reference.originGrafts) do
-    if origin.name == originGraft then
-      originData = origin;
-      break;
-    end
-  end
-  
+  -- Get the origin data from our reference system
+  local originData = VehicleGraftData.getOriginGraftData(originGraft);
   if not originData then
     Debug.console("Origin graft not found in reference: " .. originGraft);
     return;
@@ -704,15 +674,14 @@ function createOriginGraftPart(partNode, originGraft, reference)
   
   -- Set basic part properties
   DB.setValue(partNode, "name", "string", originData.name);
-  DB.setValue(partNode, "shortdescription", "string", originData.description);
-  DB.setValue(partNode, "subtype", "string", originData.subtype);
+  DB.setValue(partNode, "subtype", "string", "Origin Graft");
   DB.setValue(partNode, "type", "string", "Vehicle");
   DB.setValue(partNode, "locked", "number", 1);
   DB.setValue(partNode, "level", "number", 0);
   DB.setValue(partNode, "magicitem", "number", 0);
   
-  -- Set the self-link for the origin graft (id-00005)
-  DB.setValue(partNode, "link", "windowreference", "reference_vehicle_part", "..parts.id-00005");
+  -- Create self-referencing link (points to itself in parts list)
+  DB.setValue(partNode, "link", "windowreference", "item", "..parts.id-00005");
   
   -- Set standard item fields
   DB.setValue(partNode, "ac", "number", 10);
@@ -723,194 +692,4 @@ function createOriginGraftPart(partNode, originGraft, reference)
   DB.setValue(partNode, "strength_enc", "number", 0);
   
   Debug.console("Created origin graft: " .. originData.name .. " as id-00005");
-end
-
--- Function to load vehicle graft reference data
-function loadVehicleGraftReference()
-  -- Return the reference data directly since FG doesn't support require()
-  local reference = {
-    typeGrafts = {
-      {
-        name = "Air",
-        subtype = "Type Graft",
-        description = "This vehicle is designed to move through the air."
-      },
-      {
-        name = "Land",
-        subtype = "Type Graft", 
-        description = "This vehicle is designed to move on land."
-      },
-      {
-        name = "Sea",
-        subtype = "Type Graft",
-        description = "This vehicle is designed to move on or through water."
-      },
-      {
-        name = "Space",
-        subtype = "Type Graft",
-        description = "This vehicle is designed to move through space."
-      },
-      {
-        name = "Boat",
-        subtype = "Type Graft",
-        description = "This vehicle is a small watercraft."
-      },
-      {
-        name = "Bike",
-        subtype = "Type Graft", 
-        description = "This vehicle is a two-wheeled land vehicle."
-      },
-      {
-        name = "Car",
-        subtype = "Type Graft",
-        description = "This vehicle is a four-wheeled land vehicle."
-      },
-      {
-        name = "Mech",
-        subtype = "Type Graft",
-        description = "This vehicle is a piloted robotic suit."
-      },
-      {
-        name = "Walker",
-        subtype = "Type Graft",
-        description = "This vehicle moves on mechanical legs."
-      }
-    },
-    
-    sizeGrafts = {
-      {
-        name = "Medium",
-        subtype = "Size Graft",
-        description = "This vehicle is Medium sized."
-      },
-      {
-        name = "Large",
-        subtype = "Size Graft",
-        description = "This vehicle is Large sized."
-      },
-      {
-        name = "Huge", 
-        subtype = "Size Graft",
-        description = "This vehicle is Huge sized."
-      },
-      {
-        name = "Gargantuan",
-        subtype = "Size Graft", 
-        description = "This vehicle is Gargantuan sized."
-      },
-      {
-        name = "Colossal",
-        subtype = "Size Graft",
-        description = "This vehicle is Colossal sized."
-      }
-    },
-    
-    specialGrafts = {
-      {
-        name = "Enclosed",
-        subtype = "Special Graft",
-        description = "This vehicle provides total cover to its occupants.",
-        adjustments = "+2 EAC, +2 KAC against attacks from outside",
-        special = "Occupants have total cover from attacks originating outside the vehicle"
-      },
-      {
-        name = "Enhanced Sensors",
-        subtype = "Special Graft", 
-        description = "This vehicle has advanced sensor arrays.",
-        adjustments = "+4 to Perception checks",
-        special = "Can detect targets at twice normal range"
-      },
-      {
-        name = "Fast",
-        subtype = "Special Graft",
-        description = "This vehicle is built for speed.",
-        adjustments = "+10 ft. speed",
-        special = "Increase all movement speeds by 10 feet"
-      },
-      {
-        name = "Manipulator Arms",
-        subtype = "Special Graft",
-        description = "This vehicle has mechanical arms for manipulation.",
-        adjustments = "",
-        special = "Can manipulate objects as if the pilot had Str 20"
-      },
-      {
-        name = "Rugged",
-        subtype = "Special Graft",
-        description = "This vehicle is built to withstand punishment.",
-        adjustments = "+5 HP, +2 Hardness",
-        special = "Resistant to environmental damage"
-      },
-      {
-        name = "Weapon Mount (Light)",
-        subtype = "Special Graft",
-        description = "This vehicle can mount light weapons.",
-        adjustments = "",
-        special = "Can mount weapons of light bulk or smaller"
-      },
-      {
-        name = "Weapon Mount (Heavy)",
-        subtype = "Special Graft", 
-        description = "This vehicle can mount heavy weapons.",
-        adjustments = "",
-        special = "Can mount weapons of heavy bulk"
-      },
-      {
-        name = "Cargo Hold",
-        subtype = "Special Graft",
-        description = "This vehicle has extra cargo space.",
-        adjustments = "",
-        special = "Double normal cargo capacity"
-      },
-      {
-        name = "Luxury",
-        subtype = "Special Graft",
-        description = "This vehicle provides exceptional comfort.",
-        adjustments = "",
-        special = "Passengers gain +2 morale bonus on saves against fear and fatigue"
-      },
-      {
-        name = "Stealth",
-        subtype = "Special Graft",
-        description = "This vehicle is designed to avoid detection.",
-        adjustments = "+10 Stealth",
-        special = "Can attempt Stealth checks while moving"
-      },
-      {
-        name = "Reinforced",
-        subtype = "Special Graft",
-        description = "This vehicle has extra armor plating.",
-        adjustments = "+1 EAC, +1 KAC, +3 Hardness",
-        special = "Gains damage reduction equal to half its hardness"
-      },
-      {
-        name = "Amphibious",
-        subtype = "Special Graft",
-        description = "This vehicle can operate on land and in water.",
-        adjustments = "",
-        special = "Gains swim speed equal to half its land speed"
-      }
-    },
-    
-    originGrafts = {
-      {
-        name = "experimental",
-        subtype = "Origin Graft",
-        description = "This vehicle is an experimental design with cutting-edge technology. Requires Experimental Vehicle class feature (Mechanic)."
-      },
-      {
-        name = "factory-made",
-        subtype = "Origin Graft", 
-        description = "This vehicle was manufactured in a standardized factory setting. Repairs cost 10% less and take 25% less time."
-      },
-      {
-        name = "prototype",
-        subtype = "Origin Graft",
-        description = "This vehicle is a prototype design with advanced features. Repairs cost 20% more and take 20% more time."
-      }
-    }
-  };
-  
-  Debug.console("Loaded vehicle graft reference data successfully");
-  return reference;
 end
