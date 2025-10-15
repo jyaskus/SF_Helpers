@@ -176,7 +176,7 @@
 				<hideonvalue>0</hideonvalue>
 			</number>
       <label_fieldtop>
-				<bounds>390,92,120,23</bounds>
+				<bounds>390,50,120,23</bounds>
 				<static>full speed</static>
 			</label_fieldtop>
       <label_fieldtop>
@@ -241,7 +241,8 @@
 			<number name="nBaseHardness">
 				<frame name="fielddark" />
 				<bounds>800,70,40,30</bounds>
-				<default>0</default>
+				<default>5</default>
+        <minimum>5</minimum>
         <script>
           function onValueChanged()
             setColor("ff0000");
@@ -329,25 +330,28 @@
             window.nVehTypePrice.setValue(0);
             window.sVehTypeNotes.setValue("");
             window.sVehDescription.setValue("");
+            window.sVehCover.setValue("none");
 
             if sVehType == "Boat" then
               window.VehSubTypeLabel.setValue(" (Water Vehicle)");
               window.nBasePassengers.setValue(2);
-              window.nBaseFullSpeedMult.setValue("15");
+              window.nBaseFullSpeedMult.setValue(15);
               window.nBasePilotingMod.setValue(0);
 						  window.nBaseAttackMod.setValue(-2);
 						  window.nBaseAttackFullMod.setValue(-4);
               -- partial cover
+              window.sVehCover.setValue("partial");
               window.sVehDescription.setValue("Boats travel on the surface of the water and can be powered by a wide variety of propulsion methods.");
             end
             if sVehType == "Cruiser" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
               window.nBasePassengers.setValue(3);
-              window.nBaseFullSpeedMult.setValue("25");
+              window.nBaseFullSpeedMult.setValue(25);
               window.nBasePilotingMod.setValue(-1);
 						  window.nBaseAttackMod.setValue(-2);
 						  window.nBaseAttackFullMod.setValue(-4);
               -- improved cover
+              window.sVehCover.setValue("improved");
               local nVehTypePrice = window.nBasePrice.getValue() * 0.10; -- adds 10% cost
               window.nVehTypePrice.setValue(nVehTypePrice);
               window.nVehTypeKACmod.setValue(1); -- adds +1 KAC
@@ -358,11 +362,12 @@
             if sVehType == "Cycle" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
               window.nBasePassengers.setValue(1);
-              window.nBaseFullSpeedMult.setValue("20");
+              window.nBaseFullSpeedMult.setValue(20);
               window.nBasePilotingMod.setValue(2);
 						  window.nBaseAttackMod.setValue(-1);
 						  window.nBaseAttackFullMod.setValue(-3);
               -- none
+              window.sVehCover.setValue("none");
               local nVehTypePrice = window.nBasePrice.getValue() * 0.10; -- decreases 10% cost
               window.nVehTypePrice.setValue(0 - nVehTypePrice);
               window.nVehTypeKACmod.setValue(-2); -- adds -2 KAC
@@ -375,11 +380,12 @@
             if sVehType == "Fast Flyer" then
               window.VehSubTypeLabel.setValue(" (Air Vehicle)");
               window.nBasePassengers.setValue(2);
-              window.nBaseFullSpeedMult.setValue("25");
+              window.nBaseFullSpeedMult.setValue(25);
               window.nBasePilotingMod.setValue(-1);
 						  window.nBaseAttackMod.setValue(-2);
 						  window.nBaseAttackFullMod.setValue(-5);
               -- total cover
+              window.sVehCover.setValue("total");
               local nVehTypePrice = window.nBasePrice.getValue() * 0.20; -- adds 20% cost
               window.nVehTypePrice.setValue(nVehTypePrice);
               window.nVehTypeKACmod.setValue(-2); -- adds -2 KAC
@@ -393,11 +399,12 @@
             if sVehType == "Hovering Flyer" then
               window.VehSubTypeLabel.setValue(" (Air Vehicle)");
               window.nBasePassengers.setValue(2);
-              window.nBaseFullSpeedMult.setValue("20");
+              window.nBaseFullSpeedMult.setValue(20);
               window.nBasePilotingMod.setValue(0);
 						  window.nBaseAttackMod.setValue(-1);
 						  window.nBaseAttackFullMod.setValue(-4);
               -- cover
+              window.sVehCover.setValue("cover");
               local nVehTypePrice = window.nBasePrice.getValue() * 0.20; -- adds 20% cost
               window.nVehTypePrice.setValue(nVehTypePrice);
               window.nVehTypeKACmod.setValue(-1); -- adds -1 KAC
@@ -410,11 +417,12 @@
             if sVehType == "Submersible" then
               window.VehSubTypeLabel.setValue(" (Water Vehicle)");
               window.nBasePassengers.setValue(2);
-              window.nBaseFullSpeedMult.setValue("10");
+              window.nBaseFullSpeedMult.setValue(10);
               window.nBasePilotingMod.setValue(-2);
 						  window.nBaseAttackMod.setValue(-2);
 						  window.nBaseAttackFullMod.setValue(-5);
               -- total cover
+              window.sVehCover.setValue("total");
               local nVehTypePrice = window.nBasePrice.getValue() * 0.20; -- adds 20% cost
               window.nVehTypePrice.setValue(nVehTypePrice);
               local nHardness = math.floor(window.nBaseHardness.getValue() * 0.20); -- adds 20% Hardness
@@ -425,11 +433,12 @@
             if sVehType == "Tank" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
               window.nBasePassengers.setValue(1);
-              window.nBaseFullSpeedMult.setValue("10");
+              window.nBaseFullSpeedMult.setValue(10);
               window.nBasePilotingMod.setValue(-1);
 						  window.nBaseAttackMod.setValue(-2);
 						  window.nBaseAttackFullMod.setValue(-4);
               -- total cover
+              window.sVehCover.setValue("total");
               local nVehTypePrice = window.nBasePrice.getValue() * 0.35; -- adds 35% cost
               window.nVehTypePrice.setValue(math.floor(nVehTypePrice));
               window.nVehTypeSpeedMod.setValue(-5);  -- decrease speed by 5
@@ -442,11 +451,12 @@
             if sVehType == "Truck" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
               window.nBasePassengers.setValue(3);
-              window.nBaseFullSpeedMult.setValue("20");
+              window.nBaseFullSpeedMult.setValue(20);
               window.nBasePilotingMod.setValue(-1);
 						  window.nBaseAttackMod.setValue(-3);
 						  window.nBaseAttackFullMod.setValue(-5);
               -- cover
+              window.sVehCover.setValue("cover");
               local nHP = (window.nBaseHP.getValue() * 0.10); -- adds 10% HP
               window.nVehTypeHP.setValue(math.floor(nHP));
               window.sVehDescription.setValue("These rugged ground vehicles transport passengers or cargo.");
@@ -454,11 +464,12 @@
             if sVehType == "Walker" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
               window.nBasePassengers.setValue(2);
-              window.nBaseFullSpeedMult.setValue("10");
+              window.nBaseFullSpeedMult.setValue(10);
               window.nBasePilotingMod.setValue(1);
 						  window.nBaseAttackMod.setValue(-2);
 						  window.nBaseAttackFullMod.setValue(-6);
               -- improved cover
+              window.sVehCover.setValue("improved");
               window.sVehDescription.setValue("These relatively slow vehicles use numerous legs to stride over challenging terrain with ease.");
             end
 					end					
@@ -511,6 +522,18 @@
       <label_fieldtop>
 				<bounds>385,135,70,23</bounds>
 				<static>passengers</static>
+			</label_fieldtop>
+
+      <stringcontrol name="sVehCover">
+				<bounds>480,110,80,23</bounds>
+        <center />
+        <frame name="fielddark"  offset="10,5,5,5" />
+				<static textres="" />
+				<readonly />
+			</stringcontrol>
+      <label_fieldtop>
+				<bounds>470,135,90,23</bounds>
+				<static>cover provided</static>
 			</label_fieldtop>
 
       <number name="nVehTypeEACmod">
@@ -856,10 +879,143 @@
             window.nSpecial1FullSpeedMult.setValue(0);
             window.sSpecial1Notes.setValue("");
             window.nSpecial1Hardness.setValue(0);
+            window.nSpecial1EAC.setValue(0);
+            window.nSpecial1KAC.setValue(0);
 
             
             Debug.console("vehicle special 1 is: " .. sOrigin);
-            
+
+            -- all-terrain, amphibious, armored, computer-assisted, hover, hybrid aircraft, junk, luxury, racer, transport
+
+            if sOrigin == "all-terrain" then
+              Debug.console("all-terrain origin");
+
+              -- increase cost by 5%
+              local nCost = window.nBasePrice.getValue() * 0.05; -- adds 5% cost
+              window.nSpecial1Price.setValue(nCost);
+
+              -- decrease speed by 5 feet.
+              window.nSpecial1Speed.setValue(0 - 5);
+
+              -- decrease full speed by 25 feet
+              window.nSpecial1FullSpeedMult.setValue(0 - 25);
+
+              -- decrease attack modifiers by 1
+              window.nSpecial1AttackMod.setValue(0 - 1);
+
+              -- when moving through difficult terrain, treat every other space of difficult terrain as normal terrain (minimum 1/2 speed).
+              -- note: we will need to add a DIFFICULT TERRAIN movement mode when exporting (results in 3/4 speed instead of 1/2 speed)
+
+              -- can move on land and rough terrain
+              window.sSpecial1Notes.setValue("Can move on land and rough terrain.");
+
+              -- note: we will need to add a ROUGH TERRAIN movement mode when exporting
+            end
+
+            if sOrigin == "amphibious" then
+              Debug.console("amphibious origin");
+              -- increase cost by 10%
+              local nCost = window.nBasePrice.getValue() * 0.10; -- adds 10% cost
+              window.nSpecial1Price.setValue(nCost);
+
+              -- can move on land and water
+              window.sSpecial1Notes.setValue("Can move on land and water.");
+
+              -- note: we will need to add a LAND and WATER movement mode when exporting
+            end
+
+            if sOrigin == "armored" then
+              Debug.console("armored origin");
+
+              -- increase price by 20%
+              local nCost = math.floor(window.nBasePrice.getValue() * 0.20); -- adds 20% cost
+              window.nSpecial1Price.setValue(nCost);
+
+              -- descrease speed by 10 feet
+              window.nSpecial1Speed.setValue(0 - 10);
+
+              -- increase EAC and KAC by 2
+              window.nSpecial1EAC.setValue(2);
+              window.nSpecial1KAC.setValue(2);
+
+              -- increase HP by 10%
+              local HP = window.nBaseHP.getValue() * 0.10; -- adds 10% HP
+              window.nSpecial1HP.setValue(math.floor(HP));
+
+              -- increase hardness by 10%
+              local nHardness = math.floor(window.nBaseHardness.getValue() * 0.10); -- adds 10% Hardness
+              window.nSpecial1Hardness.setValue( nHardness );
+
+             -- increase cover by one step  (partial to cover, cover to improved, etc)
+             -- done with the total update function
+
+
+              window.sSpecial1Notes.setValue("Cannot have the Tank type graft, increases Cover by one level.");
+            end
+
+            if sOrigin == "computer-assisted" then
+              Debug.console("computer-assisted origin");
+
+              -- increase price by 15%
+              local nCost = math.floor(window.nBasePrice.getValue() * 0.15); -- adds 15% cost
+              window.nSpecial1Price.setValue(nCost);
+
+              -- decrease piloting mod by 2
+              window.nSpecial1PilotingMod.setValue(2);
+
+              -- increase attack mod by 2
+              window.nSpecial1AttackMod.setValue(2);
+
+              window.sSpecial1Notes.setValue("Gains an autopilot with Piloting bonus of 4 + (1.5 * vehicles level)");
+            end
+
+            if sOrigin == "hover" then
+              Debug.console("hover origin");
+
+              -- increase price by 10%
+              local nCost = math.floor(window.nBasePrice.getValue() * 0.10); -- adds 10% cost
+              window.nSpecial1Price.setValue(nCost);
+
+              -- increase speed by 5 feet
+              window.nSpecial1Speed.setValue(5);
+
+              -- decrease eac and kac by 1
+              window.nSpecial1EAC.setValue(0 - 1);
+              window.nSpecial1KAC.setValue(0 - 1);
+
+              -- decrease hp by 20%
+              local nHP = 0 - (window.nBaseHP.getValue() * 0.20); -- decreases 20% HP
+              window.nSpecial1HP.setValue(math.floor(nHP));
+
+              -- It can hover up to 5 feet over surfaces and ignores difficult terrain.
+              -- note: we will need to add a HOVER movement mode when exporting
+
+              -- note requires a land speed and grants a fly speed.
+              window.sSpecial1Notes.setValue("Requires a land speed and grants a fly speed.");
+            end
+
+            if sOrigin == "hybrid aircraft" then
+              Debug.console("hybrid aircraft origin");
+
+              -- increase price by 15%
+              local nCost = math.floor(window.nBasePrice.getValue() * 0.15); -- adds 15% cost
+              window.nSpecial1Price.setValue(nCost);
+
+              -- increase speed by 10 feet
+              window.nSpecial1Speed.setValue(10);
+
+              -- decrease eac and kac by 1
+              window.nSpecial1EAC.setValue(0 - 1);
+              window.nSpecial1KAC.setValue(0 - 1);
+
+              -- decrease hp by 10%
+              local nHP = 0 - (window.nBaseHP.getValue() * 0.10); -- decreases 10% HP
+              window.nSpecial1HP.setValue(math.floor(nHP));
+
+              -- note requires either a land or air speed and grants the other speed.
+              window.sSpecial1Notes.setValue("Requires either a land or air speed and grants the other speed.");
+            end
+
             if sOrigin == "junk" or sOrigin == "Junk" then
               Debug.console("junk origin");
 
@@ -877,6 +1033,8 @@
               window.nSpecial1AttackMod.setValue(0 - 1);
 
               -- gain broken condition at 75% not 50% of HP.
+              -- unstable engine 
+              window.sSpecial1Notes.setValue("Unstable engine: When broken, it explodes in 1d4 rounds dealing damage in a 10-foot radius.");
             end
 
             if sOrigin == "luxury" then
@@ -886,6 +1044,8 @@
               window.nSpecial1Price.setValue(nCost);
               -- decrease attack mod by 1
               window.nSpecial1AttackMod.setValue(1);
+              -- gains planetary comm unit and auto-control with Piloting of 4 + (1.5 * vehicles level)
+              window.sSpecial1Notes.setValue("Gains a planetary comm unit and auto-control with Piloting of 4 + (1.5 * vehicles level)");
             end
 
             if sOrigin == "racer" then
@@ -923,6 +1083,9 @@
               -- increase passengers by 100%
               local nPassengers = window.nBasePassengers.getValue();
               window.nSpecial1Passengers.setValue(nPassengers);
+
+              -- gain +20% overland speed after calculating top speeds
+              window.sSpecial1Notes.setValue("Gains +20 overland speed after calculating top speeds.");
             end
             
           end
@@ -1029,11 +1192,44 @@
             
             Debug.console("vehicle special 2 is: " .. sOrigin);
 
-            if sOrigin == "hybrid aircraft" then
-              -- increase price by 15%
-              -- increase speed by 10 feet
-              -- decrease eac and kac by 1
-              -- decrease hp by 10%
+            -- all-terrain, amphibious, armored, computer-assisted, hover, hybrid aircraft, junk, luxury, racer, transport
+
+            if sOrigin == "all-terrain" then
+              Debug.console("all-terrain origin");
+
+              -- increase cost by 5%
+              local nCost = window.nBasePrice.getValue() * 0.05; -- adds 5% cost
+              window.nSpecial2Price.setValue(nCost);
+
+              -- decrease speed by 5 feet.
+              window.nSpecial2Speed.setValue(0 - 5);
+
+              -- decrease full speed by 25 feet
+              window.nSpecial2FullSpeedMult.setValue(0 - 25);
+
+              -- decrease attack modifiers by 1
+              window.nSpecial2AttackMod.setValue(0 - 1);
+
+              -- when moving through difficult terrain, treat every other space of difficult terrain as normal terrain (minimum 1/2 speed).
+              -- note: we will need to add a DIFFICULT TERRAIN movement mode when exporting (results in 3/4 speed instead of 1/2 speed)
+
+              -- can move on land and rough terrain
+              window.sSpecial2Notes.setValue("Can move on land and rough terrain.");
+
+              -- note: we will need to add a ROUGH TERRAIN movement mode when exporting
+              window.sSpecial2Notes.setValue("Can move on land and rough terrain.");
+            end
+
+            if sOrigin == "amphibious" then
+              Debug.console("amphibious origin");
+              -- increase cost by 10%
+              local nCost = window.nBasePrice.getValue() * 0.10; -- adds 10% cost
+              window.nSpecial2Price.setValue(nCost);
+
+              -- can move on land and water
+              window.sSpecial2Notes.setValue("Can move on land and water.");
+
+              -- note: we will need to add a LAND and WATER movement mode when exporting
             end
 
             if sOrigin == "armored" then
@@ -1058,9 +1254,10 @@
               local nHardness = math.floor(window.nBaseHardness.getValue() * 0.10); -- adds 10% Hardness
               window.nSpecial2Hardness.setValue( nHardness );
 
-             -- increase cover by one step  (partial to cover, cover to improved, etc)
+              -- increase cover by one step  (partial to cover, cover to improved, etc)
+              -- done with the total update function
 
-              window.sSpecial2Notes.setValue("Cannot have the Tank type graft.");
+              window.sSpecial2Notes.setValue("Cannot have the Tank type graft, increases Cover by one level.");
             end
 
             if sOrigin == "computer-assisted" then
@@ -1076,7 +1273,32 @@
               -- increase attack mod by 2
               window.nSpecial2AttackMod.setValue(2);
 
-              window.sSpecial2Notes.setValue("Gains the Computer-Assisted Vehicle Operation skill feat.");
+              window.sSpecial2Notes.setValue("Gains an autopilot with Piloting bonus of 4 + (1.5 * vehicles level.)");
+            end
+
+            if sOrigin == "hover" then
+              Debug.console("hover origin");
+
+              -- increase price by 10%
+              local nCost = math.floor(window.nBasePrice.getValue() * 0.10); -- adds 10% cost
+              window.nSpecial2Price.setValue(nCost);
+
+              -- increase speed by 5 feet
+              window.nSpecial2Speed.setValue(5);
+
+              -- decrease eac and kac by 1
+              window.nSpecial2EAC.setValue(0 - 1);
+              window.nSpecial2KAC.setValue(0 - 1);
+
+              -- decrease hp by 20%
+              local nHP = 0 - (window.nBaseHP.getValue() * 0.20); -- decreases 20% HP
+              window.nSpecial2HP.setValue(math.floor(nHP));
+
+              -- It can hover up to 5 feet over surfaces and ignores difficult terrain.
+              -- note: we will need to add a HOVER movement mode when exporting
+
+              -- note requires a land speed and grants a fly speed.
+              window.sSpecial2Notes.setValue("Requires a land speed and grants a fly speed.");
             end
 
             if sOrigin == "hybrid aircraft" then
@@ -1118,6 +1340,9 @@
               window.nSpecial2AttackMod.setValue(0 - 1);
 
               -- gain broken condition at 75% not 50% of HP.
+
+              -- unstable engine: When broken, it explodes in 1d4 rounds dealing damage in a 10 ft burst 
+              window.sSpecial2Notes.setValue("Unstable engine: When broken, it explodes in 1d4 rounds dealing damage in a 10 ft burst.");
             end
 
             if sOrigin == "luxury" then
@@ -1129,6 +1354,9 @@
 
               -- decrease attack mod by 1
               window.nSpecial2AttackMod.setValue(1);
+
+              -- gains a planetary comm unit and autocontrol with a Piloting bonus of 4 + (1.5 * vehicles level).
+              window.sSpecial2Notes.setValue("Gains a planetary comm unit and autocontrol with a Piloting bonus of 4 + (1.5 * vehicles level).");
             end
 
             if sOrigin == "racer" then
@@ -1168,6 +1396,9 @@
               -- increase passengers by 100%
               local nPassengers = window.nBasePassengers.getValue();
               window.nSpecial2Passengers.setValue(nPassengers);
+
+              -- gain +20% overland speed after calculating top speeds
+              window.sSpecial2Notes.setValue("Gains +20% overland speed after calculating top speeds.");
             end
             
           end
@@ -1464,6 +1695,35 @@
 				<static>piloting</static>
 			</label_fieldtop>
 
+      <stringcontrol name="sTotalVehCover">
+				<bounds>480,-50,80,23</bounds>
+        <center />
+        <frame name="fielddark"  offset="10,5,5,5" />
+				<static textres="" />
+				<readonly />
+        <script>
+          function update()
+            local sCover = window.sVehCover.getValue();
+            if window.StringCyclerVehSpecial2.getStringValue() == "armored" or window.StringCyclerVehSpecial1.getStringValue() == "armored" then
+              if sCover == "" or sCover == "none" then
+                sCover = "partial";
+              elseif sCover == "partial" then
+                sCover = "cover";
+              elseif sCover == "cover" then
+                sCover = "improved";
+              elseif sCover == "improved" then
+                sCover = "total";
+              end
+            end
+            setValue(sCover);
+          end
+          </script>
+			</stringcontrol>
+      <label_fieldtop>
+				<bounds>470,-25,90,23</bounds>
+				<static>cover provided</static>
+			</label_fieldtop>
+
       <number name="nTotalAttackMod">
 				<frame name="fielddark" />
 				<bounds>550,-80,40,30</bounds>
@@ -1570,7 +1830,8 @@
 			<number name="nTotalHardness">
 				<frame name="fielddark" />
 				<bounds>800,-80,40,30</bounds>
-				<default>0</default>
+				<default>5</default>
+        <minimum>5</minimum>
         <script>
           function update()
             local nHardness = window.nBaseHardness.getValue() + window.nVehTypeHardness.getValue() + window.nSpecial1Hardness.getValue() + window.nSpecial2Hardness.getValue();
@@ -1627,6 +1888,19 @@
 				<bounds>950,-100,60,23</bounds>
 				<static>DC</static>
 			</label_fieldtop>
+
+      <buttoncontrol name="closeButton">
+        <frame>
+        	<name>buttonup</name>
+       	</frame>
+        <bounds>-20,-20,20,20</bounds>
+        <state icon="button_toolbar_window_close" />
+				<script>
+				function onButtonPress()
+        	window.close();
+				end
+				</script>
+      </buttoncontrol>
 
 		</sheetdata>
 	</windowclass>

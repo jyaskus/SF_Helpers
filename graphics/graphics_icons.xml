@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+
+	<icon name="book_source" file="graphics/icons/source_book.png" />
+
+  <!-- vehicle grafts -->
+  <icon name="veh_boat"    file="graphics/icons/vh_boat.png" />
+  <icon name="veh_cruiser" file="graphics/icons/vh_cruiser.png" />
+  <icon name="veh_cycle"   file="graphics/icons/vh_cycle.png" />
+  <icon name="veh_flyer"   file="graphics/icons/vh_flyer.png" />
+  <icon name="veh_hover"   file="graphics/icons/vh_hover.png" />
+  <icon name="veh_sub"     file="graphics/icons/vh_sub.png" />
+  <icon name="veh_tank"    file="graphics/icons/vh_tank.png" />
+  <icon name="veh_truck"   file="graphics/icons/vh_truck.png" />
+  <icon name="veh_walker"  file="graphics/icons/vh_walker.png" />  
+
+</root>
