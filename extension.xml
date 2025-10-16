@@ -4,7 +4,7 @@
   <announcement text="QoL improvements for Fantasy Grounds Unity" font="emotefont"  />
 
 	<properties>
-		<name>FGU fixes</name>
+		<name>SF_Helpers</name>
 		<version>1.0.0</version>
 		<loadorder>234</loadorder>
     <author>SgtWhy</author>
@@ -15,7 +15,7 @@
     <ruleset name="PFRPG" />
     <ruleset name="SFRPG" />  
 
-    <description>Quality of Life improvements for Fantasy Grounds Unity (Pathfinder 1e and Starfinder 1e)</description>
+    <description>Quality of Life improvements for Fantasy Grounds Unity Starfinder 1e</description>
 	</properties>
 
 	<base>

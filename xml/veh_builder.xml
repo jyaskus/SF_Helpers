@@ -344,9 +344,11 @@
             window.sVehTypeNotes.setValue("");
             window.sVehDescription.setValue("");
             window.sVehCover.setValue("none");
+            window.vehToken.setValue("");
 
             if sVehType == "Boat" then
               window.VehSubTypeLabel.setValue(" (Water Vehicle)");
+              window.vehToken.setValue("tokens/vh_boat.png@Vehicles");
               window.nBasePassengers.setValue(2);
               window.nBaseFullSpeedMult.setValue(15);
               window.nBasePilotingMod.setValue(0);
@@ -358,6 +360,7 @@
             end
             if sVehType == "Cruiser" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
+              window.vehToken.setValue("tokens/vh_cruiser.png@Vehicles");
               window.nBasePassengers.setValue(3);
               window.nBaseFullSpeedMult.setValue(25);
               window.nBasePilotingMod.setValue(-1);
@@ -374,6 +377,7 @@
             end
             if sVehType == "Cycle" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
+              window.vehToken.setValue("tokens/vh_cycle.png@Vehicles");
               window.nBasePassengers.setValue(1);
               window.nBaseFullSpeedMult.setValue(20);
               window.nBasePilotingMod.setValue(2);
@@ -392,6 +396,7 @@
             end
             if sVehType == "Fast Flyer" then
               window.VehSubTypeLabel.setValue(" (Air Vehicle)");
+              window.vehToken.setValue("tokens/vh_flyer.png@Vehicles");
               window.nBasePassengers.setValue(2);
               window.nBaseFullSpeedMult.setValue(25);
               window.nBasePilotingMod.setValue(-1);
@@ -411,6 +416,7 @@
             end
             if sVehType == "Hovering Flyer" then
               window.VehSubTypeLabel.setValue(" (Air Vehicle)");
+              window.vehToken.setValue("tokens/vh_hover.png@Vehicles");
               window.nBasePassengers.setValue(2);
               window.nBaseFullSpeedMult.setValue(20);
               window.nBasePilotingMod.setValue(0);
@@ -429,6 +435,7 @@
             end
             if sVehType == "Submersible" then
               window.VehSubTypeLabel.setValue(" (Water Vehicle)");
+              window.vehToken.setValue("tokens/vh_sub.png@Vehicles");
               window.nBasePassengers.setValue(2);
               window.nBaseFullSpeedMult.setValue(10);
               window.nBasePilotingMod.setValue(-2);
@@ -445,6 +452,7 @@
             end
             if sVehType == "Tank" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
+              window.vehToken.setValue("tokens/vh_tank.png@Vehicles");
               window.nBasePassengers.setValue(1);
               window.nBaseFullSpeedMult.setValue(10);
               window.nBasePilotingMod.setValue(-1);
@@ -463,6 +471,7 @@
             end
             if sVehType == "Truck" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
+              window.vehToken.setValue("tokens/vh_truck.png@Vehicles");
               window.nBasePassengers.setValue(3);
               window.nBaseFullSpeedMult.setValue(20);
               window.nBasePilotingMod.setValue(-1);
@@ -476,6 +485,7 @@
             end
             if sVehType == "Walker" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
+              window.vehToken.setValue("tokens/vh_walker.png@Vehicles");
               window.nBasePassengers.setValue(2);
               window.nBaseFullSpeedMult.setValue(10);
               window.nBasePilotingMod.setValue(1);
@@ -497,6 +507,13 @@
           end
         </script>
 			</stringcontrol>
+
+      <tokenfield name="vehToken">
+				<bounds>200,20,60,60</bounds>
+				<empty>token_empty</empty>
+        <frame name="" />
+				<tooltip textres="border" />
+			</tokenfield>
 
       <stringcontrol name="sVehTypeNotes">
 				<bounds>35,10,-20,16</bounds>

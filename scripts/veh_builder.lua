@@ -51,6 +51,9 @@ function vehBuilder_createVehicleRecord(charNode, w)
   local nTotalModSlots = w.nTotalModSlots.getValue() or 0;
   local sTotalVehCover = w.sTotalVehCover.getValue() or "total";
 
+  -- Get token value from tokenfield (returns asset path like "veh_boat")
+  local sVehToken = w.vehToken.getValue() or "";
+  
   -- Generate vehicle name
   local sUserVehName = w.sVehName.getValue() or "";
   local sVehicleName;
@@ -99,6 +102,17 @@ function vehBuilder_createVehicleRecord(charNode, w)
   DB.setValue(newVehicle, "cover", "string", sTotalVehCover);
   DB.setValue(newVehicle, "passengers", "number", nTotalPassengers);
   DB.setValue(newVehicle, "space", "number", 0);
+
+  -- Set vehicle token/picture (FGU uses both picture and token fields)
+  if sVehToken ~= "" then
+    -- Token was set in UI, use it directly (already includes @Vehicles module reference)
+    DB.setValue(newVehicle, "picture", "token", sVehToken);
+    DB.setValue(newVehicle, "token", "token", sVehToken);
+  else
+    -- No token set, use default
+    DB.setValue(newVehicle, "picture", "token", "tokens/wavecutter.png@Vehicles");
+    DB.setValue(newVehicle, "token", "token", "tokens/wavecutter.png@Vehicles");
+  end
 
   -- Set attack values
   DB.setValue(newVehicle, "attack.mod", "number", nTotalAttack);
