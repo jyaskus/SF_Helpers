@@ -137,10 +137,8 @@ function vehBuilder_createVehicleRecord(charNode, w)
     DB.setValue(specialAbility, "text", "string", sDescription);
     DB.setValue(specialAbility, "locked", "number", 1);
     
-    -- Create empty shortcut
-    local shortcutNode = DB.createChild(specialAbility, "shortcut", "windowreference");
-    DB.setValue(shortcutNode, "class", "string", "npc_specialability");
-    DB.setValue(shortcutNode, "recordname", "string", "");
+    -- Create shortcut windowreference with empty recordname
+    DB.setValue(specialAbility, "shortcut", "windowreference", "npc_specialability", "");
   end
 
   -- Create parts node and add grafts in specific order with hardcoded IDs
