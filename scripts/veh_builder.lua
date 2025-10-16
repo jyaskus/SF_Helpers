@@ -154,13 +154,13 @@ function vehBuilder_createVehicleRecord(charNode, w)
   
   -- Create Special Graft entries with hardcoded IDs
   -- Special Graft 1 (id-00003 if exists)
-  if sSpecial1 ~= "none" then
+  if sSpecial1 and sSpecial1 ~= "" and sSpecial1 ~= "none" then
     local specialGraftPart1 = DB.createChild(partsNode, "id-00003");
     createSpecialGraftPart(specialGraftPart1, sSpecial1, w);
   end
   
   -- Special Graft 2 (id-00004 if exists)
-  if sSpecial2 ~= "none" then
+  if sSpecial2 and sSpecial2 ~= "" and sSpecial2 ~= "none" then
     local specialGraftPart2 = DB.createChild(partsNode, "id-00004");
     createSpecialGraftPart(specialGraftPart2, sSpecial2, w);
   end
@@ -188,7 +188,7 @@ function vehBuilder_createVehicleRecord(charNode, w)
   DB.setValue(newVehicle, "sizegraftlink", "windowreference", "item", "....vehicles." .. newVehicleID .. ".parts.id-00002");
   
   -- Set specialgraft string and links if applicable
-  if sSpecial1 ~= "none" then
+  if sSpecial1 and sSpecial1 ~= "" and sSpecial1 ~= "none" then
     DB.setValue(newVehicle, "specialgraft", "string", sSpecial1:gsub("^%l", string.upper));
     
     -- Link to the special graft part entry (id-00003) using relative path
@@ -316,7 +316,7 @@ function buildVehicleDescription(sVehType, sSize, sOrigin, sSpecial1, sSpecial2,
   end
 
   -- Add special1 if not none
-  if sSpecial1 ~= "none" then
+  if sSpecial1 and sSpecial1 ~= "" and sSpecial1 ~= "none" then
     table.insert(descriptions, "Special: " .. sSpecial1:gsub("^%l", string.upper));
     
     local sSpecial1Notes = window.sSpecial1Notes.getValue();
@@ -326,7 +326,7 @@ function buildVehicleDescription(sVehType, sSize, sOrigin, sSpecial1, sSpecial2,
   end
 
   -- Add special2 if not none
-  if sSpecial2 ~= "none" then
+  if sSpecial2 and sSpecial2 ~= "" and sSpecial2 ~= "none" then
     table.insert(descriptions, "Special: " .. sSpecial2:gsub("^%l", string.upper));
     
     local sSpecial2Notes = window.sSpecial2Notes.getValue();
@@ -348,6 +348,9 @@ end
 function createTypeGraftPart(partNode, sVehType)
   local typeData = getTypeGraftData(sVehType);
   
+  -- Get description from VehicleGraftData
+  local typeGraftData = VehicleGraftData.getTypeGraftData(sVehType);
+  
   DB.setValue(partNode, "name", "string", typeData.name);
   DB.setValue(partNode, "subtype", "string", "Type Graft");
   DB.setValue(partNode, "type", "string", "Vehicle");
@@ -359,6 +362,12 @@ function createTypeGraftPart(partNode, sVehType)
   DB.setValue(partNode, "modifiers", "string", typeData.modifiers);
   DB.setValue(partNode, "passengers", "number", typeData.passengers);
   DB.setValue(partNode, "speed", "string", typeData.speed);
+  
+  -- Add description if available
+  if typeGraftData and typeGraftData.description then
+    local descNode = DB.createChild(partNode, "description", "formattedtext");
+    DB.setValue(descNode, "", "formattedtext", "<p>" .. typeGraftData.description .. "</p>");
+  end
   
   -- Create self-referencing link (points to itself in parts list)
   DB.setValue(partNode, "link", "windowreference", "item", "..parts.id-00001");
@@ -376,6 +385,9 @@ end
 function createSizeGraftPart(partNode, sSize)
   local sizeData = getSizeGraftData(sSize);
   
+  -- Get description from VehicleGraftData
+  local sizeGraftData = VehicleGraftData.getSizeGraftData(sSize);
+  
   DB.setValue(partNode, "name", "string", sizeData.name);
   DB.setValue(partNode, "subtype", "string", "Size Graft");
   DB.setValue(partNode, "type", "string", "Vehicle");
@@ -385,6 +397,12 @@ function createSizeGraftPart(partNode, sSize)
   
   if sizeData.adjustments and sizeData.adjustments ~= "" then
     DB.setValue(partNode, "adjustments", "string", sizeData.adjustments);
+  end
+  
+  -- Add description if available
+  if sizeGraftData and sizeGraftData.description then
+    local descNode = DB.createChild(partNode, "description", "formattedtext");
+    DB.setValue(descNode, "", "formattedtext", "<p>" .. sizeGraftData.description .. "</p>");
   end
   
   -- Create self-referencing link (points to itself in parts list)
@@ -403,6 +421,9 @@ end
 function createSpecialGraftPart(partNode, sSpecial, window)
   local specialData = getSpecialGraftData(sSpecial);
   
+  -- Get description from VehicleGraftData
+  local specialGraftData = VehicleGraftData.getSpecialGraftData(sSpecial);
+  
   DB.setValue(partNode, "name", "string", specialData.name);
   DB.setValue(partNode, "subtype", "string", "Special Graft");
   DB.setValue(partNode, "type", "string", "Vehicle");
@@ -416,6 +437,12 @@ function createSpecialGraftPart(partNode, sSpecial, window)
   
   if specialData.special and specialData.special ~= "" then
     DB.setValue(partNode, "special", "string", specialData.special);
+  end
+  
+  -- Add description if available
+  if specialGraftData and specialGraftData.description then
+    local descNode = DB.createChild(partNode, "description", "formattedtext");
+    DB.setValue(descNode, "", "formattedtext", "<p>" .. specialGraftData.description .. "</p>");
   end
   
   -- Get the part node name (should be id-00003 or id-00004)
@@ -677,6 +704,12 @@ function createOriginGraftPart(partNode, originGraft)
   DB.setValue(partNode, "locked", "number", 1);
   DB.setValue(partNode, "level", "number", 0);
   DB.setValue(partNode, "magicitem", "number", 0);
+  
+  -- Add description if available
+  if originData.description then
+    local descNode = DB.createChild(partNode, "description", "formattedtext");
+    DB.setValue(descNode, "", "formattedtext", "<p>" .. originData.description .. "</p>");
+  end
   
   -- Create self-referencing link (points to itself in parts list)
   DB.setValue(partNode, "link", "windowreference", "item", "..parts.id-00005");

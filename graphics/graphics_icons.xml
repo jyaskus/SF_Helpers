@@ -7,8 +7,6 @@
 
 <root>
 
-	<icon name="book_source" file="graphics/icons/source_book.png" />
-
   <!-- vehicle grafts -->
   <icon name="veh_boat"    file="graphics/icons/vh_boat.png" />
   <icon name="veh_cruiser" file="graphics/icons/vh_cruiser.png" />
