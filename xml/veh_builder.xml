@@ -31,7 +31,14 @@
               nValue = 1;
             end
             Debug.console("vehicle level changed to: " .. tostring(nValue));
-            updateVehicleArray(nValue);	
+            updateVehicleArray(nValue);
+            
+            -- Recalculate all dependent steps when level changes
+            window.StringCyclerVehType.updateVehType();
+            window.StringCyclerVehSize.updateVehSize();
+            window.StringCyclerVehOrigin.updateVehOrigin();
+            window.StringCyclerVehSpecial1.updateSpecial1();
+            window.StringCyclerVehSpecial2.updateSpecial2();
 					end
 					
 					function updateVehicleArray( nLevel )
@@ -309,6 +316,12 @@
 				<script>
 					function onValueChanged()
             updateVehType();
+            
+            -- Recalculate all dependent steps when type changes
+            window.StringCyclerVehSize.updateVehSize();
+            window.StringCyclerVehOrigin.updateVehOrigin();
+            window.StringCyclerVehSpecial1.updateSpecial1();
+            window.StringCyclerVehSpecial2.updateSpecial2();
           end
           function updateVehType()
 						local sVehType = getStringValue();
@@ -621,6 +634,15 @@
 				</parameters>
 				<script>
 					function onValueChanged()
+						updateVehSize();
+						
+						-- Recalculate all dependent steps when size changes
+						window.StringCyclerVehOrigin.updateVehOrigin();
+						window.StringCyclerVehSpecial1.updateSpecial1();
+						window.StringCyclerVehSpecial2.updateSpecial2();
+					end
+					
+					function updateVehSize()
 						local sSize = getStringValue();
 						Debug.console("vehicle size is: " .. sSize);
 
@@ -782,6 +804,14 @@
 				</parameters>
 				<script>
 					function onValueChanged()
+						updateVehOrigin();
+						
+						-- Recalculate all dependent steps when origin changes
+						window.StringCyclerVehSpecial1.updateSpecial1();
+						window.StringCyclerVehSpecial2.updateSpecial2();
+					end
+					
+					function updateVehOrigin()
 						local sOrigin = getStringValue();
 						Debug.console("vehicle origin is: " .. sOrigin);
 
@@ -864,6 +894,9 @@
 				<script>
 					function onValueChanged()
 						updateSpecial1();
+						
+						-- Recalculate Special2 when Special1 changes
+						window.StringCyclerVehSpecial2.updateSpecial2();
 					end
           function updateSpecial1()
             local sOrigin = getStringValue();

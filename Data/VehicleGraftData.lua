@@ -39,13 +39,13 @@ local typeGrafts = {
     name = "Truck (Land Vehicle)",
     class = "reference_vehicle_part",
     recordname = "reference.vehicle_parts.truck",
-    description = "These rugged ground vehicles move large numbers of passengers or cargo across difficult terrain and unpaved roads."
+    description = "These rugged ground vehicles transport passengers or cargo."
   },
   ["walker"] = {
     name = "Walker (Land Vehicle)",
     class = "reference_vehicle_part",
     recordname = "reference.vehicle_parts.walker",
-    description = "These multi-legged ground vehicles can traverse difficult terrain and climb steep inclines with relative ease."
+    description = "These relatively slow vehicles use numerous legs to stride over challenging terrain with ease."
   },
   ["fast flyer"] = {
     name = "Fast Flyer (Air Vehicle)",
