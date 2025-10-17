@@ -71,6 +71,9 @@
   <string name="tooltip_apply_stats_button">Apply the selected primary and secondary stats to the companion.</string>
 
   <string name="label_good">Good</string>
-  <string name="label_poor">Poor</string> 
+  <string name="label_poor">Poor</string>
+
+  <string name="skill_list_default">Acrobatics, Athletics, Perception, Stealth, Survival</string>
+  <string name="tooltip_update_skills_button">Update the companion's skill list based on their current level and class.</string>
 
 </root>

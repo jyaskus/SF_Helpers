@@ -4,7 +4,7 @@
   <windowclass name="companionSetDefaults">
 		<frame>recordsheet</frame>
 		<placement>
-			<size height="600" width="400" />
+			<size height="500" width="400" />
 		</placement>
 		<sheetdata>
 
@@ -31,6 +31,7 @@
 
             updateCosts();
             window.attackbonus_base.updateBAB();
+            window.nSkillBonus.update();
           end
           function updateCosts()
             local sDBnode = window.getDatabaseNode();
@@ -48,6 +49,9 @@
 
             local nUpgradeCost = CompanionData.getLevelCost(nLevel + 1);
             window.cost_upgrade.setValue(nUpgradeCost);
+
+            -- Update skill bonus when level changes
+            window.nSkillBonus.update();
           end
         </script>
       </number>
@@ -72,7 +76,7 @@
       </buttoncontrol>
       <buttoncontrol name="level_down">
         <frame>
-          <name>buttondown</name>
+          <name>buttonup</name>
         </frame>
         <bounds>20,20,20,20</bounds>
         <state icon="arrow_sm_down" />
@@ -196,7 +200,7 @@
 
       <buttoncontrol name="button_commit_stats">
         <frame name="filter_active" />
-        <bounds>165,120,30,30</bounds>
+        <bounds>160,160,40,30</bounds>
         <state textres="button_dialog_ok" />
         <state textres="button_dialog_ok_down" />
         <script>
@@ -287,6 +291,10 @@
           end
         </script>
       </number>
+      <label_fieldtop>
+        <bounds>130,185,100,20</bounds>
+        <static>Base Attack Bonus</static>
+      </label_fieldtop>
 
       <!-- saves: fortitude, reflex, will ; good or poor 
           add string cycler to rotate between good and poor, one for each save type
@@ -406,6 +414,97 @@
       <label_fieldtop>
         <bounds>290,235,80,20</bounds>
         <static>Will Save</static>
+      </label_fieldtop>
+
+      <!-- Skills: Default skills get same bonus based on level -->
+      <number name="nSkillBonus">
+        <bounds>50,300,40,25</bounds>
+        <default>0</default>
+        <minimum>0</minimum>
+        <maximum>30</maximum>
+        <frame name="fielddark" />
+        <readonly />
+        <script>
+          function onInit()
+            update();
+          end
+          function update()
+            local nLevel = window.current_level.getValue() or 1;
+            local nBonus = CompanionData.getLevelSkillBonus(nLevel);
+            setValue(nBonus);
+            Debug.console("Skill bonus updated to: " .. nBonus);
+          end
+        </script>
+      </number>
+      <label_fieldtop>
+        <bounds>30,285,80,20</bounds>
+        <static>Skill Bonus</static>
+      </label_fieldtop>
+
+      <stringcontrol name="sSkillList">
+        <anchored>
+          <left offset="20" />
+          <top offset="330" />
+          <size>
+            <width>360</width>
+          </size>
+        </anchored>
+        <frame name="fieldlight" offset = "10,5,10,10" />
+        <multilinespacing>20</multilinespacing>
+        <default textres="skill_list_default" />
+      </stringcontrol>
+      <label_fieldtop>
+        <bounds>150,315,180,20</bounds>
+        <static>Skill List (comma-separated)</static>
+      </label_fieldtop>
+
+      <buttoncontrol name="button_apply_skills">
+        <frame name="filter_active" />
+        <bounds>110,300,30,25</bounds>
+        <state textres="button_dialog_ok" />
+        <state textres="button_dialog_ok_down" />
+        <script>
+          function onButtonPress()
+            Debug.console("Applying skill bonuses...");
+            
+            local sDBnode = window.getDatabaseNode();
+            local nSkillBonus = window.nSkillBonus.getValue() or 0;
+            local sSkillList = window.sSkillList.getValue() or "";
+            
+            if sSkillList == "" then
+              Debug.console("ERROR: No skills specified!");
+              return;
+            end
+            
+            -- Build the skills string in format "SkillName +Bonus, SkillName +Bonus, ..."
+            local skills = {};
+            
+            -- Split the skill list by comma
+            for skillName in string.gmatch(sSkillList, "([^,]+)") do
+              -- Trim whitespace
+              skillName = skillName:match("^%s*(.-)%s*$");
+              
+              if skillName ~= "" then
+                -- Format: "SkillName +Bonus" (always use + sign)
+                local skillEntry = skillName .. " +" .. tostring(nSkillBonus);
+                table.insert(skills, skillEntry);
+              end
+            end
+            
+            -- Join all skills with ", "
+            local sFormattedSkills = table.concat(skills, ", ");
+            
+            -- Write to database
+            DB.setValue(sDBnode, "skills", "string", sFormattedSkills);
+            
+            Debug.console("Skills updated: " .. sFormattedSkills);
+          end
+        </script>
+        <tooltip textres="tooltip_update_skills_button" />
+      </buttoncontrol>
+      <label_fieldtop>
+        <bounds>95,285,100,20</bounds>
+        <static>Update Skills</static>
       </label_fieldtop>
 
       <buttoncontrol name="closeButton">
