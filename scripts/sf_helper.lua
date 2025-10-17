@@ -301,6 +301,38 @@ function stringRemoveMod(sActionName)
   return sName;
 end
 
+  -- Updates melee and ranged attack strings based on metadata and BAB
+  function updateAttackStrings(nodeCompanion)
+    -- Get BAB
+    local nBAB = DB.getValue(nodeCompanion, "attackbonus_base", 0)
+    -- Get level
+    local nLevel = DB.getValue(nodeCompanion, "level", 1)
+
+    -- Helper to extract name from attack string
+    local function extractName(sAttack, sDefault)
+      -- Try to get the name before any + or (
+      local sName = sAttack:match("^%s*([%a%s%-']+)")
+      if sName and #sName > 0 then
+        return sName:gsub("%s+$", "")
+      end
+      return sDefault
+    end
+
+    -- Melee
+    local sMelee = DB.getValue(nodeCompanion, "melee", "");
+    local sMeleeName = extractName(sMelee, "melee");
+    local sMeleeDamage = CompanionData.getLevelMeleeDamage and CompanionData.getLevelMeleeDamage(nLevel) or "";
+    local sNewMelee = string.format("%s +%d (%s)", sMeleeName, nBAB, sMeleeDamage);
+    DB.setValue(nodeCompanion, "melee", "string", sNewMelee);
+
+    -- Ranged
+    local sRanged = DB.getValue(nodeCompanion, "ranged", "");
+    local sRangedName = extractName(sRanged, "ranged");
+    local sRangedDamage = CompanionData.getLevelRangedDamage and CompanionData.getLevelRangedDamage(nLevel) or "";
+    local sNewRanged = string.format("%s +%d (%s)", sRangedName, nBAB, sRangedDamage);
+    DB.setValue(nodeCompanion, "ranged", "string", sNewRanged);
+  end
+
 function sendChat(sMessage, bGMonly)
   local rMessage = ChatManager.createBaseMessage("ChatAction", nValue);
   if bGMonly == nil then 

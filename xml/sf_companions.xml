@@ -2,7 +2,7 @@
 <root>
 
   <windowclass name="companionSetDefaults">
-		<frame>recordsheet</frame>
+		<frame>referenceblock-page</frame>
 		<placement>
 			<size height="500" width="400" />
 		</placement>
@@ -11,8 +11,6 @@
       <number name="current_level">
         <bounds>40,20,40,25</bounds>
         <default>1</default>
-        <minimum>1</minimum>
-        <maximum>20</maximum>
         <frame name="fieldlight" />
         <script>
           function onInit()
@@ -31,6 +29,8 @@
 
             updateCosts();
             window.attackbonus_base.updateBAB();
+            window.nEAC.update();
+            window.nKAC.update();
             window.nSkillBonus.update();
           end
           function updateCosts()
@@ -50,7 +50,9 @@
             local nUpgradeCost = CompanionData.getLevelCost(nLevel + 1);
             window.cost_upgrade.setValue(nUpgradeCost);
 
-            -- Update skill bonus when level changes
+            -- Update combat stats when level changes
+            window.nEAC.update();
+            window.nKAC.update();
             window.nSkillBonus.update();
           end
         </script>
@@ -267,6 +269,36 @@
         <tooltip textres="tooltip_apply_stats_button" />
       </buttoncontrol>
 
+      <!-- Energy Armor Class (EAC) -->
+      <number name="nEAC">
+        <bounds>50,200,60,25</bounds>
+        <default>10</default>
+        <minimum>0</minimum>
+        <maximum>50</maximum>
+        <frame name="fielddark" />
+        <readonly />
+        <script>
+          function update()
+            local nLevel = window.current_level.getValue() or 1;
+            local nEAC = CompanionData.getLevelEAC(nLevel);
+            setValue(nEAC);
+            Debug.console("EAC updated to: " .. nEAC);
+          end
+          
+          function onValueChanged()
+            local nEAC = getValue() or 10;
+            local sDBnode = window.getDatabaseNode();
+            -- Write to ac.sources.eac.misc (using misc instead of armor for natural AC)
+            DB.setValue(sDBnode, "ac.sources.eac.misc", "number", nEAC);
+            Debug.console("Set EAC misc to " .. nEAC);
+          end
+        </script>
+      </number>
+      <label_fieldtop>
+        <bounds>50,185,60,20</bounds>
+        <static>EAC</static>
+      </label_fieldtop>
+
       <!-- Base Attack Bonus stored as .attackbonus.base ; updating base should trigger the FGU ui to calc the rest -->
       <number name="attackbonus_base">
         <bounds>150,200,60,25</bounds>
@@ -288,12 +320,45 @@
             local sDBnode = window.getDatabaseNode();
             DB.setValue(sDBnode,"attackbonus.base","number",nBAB);
             Debug.console("Set Base Attack Bonus to " .. nBAB);
+              if sf and sf.updateAttackStrings then
+                sf.updateAttackStrings(sDBnode);
+              end
           end
         </script>
       </number>
       <label_fieldtop>
         <bounds>130,185,100,20</bounds>
         <static>Base Attack Bonus</static>
+      </label_fieldtop>
+
+      <!-- Kinetic Armor Class (KAC) -->
+      <number name="nKAC">
+        <bounds>250,200,60,25</bounds>
+        <default>10</default>
+        <minimum>0</minimum>
+        <maximum>50</maximum>
+        <frame name="fielddark" />
+        <readonly />
+        <script>
+          function update()
+            local nLevel = window.current_level.getValue() or 1;
+            local nKAC = CompanionData.getLevelKAC(nLevel);
+            setValue(nKAC);
+            Debug.console("KAC updated to: " .. nKAC);
+          end
+          
+          function onValueChanged()
+            local nKAC = getValue() or 10;
+            local sDBnode = window.getDatabaseNode();
+            -- Write to ac.sources.kac.misc (using misc instead of armor for natural AC)
+            DB.setValue(sDBnode, "ac.sources.kac.misc", "number", nKAC);
+            Debug.console("Set KAC misc to " .. nKAC);
+          end
+        </script>
+      </number>
+      <label_fieldtop>
+        <bounds>250,185,60,20</bounds>
+        <static>KAC</static>
       </label_fieldtop>
 
       <!-- saves: fortitude, reflex, will ; good or poor 
@@ -511,7 +576,7 @@
         <frame>
         	<name>buttonup</name>
        	</frame>
-        <bounds>-20,-20,20,20</bounds>
+        <bounds>-20,0,20,20</bounds>
         <state icon="button_toolbar_window_close" />
 				<script>
 				function onButtonPress()

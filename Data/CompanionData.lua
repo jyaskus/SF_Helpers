@@ -70,9 +70,19 @@ function getLevelAttack(nLevel)
 end
 
 -- Get the damage string for a companion at the specified level
-function getLevelDamage(nLevel)
+
+-- Get the melee damage string for a companion at the specified level
+function getLevelMeleeDamage(nLevel)
   nLevel = validateLevel(nLevel);
   local data = CompanionDataAll[nLevel];
+  return data and data.damage or "1d4";
+end
+
+-- Get the ranged damage string for a companion at the specified level
+function getLevelRangedDamage(nLevel)
+  nLevel = validateLevel(nLevel);
+  local data = CompanionDataAll[nLevel];
+  -- For now, use the same damage as melee; customize if needed
   return data and data.damage or "1d4";
 end
 
