@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+
+	<windowclass name="companionCosts">
+		<frame>recordsheet</frame>
+		<placement>
+			<size height="120" width="240" />
+		</placement>
+		<sheetdata>
+
+      <number name="current_level">
+        <bounds>30,20,60,25</bounds>
+        <default>1</default>
+        <minimum>1</minimum>
+        <maximum>20</maximum>
+        <frame name="border" />
+        <script>
+          function onInit()
+            local nLevel = getValue();
+            local sDBnode = window.getDatabaseNode();
+            nLevel = DB.getValue(sDBnode,"level",1);
+            setValue(nLevel);
+            updateCosts();
+          end
+          function onValueChanged()
+            updateCosts();
+          end
+          function updateCosts()
+            local sDBnode = window.getDatabaseNode();
+            local nLevel = getValue() or 0;
+
+            -- in case the level or HP were not set yet
+            DB.setValue(sDBnode,"level","number",nLevel);
+            local nHP = CompanionData.getLevelHP(nLevel);
+
+            -- set the window so it can update the DB node
+            window.current_maxHP.setValue(nHP);
+
+            local nCost = CompanionData.getLevelCost(nLevel);
+            window.cost_current.setValue(nCost);
+
+            local nUpgradeCost = CompanionData.getLevelCost(nLevel + 1);
+            window.cost_upgrade.setValue(nUpgradeCost);
+          end
+        </script>
+      </number>
+      <label_fieldtop>
+				<bounds>30,5,80,20</bounds>
+				<static>level</static>
+			</label_fieldtop>
+
+      <number name="current_maxHP">
+        <bounds>100,20,60,25</bounds>
+        <default>1</default>
+        <minimum>1</minimum>
+        <maximum>20</maximum>
+        <frame name="border" />
+        <script>
+          function onValueChanged()
+            local sDBnode = window.getDatabaseNode();
+            local nMaxHP = getValue() or 0;
+
+            local nodeHP = DB.getChild(sDBnode,"hp");
+            DB.setValue(nodeHP, "total",   "number", nMaxHP);
+            DB.setValue(nodeHP, "current", "number", nMaxHP);
+            Debug.console("Set Max HP to " .. nMaxHP);
+          end
+        </script>
+      </number>
+      <label_fieldtop>
+				<bounds>100,5,80,20</bounds>
+				<static>Max HP</static>
+			</label_fieldtop>
+
+			<number name="cost_current">
+        <bounds>30,50,60,25</bounds>
+        <frame name="border" />
+        <script>
+          function onValueChanged()
+            local sDBnode = window.getDatabaseNode();
+            local nCurrentCost = getValue() or 0;
+            DB.setValue(sDBnode,"currentcost","number",nCurrentCost);
+            Debug.console("Set Current Cost to " .. nCurrentCost);
+          end
+        </script>
+      </number>
+      <label_fieldtop>
+				<bounds>25,75,80,23</bounds>
+				<static>Current</static>
+			</label_fieldtop>
+
+      <number name="cost_upgrade">
+        <bounds>100,50,80,25</bounds>
+        <frame name="border" />
+        <script>
+          function onValueChanged()
+            local sDBnode = window.getDatabaseNode();
+            local nCurrentCost = window.cost_current.getValue() or 0;
+            local nUpgradeCost = getValue() or 0;
+            local nTrainingCost = nUpgradeCost - nCurrentCost;
+            DB.setValue(sDBnode,"traincost","number",nTrainingCost);
+            Debug.console("Set Training Cost to " .. nTrainingCost);
+          end
+        </script>
+      </number>
+      <label_fieldtop>
+				<bounds>90,75,80,23</bounds>
+				<static>Next Level</static>
+			</label_fieldtop>
+
+      <buttoncontrol name="closeButton">
+        <frame>
+        	<name>buttonup</name>
+       	</frame>
+        <bounds>-20,-20,20,20</bounds>
+        <state icon="button_toolbar_window_close" />
+				<script>
+				function onButtonPress()
+        	window.close();
+				end
+				</script>
+      </buttoncontrol>
+
+		</sheetdata>
+	</windowclass>
+
+  <windowclass name="companionsheet_main" merge="join">
+    <sheetdata>
+
+      <button_details name="button_stats_details">
+        <bounds>-200,0,20,20</bounds>
+        <icon normal="button_class_update" />
+        <icon normal="button_class_update_down" />
+				<script>
+					function onButtonPress()
+            local sDBnode = window.getDatabaseNode();
+            Debug.console("DB Node: " .. sDBnode.getPath());
+
+            local sRuleset = Interface.getRuleset();
+            Debug.console("Using ruleset: " .. sRuleset, true);
+
+            -- Interface.openWindow("companionCosts", sDBnode);
+					end
+				</script>
+			</button_details>
+
+    </sheetdata>
+  </windowclass>
+
+   <windowclass name="companionsheet_inventory" merge="join">
+    <sheetdata>
+
+      <button_details name="button_stats_details">
+        <bounds>-125,-95,20,20</bounds>
+				<script>
+					function onButtonPress()
+            local sDBnode = window.getDatabaseNode();
+            Debug.console("DB Node: " .. sDBnode.getPath());
+
+            local sRuleset = Interface.getRuleset();
+            Debug.console("Using ruleset: " .. sRuleset, true);
+
+            Interface.openWindow("companionCosts", sDBnode);
+					end
+				</script>
+			</button_details>
+
+    </sheetdata>
+  </windowclass>
+
+</root>
