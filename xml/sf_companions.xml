@@ -128,9 +128,9 @@
     <sheetdata>
 
       <button_details name="button_stats_details">
-        <bounds>-200,0,20,20</bounds>
-        <icon normal="button_class_update" />
-        <icon normal="button_class_update_down" />
+        <bounds>-65,5,20,20</bounds>
+        <icon normal="button_ctnextround" />
+        <icon normal="button_ctnextround_down" />
 				<script>
 					function onButtonPress()
             local sDBnode = window.getDatabaseNode();

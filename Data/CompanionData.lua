@@ -1,8 +1,5 @@
 
-local CompanionLevelCost = {100, 500, 1200, 1800, 2700, 4900, 5400, 8400, 12000, 17000, 23000, 31000, 46000, 63000, 940000, 144000, 216000, 325000, 480000, 720000  };
-local CompanionLevelHP   = { 10, 20, 30, 40, 55, 65, 80, 90, 105, 120, 135, 145, 160, 175, 190, 205, 225, 250, 275, 300  };
-
-
+-- Companion data indexed by level (1-20)
 local CompanionDataAll = {
   [1] = { price = 100,  hp = 10, attack = 2, damage = "1d4+1",   eac = 11, kac = 14, goodSave =4,  poorSave =1, firstAbility = 2, secondAbility =1, skillBonus = 5 },
   [2] = { price = 500,  hp = 20, attack = 3, damage = "1d4+2",   eac = 12, kac = 15, goodSave =5,  poorSave =1, firstAbility = 2, secondAbility =1, skillBonus = 6 },
@@ -26,43 +23,110 @@ local CompanionDataAll = {
   [20]= { price=720000, hp =300, attack =23, damage = "13d6+20", eac = 35, kac = 38, goodSave =14, poorSave =9, firstAbility = 5, secondAbility =4, skillBonus = 27 },
 }
 
-
-function getLevelCost(nLevel)
+-- Helper function to validate and clamp level to valid range (1-20)
+local function validateLevel(nLevel)
   if sf.isGt(nLevel, 20) then
-    nLevel = 20;
-  end
-  if sf.isGt(0, nLevel) then
-    nLevel = 1;
-  end
-
-  return CompanionLevelCost[nLevel] or 0;
-end
-
-function getUpgradeCost(nCurrentLevel, nTargetLevel)
-  local nTotalCost = 0;
-
-  if sf.isGt(nTargetLevel, 20) then
-    nTargetLevel = 20;
-  end
-  if sf.isGt(0, nCurrentLevel) then
-    nCurrentLevel = 1;
-  end
-
-  local nCurrentCost = CompanionLevelCost[nCurrentLevel] or 0;
-  local nTargetLevelCost = CompanionLevelCost[nTargetLevel] or 0;
-
-  nTotalCost = nTargetLevelCost - nCurrentCost;
-
-  return nTotalCost;
-end
-
-function getLevelHP(nLevel)
-  if sf.isGt(nLevel, 20) then
-    nLevel = 20;
+    return 20;
   end
   if sf.isGt(1, nLevel) then
-    nLevel = 1;
+    return 1;
   end
+  return nLevel;
+end
 
-  return tonumber(CompanionLevelHP[nLevel]) or 0;
+-- Get the price/cost for a companion at the specified level
+function getLevelCost(nLevel)
+  nLevel = validateLevel(nLevel);
+  local data = CompanionDataAll[nLevel];
+  return data and data.price or 0;
+end
+
+-- Calculate the upgrade cost from current level to target level
+function getUpgradeCost(nCurrentLevel, nTargetLevel)
+  nCurrentLevel = validateLevel(nCurrentLevel);
+  nTargetLevel = validateLevel(nTargetLevel);
+  
+  local currentData = CompanionDataAll[nCurrentLevel];
+  local targetData = CompanionDataAll[nTargetLevel];
+  
+  local nCurrentCost = currentData and currentData.price or 0;
+  local nTargetCost = targetData and targetData.price or 0;
+  
+  return nTargetCost - nCurrentCost;
+end
+
+-- Get the HP for a companion at the specified level
+function getLevelHP(nLevel)
+  nLevel = validateLevel(nLevel);
+  local data = CompanionDataAll[nLevel];
+  return data and tonumber(data.hp) or 0;
+end
+
+-- Get the attack bonus for a companion at the specified level
+function getLevelAttack(nLevel)
+  nLevel = validateLevel(nLevel);
+  local data = CompanionDataAll[nLevel];
+  return data and data.attack or 0;
+end
+
+-- Get the damage string for a companion at the specified level
+function getLevelDamage(nLevel)
+  nLevel = validateLevel(nLevel);
+  local data = CompanionDataAll[nLevel];
+  return data and data.damage or "1d4";
+end
+
+-- Get the EAC for a companion at the specified level
+function getLevelEAC(nLevel)
+  nLevel = validateLevel(nLevel);
+  local data = CompanionDataAll[nLevel];
+  return data and data.eac or 10;
+end
+
+-- Get the KAC for a companion at the specified level
+function getLevelKAC(nLevel)
+  nLevel = validateLevel(nLevel);
+  local data = CompanionDataAll[nLevel];
+  return data and data.kac or 10;
+end
+
+-- Get the good save bonus for a companion at the specified level
+function getLevelGoodSave(nLevel)
+  nLevel = validateLevel(nLevel);
+  local data = CompanionDataAll[nLevel];
+  return data and data.goodSave or 0;
+end
+
+-- Get the poor save bonus for a companion at the specified level
+function getLevelPoorSave(nLevel)
+  nLevel = validateLevel(nLevel);
+  local data = CompanionDataAll[nLevel];
+  return data and data.poorSave or 0;
+end
+
+-- Get the first ability score modifier for a companion at the specified level
+function getLevelFirstAbility(nLevel)
+  nLevel = validateLevel(nLevel);
+  local data = CompanionDataAll[nLevel];
+  return data and data.firstAbility or 0;
+end
+
+-- Get the second ability score modifier for a companion at the specified level
+function getLevelSecondAbility(nLevel)
+  nLevel = validateLevel(nLevel);
+  local data = CompanionDataAll[nLevel];
+  return data and data.secondAbility or 0;
+end
+
+-- Get the skill bonus for a companion at the specified level
+function getLevelSkillBonus(nLevel)
+  nLevel = validateLevel(nLevel);
+  local data = CompanionDataAll[nLevel];
+  return data and data.skillBonus or 0;
+end
+
+-- Get all companion data for a specified level
+function getLevelData(nLevel)
+  nLevel = validateLevel(nLevel);
+  return CompanionDataAll[nLevel];
 end
