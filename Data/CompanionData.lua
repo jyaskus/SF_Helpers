@@ -24,7 +24,7 @@ local CompanionDataAll = {
 }
 
 -- Helper function to validate and clamp level to valid range (1-20)
-local function validateLevel(nLevel)
+function validateLevel(nLevel)
   if sf.isGt(nLevel, 20) then
     return 20;
   end
@@ -129,4 +129,15 @@ end
 function getLevelData(nLevel)
   nLevel = validateLevel(nLevel);
   return CompanionDataAll[nLevel];
+end
+
+-- function to return the bonus for a given stat value from 1 to 30
+function getStatBonus(nStatValue)
+  nStatValue = math.floor(nStatValue);
+  if nStatValue < 1 then
+    nStatValue = 1;
+  elseif nStatValue > 30 then
+    nStatValue = 30;
+  end
+  return math.floor((nStatValue - 10) / 2);
 end

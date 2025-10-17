@@ -1,6 +1,271 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
 
+  <windowclass name="companionSetDefaults">
+		<frame>recordsheet</frame>
+		<placement>
+			<size height="600" width="400" />
+		</placement>
+		<sheetdata>
+
+      <number name="current_level">
+        <bounds>40,20,40,25</bounds>
+        <default>1</default>
+        <minimum>1</minimum>
+        <maximum>20</maximum>
+        <frame name="fieldlight" />
+        <script>
+          function onInit()
+            local sDBnode = window.getDatabaseNode();           
+            nLevel = DB.getValue(sDBnode,"level",1);
+
+            -- use DB value as source of truth
+            nLevel = CompanionData.validateLevel(nLevel);
+            setValue(nLevel);
+            
+            -- updateCosts();
+          end
+          function onValueChanged()
+            local nLevel = CompanionData.validateLevel(getValue());
+            DB.setValue(window.getDatabaseNode(),"level","number",nLevel);
+
+            updateCosts();
+          end
+          function updateCosts()
+            local sDBnode = window.getDatabaseNode();
+            local nLevel = getValue() or 1;
+
+            -- in case the level or HP were not set yet
+            DB.setValue(sDBnode,"level","number",nLevel);
+            local nHP = CompanionData.getLevelHP(nLevel);
+
+            -- set the window so it can update the DB node
+            window.current_maxHP.setValue(nHP);
+
+            local nCost = CompanionData.getLevelCost(nLevel);
+            window.cost_current.setValue(nCost);
+
+            local nUpgradeCost = CompanionData.getLevelCost(nLevel + 1);
+            window.cost_upgrade.setValue(nUpgradeCost);
+          end
+        </script>
+      </number>
+      <label_fieldtop>
+				<bounds>30,5,80,20</bounds>
+				<static>level</static>
+			</label_fieldtop>
+      <!-- add buttons to increase/decrease level -->
+      <buttoncontrol name="level_up">
+        <frame>
+          <name>buttonup</name>
+        </frame>
+        <bounds>80,20,20,20</bounds>
+        <state icon="arrow_sm_up" />
+        <script>
+          function onButtonPress()
+            local nLevel = window.current_level.getValue();
+            nLevel = CompanionData.validateLevel(nLevel + 1);
+            window.current_level.setValue(nLevel);
+          end
+        </script>
+      </buttoncontrol>
+      <buttoncontrol name="level_down">
+        <frame>
+          <name>buttondown</name>
+        </frame>
+        <bounds>20,20,20,20</bounds>
+        <state icon="arrow_sm_down" />
+        <script>
+          function onButtonPress()
+            local nLevel = window.current_level.getValue();
+            nLevel = CompanionData.validateLevel(nLevel - 1);
+            window.current_level.setValue(nLevel);
+          end
+        </script>
+      </buttoncontrol>
+
+      <number name="current_maxHP">
+        <bounds>100,20,60,25</bounds>
+        <default>1</default>
+        <minimum>1</minimum>
+        <maximum>20</maximum>
+        <frame name="border" />
+        <script>
+          function onValueChanged()
+            local sDBnode = window.getDatabaseNode();
+            local nMaxHP = getValue() or 0;
+
+            local nodeHP = DB.getChild(sDBnode,"hp");
+            DB.setValue(nodeHP, "total",   "number", nMaxHP);
+            DB.setValue(nodeHP, "current", "number", nMaxHP);
+            Debug.console("Set Max HP to " .. nMaxHP);
+          end
+        </script>
+      </number>
+      <label_fieldtop>
+				<bounds>100,5,80,20</bounds>
+				<static>Max HP</static>
+			</label_fieldtop>
+
+			<number name="cost_current">
+        <bounds>30,50,60,25</bounds>
+        <frame name="border" />
+        <script>
+          function onValueChanged()
+            local sDBnode = window.getDatabaseNode();
+            local nCurrentCost = getValue() or 0;
+            DB.setValue(sDBnode,"currentcost","number",nCurrentCost);
+            Debug.console("Set Current Cost to " .. nCurrentCost);
+          end
+        </script>
+      </number>
+      <label_fieldtop>
+				<bounds>25,75,80,23</bounds>
+				<static>Current</static>
+			</label_fieldtop>
+
+      <number name="cost_upgrade">
+        <bounds>100,50,80,25</bounds>
+        <frame name="border" />
+        <script>
+          function onValueChanged()
+            local sDBnode = window.getDatabaseNode();
+            local nCurrentCost = window.cost_current.getValue() or 0;
+            local nUpgradeCost = getValue() or 0;
+            local nTrainingCost = nUpgradeCost - nCurrentCost;
+            DB.setValue(sDBnode,"traincost","number",nTrainingCost);
+            Debug.console("Set Training Cost to " .. nTrainingCost);
+          end
+        </script>
+      </number>
+      <label_fieldtop>
+				<bounds>90,75,80,23</bounds>
+				<static>Next Level</static>
+			</label_fieldtop>
+
+      <!-- abilities: charisma, constitution, dexterity, intelligence, strength, wisdom ;
+           companion race provides 2 stats, primary, secondary
+           otherwise all stats are 10 (+0) except INT which is default 2 (-4) -->            
+
+      <button_stringcycler name="stat_primary">
+				<frame>
+					<name>filter</name>
+					<offset>0,0,0,0</offset>
+				</frame>
+				<bounds>60,120,100,30</bounds>
+				<tooltip textres="actionUsagePopup_Tooltip" />
+				<parameters>
+					<labelsres>label_charisma|label_constitution|label_dexterity|label_intelligence|label_strength|label_wisdom</labelsres>
+					<values>charisma|constitution|dexterity|intelligence|strength|wisdom</values>
+				</parameters>
+				<script>
+				function onValueChanged()
+				  local sStat = getValue();
+				  Debug.console("Primary Stat set to: " .. sStat);
+
+          -- get the primary stat modifier for their level and set the score of that ability to 10 + modifier.
+          local nLevel = window.current_level.getValue() or 0;
+          local nModifier = CompanionData.getLevelFirstAbility(nLevel);
+         
+           -- set ability score
+          local sDBnode = window.getDatabaseNode();
+          local nodeAbilityScore = DB.getChild(sDBnode,"abilities." .. sStat .. ".score");
+          local nAbilityScore = 10 + nModifier;
+          DB.setValue(nodeAbilityScore,"number",nAbilityScore);
+          Debug.console("Set Primary Stat Score to: " .. nAbilityScore);
+
+          -- set ability score bonus
+          local nodeAbilityBonus = DB.getChild(sDBnode,"abilities." .. sStat .. ".bonus");
+          local statBonus = CompanionData.getStatBonus(nAbilityScore);
+          DB.setValue(nodeAbilityBonus,"number",statBonus);
+				end
+				</script>
+			</button_stringcycler>
+      <label_fieldtop>
+				<bounds>90,100,80,20</bounds>
+				<static>Primary Stat</static>
+			</label_fieldtop>
+
+      <button_stringcycler name="stat_secondary">
+				<frame>
+					<name>filter</name>
+					<offset>0,0,0,0</offset>
+				</frame>
+				<bounds>60,180,100,30</bounds>
+				<tooltip textres="actionUsagePopup_Tooltip" />
+				<parameters>
+					<labelsres>label_charisma|label_constitution|label_dexterity|label_intelligence|label_strength|label_wisdom</labelsres>
+					<values>charisma|constitution|dexterity|intelligence|strength|wisdom</values>
+				</parameters>
+				<script>
+				function onValueChanged()
+				  local sStat = getValue();
+				  Debug.console("Secondary Stat set to: " .. sStat);
+
+          -- get the secondary stat modifier for their level and set the score of that ability to 10 + modifier.
+          local nLevel = window.current_level.getValue() or 0;
+          local nModifier = CompanionData.getLevelSecondAbility(nLevel);
+         
+           -- set ability score
+          local sDBnode = window.getDatabaseNode();
+          local nodeAbilityScore = DB.getChild(sDBnode,"abilities." .. sStat .. ".score");
+          local nAbilityScore = 10 + nModifier;
+          DB.setValue(nodeAbilityScore,"number",nAbilityScore);
+          Debug.console("Set Primary Stat Score to: " .. nAbilityScore);
+
+          -- set ability score bonus
+          local nodeAbilityBonus = DB.getChild(sDBnode,"abilities." .. sStat .. ".bonus");
+          local statBonus = CompanionData.getStatBonus(nAbilityScore);
+          DB.setValue(nodeAbilityBonus,"number",statBonus);
+				end
+				</script>
+			</button_stringcycler>
+      <label_fieldtop>
+				<bounds>90,160,80,20</bounds>
+				<static>Secondary Stat</static>
+			</label_fieldtop>
+
+      <!-- saves: fortitude, reflex, will ; good or poor -->
+
+      <buttoncontrol name="closeButton">
+        <frame>
+        	<name>buttonup</name>
+       	</frame>
+        <bounds>-20,-20,20,20</bounds>
+        <state icon="button_toolbar_window_close" />
+				<script>
+				function onButtonPress()
+        	window.close();
+				end
+				</script>
+      </buttoncontrol>
+
+		</sheetdata>
+	</windowclass>
+
+  <windowclass name="companionsheet_main" merge="join">
+    <sheetdata>
+
+      <button_details name="button_companion_defaults">
+        <bounds>-65,5,20,20</bounds>
+        <icon normal="button_ctnextround" />
+        <icon normal="button_ctnextround_down" />
+				<script>
+					function onButtonPress()
+            local sDBnode = window.getDatabaseNode();
+            Debug.console("DB Node: " .. sDBnode.getPath());
+
+            local sRuleset = Interface.getRuleset();
+            Debug.console("Using ruleset: " .. sRuleset, true);
+
+            Interface.openWindow("companionSetDefaults", sDBnode);
+					end
+				</script>
+			</button_details>
+
+    </sheetdata>
+  </windowclass>
+
 	<windowclass name="companionCosts">
 		<frame>recordsheet</frame>
 		<placement>
@@ -123,29 +388,6 @@
 
 		</sheetdata>
 	</windowclass>
-
-  <windowclass name="companionsheet_main" merge="join">
-    <sheetdata>
-
-      <button_details name="button_stats_details">
-        <bounds>-65,5,20,20</bounds>
-        <icon normal="button_ctnextround" />
-        <icon normal="button_ctnextround_down" />
-				<script>
-					function onButtonPress()
-            local sDBnode = window.getDatabaseNode();
-            Debug.console("DB Node: " .. sDBnode.getPath());
-
-            local sRuleset = Interface.getRuleset();
-            Debug.console("Using ruleset: " .. sRuleset, true);
-
-            -- Interface.openWindow("companionCosts", sDBnode);
-					end
-				</script>
-			</button_details>
-
-    </sheetdata>
-  </windowclass>
 
    <windowclass name="companionsheet_inventory" merge="join">
     <sheetdata>

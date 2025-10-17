@@ -60,4 +60,12 @@
 
   <string name="vhBuilder_sVehName_Label_Vehicle_Name">Vehicle Name</string>
 
+  
+  <string name="label_strength">Strength</string>
+  <string name="label_dexterity">Dexterity</string> 
+  <string name="label_constitution">Constitution</string>
+  <string name="label_intelligence">Intelligence</string>
+  <string name="label_wisdom">Wisdom</string>
+  <string name="label_charisma">Charisma</string>
+
 </root>
