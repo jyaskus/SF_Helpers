@@ -30,6 +30,7 @@
             DB.setValue(window.getDatabaseNode(),"level","number",nLevel);
 
             updateCosts();
+            window.attackbonus_base.updateBAB();
           end
           function updateCosts()
             local sDBnode = window.getDatabaseNode();
@@ -85,11 +86,11 @@
       </buttoncontrol>
 
       <number name="current_maxHP">
-        <bounds>100,20,60,25</bounds>
+        <bounds>200,20,60,25</bounds>
         <default>1</default>
         <minimum>1</minimum>
         <maximum>20</maximum>
-        <frame name="border" />
+        <frame name="fielddark" />
         <script>
           function onValueChanged()
             local sDBnode = window.getDatabaseNode();
@@ -103,12 +104,12 @@
         </script>
       </number>
       <label_fieldtop>
-				<bounds>100,5,80,20</bounds>
+				<bounds>200,5,80,20</bounds>
 				<static>Max HP</static>
 			</label_fieldtop>
 
 			<number name="cost_current">
-        <bounds>30,50,60,25</bounds>
+        <bounds>80,50,60,25</bounds>
         <frame name="border" />
         <script>
           function onValueChanged()
@@ -120,12 +121,12 @@
         </script>
       </number>
       <label_fieldtop>
-				<bounds>25,75,80,23</bounds>
+				<bounds>75,75,80,23</bounds>
 				<static>Current</static>
 			</label_fieldtop>
 
       <number name="cost_upgrade">
-        <bounds>100,50,80,25</bounds>
+        <bounds>200,50,80,25</bounds>
         <frame name="border" />
         <script>
           function onValueChanged()
@@ -139,7 +140,7 @@
         </script>
       </number>
       <label_fieldtop>
-				<bounds>90,75,80,23</bounds>
+				<bounds>200,75,80,23</bounds>
 				<static>Next Level</static>
 			</label_fieldtop>
 
@@ -161,28 +162,12 @@
 				<script>
 				function onValueChanged()
 				  local sStat = getValue();
-				  Debug.console("Primary Stat set to: " .. sStat);
-
-          -- get the primary stat modifier for their level and set the score of that ability to 10 + modifier.
-          local nLevel = window.current_level.getValue() or 0;
-          local nModifier = CompanionData.getLevelFirstAbility(nLevel);
-         
-           -- set ability score
-          local sDBnode = window.getDatabaseNode();
-          local nodeAbilityScore = DB.getChild(sDBnode,"abilities." .. sStat .. ".score");
-          local nAbilityScore = 10 + nModifier;
-          DB.setValue(nodeAbilityScore,"number",nAbilityScore);
-          Debug.console("Set Primary Stat Score to: " .. nAbilityScore);
-
-          -- set ability score bonus
-          local nodeAbilityBonus = DB.getChild(sDBnode,"abilities." .. sStat .. ".bonus");
-          local statBonus = CompanionData.getStatBonus(nAbilityScore);
-          DB.setValue(nodeAbilityBonus,"number",statBonus);
+				  Debug.console("Primary Stat selected: " .. sStat);
 				end
 				</script>
 			</button_stringcycler>
       <label_fieldtop>
-				<bounds>90,100,80,20</bounds>
+				<bounds>70,105,80,20</bounds>
 				<static>Primary Stat</static>
 			</label_fieldtop>
 
@@ -191,7 +176,7 @@
 					<name>filter</name>
 					<offset>0,0,0,0</offset>
 				</frame>
-				<bounds>60,180,100,30</bounds>
+				<bounds>200,120,100,30</bounds>
 				<tooltip textres="actionUsagePopup_Tooltip" />
 				<parameters>
 					<labelsres>label_charisma|label_constitution|label_dexterity|label_intelligence|label_strength|label_wisdom</labelsres>
@@ -200,32 +185,228 @@
 				<script>
 				function onValueChanged()
 				  local sStat = getValue();
-				  Debug.console("Secondary Stat set to: " .. sStat);
-
-          -- get the secondary stat modifier for their level and set the score of that ability to 10 + modifier.
-          local nLevel = window.current_level.getValue() or 0;
-          local nModifier = CompanionData.getLevelSecondAbility(nLevel);
-         
-           -- set ability score
-          local sDBnode = window.getDatabaseNode();
-          local nodeAbilityScore = DB.getChild(sDBnode,"abilities." .. sStat .. ".score");
-          local nAbilityScore = 10 + nModifier;
-          DB.setValue(nodeAbilityScore,"number",nAbilityScore);
-          Debug.console("Set Primary Stat Score to: " .. nAbilityScore);
-
-          -- set ability score bonus
-          local nodeAbilityBonus = DB.getChild(sDBnode,"abilities." .. sStat .. ".bonus");
-          local statBonus = CompanionData.getStatBonus(nAbilityScore);
-          DB.setValue(nodeAbilityBonus,"number",statBonus);
+				  Debug.console("Secondary Stat selected: " .. sStat);
 				end
 				</script>
 			</button_stringcycler>
       <label_fieldtop>
-				<bounds>90,160,80,20</bounds>
+				<bounds>205,105,80,20</bounds>
 				<static>Secondary Stat</static>
 			</label_fieldtop>
 
-      <!-- saves: fortitude, reflex, will ; good or poor -->
+      <buttoncontrol name="button_commit_stats">
+        <frame name="filter_active" />
+        <bounds>165,120,30,30</bounds>
+        <state textres="button_dialog_ok" />
+        <state textres="button_dialog_ok_down" />
+        <script>
+          function onButtonPress()
+            Debug.console("Committing ability score changes...");
+            
+            local sDBnode = window.getDatabaseNode();
+            local nLevel = window.current_level.getValue() or 1;
+            local sPrimaryStat = window.stat_primary.getStringValue();
+            local sSecondaryStat = window.stat_secondary.getStringValue();
+            
+            -- Validate that primary and secondary are different
+            if sPrimaryStat == sSecondaryStat then
+              Debug.console("ERROR: Primary and Secondary stats must be different!");
+              return;
+            end
+            
+            -- List of all ability scores
+            local abilities = {"charisma", "constitution", "dexterity", "intelligence", "strength", "wisdom"};
+            
+            -- Step 1: Reset all ability scores to defaults
+            -- All scores start at 10 (+0 bonus) except Intelligence which is 2 (-4 bonus)
+            for _, ability in ipairs(abilities) do
+              local nodeAbility = DB.getChild(sDBnode, "abilities." .. ability);
+              local defaultScore = (ability == "intelligence") and 2 or 10;
+              local defaultBonus = CompanionData.getStatBonus(defaultScore);
+              
+              DB.setValue(nodeAbility, "base", "number", defaultScore);
+              DB.setValue(nodeAbility, "score", "number", defaultScore);
+              DB.setValue(nodeAbility, "bonus", "number", defaultBonus);
+              
+              Debug.console("Reset " .. ability .. " to score " .. defaultScore .. " (bonus " .. defaultBonus .. ")");
+            end
+            
+            -- Step 2: Apply primary stat bonus
+            if sPrimaryStat ~= "" then
+              local nPrimaryBonus = CompanionData.getLevelFirstAbility(nLevel);
+              local nPrimaryScore = CompanionData.getScoreFromBonus(nPrimaryBonus);
+              
+              local nodePrimary = DB.getChild(sDBnode, "abilities." .. sPrimaryStat);
+              DB.setValue(nodePrimary, "base", "number", nPrimaryScore);
+              DB.setValue(nodePrimary, "score", "number", nPrimaryScore);
+              DB.setValue(nodePrimary, "bonus", "number", nPrimaryBonus);
+              
+              Debug.console("Set Primary Stat " .. sPrimaryStat .. " to score " .. nPrimaryScore .. " (bonus " .. nPrimaryBonus .. ")");
+            end
+            
+            -- Step 3: Apply secondary stat bonus
+            if sSecondaryStat ~= "" then
+              local nSecondaryBonus = CompanionData.getLevelSecondAbility(nLevel);
+              local nSecondaryScore = CompanionData.getScoreFromBonus(nSecondaryBonus);
+              
+              local nodeSecondary = DB.getChild(sDBnode, "abilities." .. sSecondaryStat);
+              DB.setValue(nodeSecondary, "base", "number", nSecondaryScore);
+              DB.setValue(nodeSecondary, "score", "number", nSecondaryScore);
+              DB.setValue(nodeSecondary, "bonus", "number", nSecondaryBonus);
+              
+              Debug.console("Set Secondary Stat " .. sSecondaryStat .. " to score " .. nSecondaryScore .. " (bonus " .. nSecondaryBonus .. ")");
+            end
+            
+            Debug.console("Ability score commit complete!");
+          end
+        </script>
+        <tooltip textres="tooltip_apply_stats_button" />
+      </buttoncontrol>
+
+      <!-- Base Attack Bonus stored as .attackbonus.base ; updating base should trigger the FGU ui to calc the rest -->
+      <number name="attackbonus_base">
+        <bounds>150,200,60,25</bounds>
+        <default>0</default>
+        <minimum>0</minimum>
+        <maximum>20</maximum>
+        <frame name="fielddark" />
+        <script>
+          function updateBAB()
+            -- read BaB
+            local nLevel = window.current_level.getValue() or 1;
+            local nBAB = CompanionData.getLevelAttack(nLevel);
+            setValue(nBAB);
+          end
+
+          function onValueChanged()
+            local nBAB = getValue() or 0;
+            -- write BaB
+            local sDBnode = window.getDatabaseNode();
+            DB.setValue(sDBnode,"attackbonus.base","number",nBAB);
+            Debug.console("Set Base Attack Bonus to " .. nBAB);
+          end
+        </script>
+      </number>
+
+      <!-- saves: fortitude, reflex, will ; good or poor 
+          add string cycler to rotate between good and poor, one for each save type
+      -->
+      <button_stringcycler name="fortitude_save">
+        <frame>
+          <name>filter</name>
+          <offset>0,0,0,0</offset>
+        </frame>
+        <bounds>40,250,100,30</bounds>
+        <tooltip textres="actionUsagePopup_Tooltip" />
+        <parameters>
+          <labelsres>label_good|label_poor</labelsres>
+          <values>good|poor</values>
+        </parameters>
+        <script>
+        function onValueChanged()
+          local sSaveType = getStringValue();
+          local nSaveBonus = 0;
+          local nLevel = window.current_level.getValue() or 1;          
+          Debug.console("Fortitude Save Type selected: " .. sSaveType);
+
+          -- get the good or base save from reference data then write to DB
+          if sSaveType == "" then
+            Debug.console("No save type selected, skipping.");
+            return;
+          elseif sSaveType == "good"  then
+            nSaveBonus = CompanionData.getLevelGoodSave(nLevel);
+          elseif sSaveType == "poor" then
+            nSaveBonus = CompanionData.getLevelPoorSave(nLevel);
+          end
+
+          -- DB save to saves.fortitude.base
+          local sDBnode = window.getDatabaseNode();
+          DB.setValue(sDBnode,"saves.fortitude.base","number",nSaveBonus);
+        end
+        </script>
+      </button_stringcycler>
+      <label_fieldtop>
+        <bounds>50,235,80,20</bounds>
+        <static>Fortitude Save</static>
+      </label_fieldtop>
+
+      <button_stringcycler name="reflex_save">
+        <frame>
+          <name>filter</name>
+          <offset>0,0,0,0</offset>
+        </frame>
+        <bounds>160,250,100,30</bounds>
+        <tooltip textres="actionUsagePopup_Tooltip" />
+        <parameters>
+          <labelsres>label_good|label_poor</labelsres>
+          <values>good|poor</values>
+        </parameters>
+        <script>
+        function onValueChanged()
+          local sSaveType = getStringValue();
+          local nSaveBonus = 0;
+          local nLevel = window.current_level.getValue() or 1;          
+          Debug.console("Reflex Save Type selected: " .. sSaveType);
+
+          -- get the good or base save from reference data then write to DB
+          if sSaveType == "" then
+            Debug.console("No save type selected, skipping.");
+            return;
+          elseif sSaveType == "good"  then
+            nSaveBonus = CompanionData.getLevelGoodSave(nLevel);
+          elseif sSaveType == "poor" then
+            nSaveBonus = CompanionData.getLevelPoorSave(nLevel);
+          end
+
+          -- DB save to saves.reflex.base
+          local sDBnode = window.getDatabaseNode();
+          DB.setValue(sDBnode,"saves.reflex.base","number",nSaveBonus);
+        end
+        </script>
+      </button_stringcycler>
+      <label_fieldtop>
+        <bounds>170,235,80,20</bounds>
+        <static>Reflex Save</static>
+      </label_fieldtop>
+
+      <button_stringcycler name="will_save">
+        <frame>
+          <name>filter</name>
+          <offset>0,0,0,0</offset>
+        </frame>
+        <bounds>280,250,100,30</bounds>
+        <tooltip textres="actionUsagePopup_Tooltip" />
+        <parameters>
+          <labelsres>label_good|label_poor</labelsres>
+          <values>good|poor</values>
+        </parameters>
+        <script>
+        function onValueChanged()
+          local sSaveType = getStringValue();
+          local nSaveBonus = 0;
+          local nLevel = window.current_level.getValue() or 1;          
+          Debug.console("Will Save Type selected: " .. sSaveType);
+
+          -- get the good or base save from reference data then write to DB
+          if sSaveType == "" then
+            Debug.console("No save type selected, skipping.");
+            return;
+          elseif sSaveType == "good"  then
+            nSaveBonus = CompanionData.getLevelGoodSave(nLevel);
+          elseif sSaveType == "poor" then
+            nSaveBonus = CompanionData.getLevelPoorSave(nLevel);
+          end
+
+          -- DB save to saves.will.base
+          local sDBnode = window.getDatabaseNode();
+          DB.setValue(sDBnode,"saves.will.base","number",nSaveBonus);
+        end
+        </script>
+      </button_stringcycler>
+      <label_fieldtop>
+        <bounds>290,235,80,20</bounds>
+        <static>Will Save</static>
+      </label_fieldtop>
 
       <buttoncontrol name="closeButton">
         <frame>

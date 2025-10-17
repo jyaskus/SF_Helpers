@@ -68,4 +68,9 @@
   <string name="label_wisdom">Wisdom</string>
   <string name="label_charisma">Charisma</string>
 
+  <string name="tooltip_apply_stats_button">Apply the selected primary and secondary stats to the companion.</string>
+
+  <string name="label_good">Good</string>
+  <string name="label_poor">Poor</string> 
+
 </root>

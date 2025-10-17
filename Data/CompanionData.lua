@@ -131,7 +131,7 @@ function getLevelData(nLevel)
   return CompanionDataAll[nLevel];
 end
 
--- function to return the bonus for a given stat value from 1 to 30
+-- Function to return the bonus for a given stat value from 1 to 30
 function getStatBonus(nStatValue)
   nStatValue = math.floor(nStatValue);
   if nStatValue < 1 then
@@ -140,4 +140,11 @@ function getStatBonus(nStatValue)
     nStatValue = 30;
   end
   return math.floor((nStatValue - 10) / 2);
+end
+
+-- Function to convert a bonus back to an ability score
+-- Formula: score = (bonus * 2) + 10
+-- Example: +4 bonus = 18 score, -4 bonus = 2 score
+function getScoreFromBonus(nBonus)
+  return (nBonus * 2) + 10;
 end
