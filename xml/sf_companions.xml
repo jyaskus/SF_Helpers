@@ -4,12 +4,12 @@
   <windowclass name="companionSetDefaults">
 		<frame>referenceblock-page</frame>
 		<placement>
-			<size height="500" width="400" />
+			<size height="400" width="400" />
 		</placement>
 		<sheetdata>
 
       <number name="current_level">
-        <bounds>40,20,40,25</bounds>
+        <bounds>180,45,40,40</bounds>
         <default>1</default>
         <frame name="fieldlight" />
         <script>
@@ -58,15 +58,14 @@
         </script>
       </number>
       <label_fieldtop>
-				<bounds>30,5,80,20</bounds>
+				<bounds>160,30,80,20</bounds>
 				<static>level</static>
 			</label_fieldtop>
-      <!-- add buttons to increase/decrease level -->
       <buttoncontrol name="level_up">
         <frame>
-          <name>buttonup</name>
+          <name>border</name>
         </frame>
-        <bounds>80,20,20,20</bounds>
+        <bounds>220,50,20,20</bounds>
         <state icon="arrow_sm_up" />
         <script>
           function onButtonPress()
@@ -78,9 +77,9 @@
       </buttoncontrol>
       <buttoncontrol name="level_down">
         <frame>
-          <name>buttonup</name>
+          <name>border</name>
         </frame>
-        <bounds>20,20,20,20</bounds>
+        <bounds>160,50,20,20</bounds>
         <state icon="arrow_sm_down" />
         <script>
           function onButtonPress()
@@ -92,9 +91,8 @@
       </buttoncontrol>
 
       <number name="current_maxHP">
-        <bounds>200,20,60,25</bounds>
+        <bounds>320,240,60,25</bounds>
         <default>1</default>
-        <minimum>1</minimum>
         <maximum>20</maximum>
         <frame name="fielddark" />
         <script>
@@ -110,12 +108,12 @@
         </script>
       </number>
       <label_fieldtop>
-				<bounds>200,5,80,20</bounds>
-				<static>Max HP</static>
-			</label_fieldtop>
-
-			<number name="cost_current">
-        <bounds>80,50,60,25</bounds>
+        <bounds>310,225,80,20</bounds>
+        <static>Max HP</static>
+      </label_fieldtop>
+      
+      <number name="cost_current">
+        <bounds>80,90,80,25</bounds>
         <frame name="border" />
         <script>
           function onValueChanged()
@@ -127,12 +125,11 @@
         </script>
       </number>
       <label_fieldtop>
-				<bounds>75,75,80,23</bounds>
-				<static>Current</static>
-			</label_fieldtop>
-
+        <bounds>80,75,80,23</bounds>
+        <static>Current</static>
+      </label_fieldtop>
       <number name="cost_upgrade">
-        <bounds>200,50,80,25</bounds>
+        <bounds>240,90,80,25</bounds>
         <frame name="border" />
         <script>
           function onValueChanged()
@@ -146,11 +143,11 @@
         </script>
       </number>
       <label_fieldtop>
-				<bounds>200,75,80,23</bounds>
-				<static>Next Level</static>
-			</label_fieldtop>
-
-      <!-- abilities: charisma, constitution, dexterity, intelligence, strength, wisdom ;
+        <bounds>240,75,80,23</bounds>
+        <static>Next Level</static>
+      </label_fieldtop>
+      
+       <!-- abilities: charisma, constitution, dexterity, intelligence, strength, wisdom ;
            companion race provides 2 stats, primary, secondary
            otherwise all stats are 10 (+0) except INT which is default 2 (-4) -->            
 
@@ -159,7 +156,7 @@
 					<name>filter</name>
 					<offset>0,0,0,0</offset>
 				</frame>
-				<bounds>60,120,100,30</bounds>
+				<bounds>75,140,100,30</bounds>
 				<tooltip textres="actionUsagePopup_Tooltip" />
 				<parameters>
 					<labelsres>label_charisma|label_constitution|label_dexterity|label_intelligence|label_strength|label_wisdom</labelsres>
@@ -173,16 +170,15 @@
 				</script>
 			</button_stringcycler>
       <label_fieldtop>
-				<bounds>70,105,80,20</bounds>
-				<static>Primary Stat</static>
-			</label_fieldtop>
-
+        <bounds>85,125,80,20</bounds>
+        <static>Primary Stat</static>
+      </label_fieldtop>
       <button_stringcycler name="stat_secondary">
 				<frame>
 					<name>filter</name>
 					<offset>0,0,0,0</offset>
 				</frame>
-				<bounds>200,120,100,30</bounds>
+				<bounds>225,140,100,30</bounds>
 				<tooltip textres="actionUsagePopup_Tooltip" />
 				<parameters>
 					<labelsres>label_charisma|label_constitution|label_dexterity|label_intelligence|label_strength|label_wisdom</labelsres>
@@ -196,13 +192,12 @@
 				</script>
 			</button_stringcycler>
       <label_fieldtop>
-				<bounds>205,105,80,20</bounds>
-				<static>Secondary Stat</static>
-			</label_fieldtop>
-
+        <bounds>235,125,80,20</bounds>
+        <static>Secondary Stat</static>
+      </label_fieldtop>
       <buttoncontrol name="button_commit_stats">
         <frame name="filter_active" />
-        <bounds>160,160,40,30</bounds>
+        <bounds>185,145,30,25</bounds>
         <state textres="button_dialog_ok" />
         <state textres="button_dialog_ok_down" />
         <script>
@@ -271,7 +266,7 @@
 
       <!-- Energy Armor Class (EAC) -->
       <number name="nEAC">
-        <bounds>50,200,60,25</bounds>
+        <bounds>50,240,60,25</bounds>
         <default>10</default>
         <minimum>0</minimum>
         <maximum>50</maximum>
@@ -295,13 +290,13 @@
         </script>
       </number>
       <label_fieldtop>
-        <bounds>50,185,60,20</bounds>
+        <bounds>50,225,60,20</bounds>
         <static>EAC</static>
       </label_fieldtop>
 
       <!-- Base Attack Bonus stored as .attackbonus.base ; updating base should trigger the FGU ui to calc the rest -->
       <number name="attackbonus_base">
-        <bounds>150,200,60,25</bounds>
+        <bounds>250,240,60,25</bounds>
         <default>0</default>
         <minimum>0</minimum>
         <maximum>20</maximum>
@@ -327,13 +322,13 @@
         </script>
       </number>
       <label_fieldtop>
-        <bounds>130,185,100,20</bounds>
-        <static>Base Attack Bonus</static>
+        <bounds>230,225,80,20</bounds>
+        <static>Attack Bonus</static>
       </label_fieldtop>
 
       <!-- Kinetic Armor Class (KAC) -->
       <number name="nKAC">
-        <bounds>250,200,60,25</bounds>
+        <bounds>150,240,60,25</bounds>
         <default>10</default>
         <minimum>0</minimum>
         <maximum>50</maximum>
@@ -357,7 +352,7 @@
         </script>
       </number>
       <label_fieldtop>
-        <bounds>250,185,60,20</bounds>
+        <bounds>150,225,60,20</bounds>
         <static>KAC</static>
       </label_fieldtop>
 
@@ -369,7 +364,7 @@
           <name>filter</name>
           <offset>0,0,0,0</offset>
         </frame>
-        <bounds>40,250,100,30</bounds>
+        <bounds>25,190,100,30</bounds>
         <tooltip textres="actionUsagePopup_Tooltip" />
         <parameters>
           <labelsres>label_good|label_poor</labelsres>
@@ -399,7 +394,7 @@
         </script>
       </button_stringcycler>
       <label_fieldtop>
-        <bounds>50,235,80,20</bounds>
+        <bounds>35,175,80,20</bounds>
         <static>Fortitude Save</static>
       </label_fieldtop>
 
@@ -408,7 +403,7 @@
           <name>filter</name>
           <offset>0,0,0,0</offset>
         </frame>
-        <bounds>160,250,100,30</bounds>
+        <bounds>150,190,100,30</bounds>
         <tooltip textres="actionUsagePopup_Tooltip" />
         <parameters>
           <labelsres>label_good|label_poor</labelsres>
@@ -438,7 +433,7 @@
         </script>
       </button_stringcycler>
       <label_fieldtop>
-        <bounds>170,235,80,20</bounds>
+        <bounds>160,175,80,20</bounds>
         <static>Reflex Save</static>
       </label_fieldtop>
 
@@ -447,7 +442,7 @@
           <name>filter</name>
           <offset>0,0,0,0</offset>
         </frame>
-        <bounds>280,250,100,30</bounds>
+        <bounds>275,190,100,30</bounds>
         <tooltip textres="actionUsagePopup_Tooltip" />
         <parameters>
           <labelsres>label_good|label_poor</labelsres>
@@ -477,13 +472,13 @@
         </script>
       </button_stringcycler>
       <label_fieldtop>
-        <bounds>290,235,80,20</bounds>
+        <bounds>285,175,80,20</bounds>
         <static>Will Save</static>
       </label_fieldtop>
 
       <!-- Skills: Default skills get same bonus based on level -->
       <number name="nSkillBonus">
-        <bounds>50,300,40,25</bounds>
+        <bounds>50,290,40,25</bounds>
         <default>0</default>
         <minimum>0</minimum>
         <maximum>30</maximum>
@@ -502,30 +497,13 @@
         </script>
       </number>
       <label_fieldtop>
-        <bounds>30,285,80,20</bounds>
+        <bounds>30,275,80,20</bounds>
         <static>Skill Bonus</static>
-      </label_fieldtop>
-
-      <stringcontrol name="sSkillList">
-        <anchored>
-          <left offset="20" />
-          <top offset="330" />
-          <size>
-            <width>360</width>
-          </size>
-        </anchored>
-        <frame name="fieldlight" offset = "10,5,10,10" />
-        <multilinespacing>20</multilinespacing>
-        <default textres="skill_list_default" />
-      </stringcontrol>
-      <label_fieldtop>
-        <bounds>150,315,180,20</bounds>
-        <static>Skill List (comma-separated)</static>
       </label_fieldtop>
 
       <buttoncontrol name="button_apply_skills">
         <frame name="filter_active" />
-        <bounds>110,300,30,25</bounds>
+        <bounds>120,290,30,25</bounds>
         <state textres="button_dialog_ok" />
         <state textres="button_dialog_ok_down" />
         <script>
@@ -568,24 +546,40 @@
         <tooltip textres="tooltip_update_skills_button" />
       </buttoncontrol>
       <label_fieldtop>
-        <bounds>95,285,100,20</bounds>
+        <bounds>95,275,100,20</bounds>
         <static>Update Skills</static>
+      </label_fieldtop>
+
+      <stringcontrol name="sSkillList">
+        <anchored>
+          <left offset="20" />
+          <top offset="315" />
+          <size>
+            <width>360</width>
+          </size>
+        </anchored>
+        <frame name="fielddark" offset = "10,5,10,10" />
+        <multilinespacing>20</multilinespacing>
+        <default textres="skill_list_default" />
+      </stringcontrol>
+      <label_fieldtop>
+        <bounds>150,300,180,20</bounds>
+        <static>Skill List (comma-separated)</static>
       </label_fieldtop>
 
       <buttoncontrol name="closeButton">
         <frame>
-        	<name>buttonup</name>
-       	</frame>
-        <bounds>-20,0,20,20</bounds>
+         	<name>buttonup</name>
+        	</frame>
+        <bounds>-25,5,20,20</bounds>
         <state icon="button_toolbar_window_close" />
 				<script>
 				function onButtonPress()
-        	window.close();
+         window.close();
 				end
 				</script>
       </buttoncontrol>
-
-		</sheetdata>
+    </sheetdata>
 	</windowclass>
 
   <windowclass name="companionsheet_main" merge="join">
@@ -604,150 +598,6 @@
             Debug.console("Using ruleset: " .. sRuleset, true);
 
             Interface.openWindow("companionSetDefaults", sDBnode);
-					end
-				</script>
-			</button_details>
-
-    </sheetdata>
-  </windowclass>
-
-	<windowclass name="companionCosts">
-		<frame>recordsheet</frame>
-		<placement>
-			<size height="120" width="240" />
-		</placement>
-		<sheetdata>
-
-      <number name="current_level">
-        <bounds>30,20,60,25</bounds>
-        <default>1</default>
-        <minimum>1</minimum>
-        <maximum>20</maximum>
-        <frame name="border" />
-        <script>
-          function onInit()
-            local nLevel = getValue();
-            local sDBnode = window.getDatabaseNode();
-            nLevel = DB.getValue(sDBnode,"level",1);
-            setValue(nLevel);
-            updateCosts();
-          end
-          function onValueChanged()
-            updateCosts();
-          end
-          function updateCosts()
-            local sDBnode = window.getDatabaseNode();
-            local nLevel = getValue() or 0;
-
-            -- in case the level or HP were not set yet
-            DB.setValue(sDBnode,"level","number",nLevel);
-            local nHP = CompanionData.getLevelHP(nLevel);
-
-            -- set the window so it can update the DB node
-            window.current_maxHP.setValue(nHP);
-
-            local nCost = CompanionData.getLevelCost(nLevel);
-            window.cost_current.setValue(nCost);
-
-            local nUpgradeCost = CompanionData.getLevelCost(nLevel + 1);
-            window.cost_upgrade.setValue(nUpgradeCost);
-          end
-        </script>
-      </number>
-      <label_fieldtop>
-				<bounds>30,5,80,20</bounds>
-				<static>level</static>
-			</label_fieldtop>
-
-      <number name="current_maxHP">
-        <bounds>100,20,60,25</bounds>
-        <default>1</default>
-        <minimum>1</minimum>
-        <maximum>20</maximum>
-        <frame name="border" />
-        <script>
-          function onValueChanged()
-            local sDBnode = window.getDatabaseNode();
-            local nMaxHP = getValue() or 0;
-
-            local nodeHP = DB.getChild(sDBnode,"hp");
-            DB.setValue(nodeHP, "total",   "number", nMaxHP);
-            DB.setValue(nodeHP, "current", "number", nMaxHP);
-            Debug.console("Set Max HP to " .. nMaxHP);
-          end
-        </script>
-      </number>
-      <label_fieldtop>
-				<bounds>100,5,80,20</bounds>
-				<static>Max HP</static>
-			</label_fieldtop>
-
-			<number name="cost_current">
-        <bounds>30,50,60,25</bounds>
-        <frame name="border" />
-        <script>
-          function onValueChanged()
-            local sDBnode = window.getDatabaseNode();
-            local nCurrentCost = getValue() or 0;
-            DB.setValue(sDBnode,"currentcost","number",nCurrentCost);
-            Debug.console("Set Current Cost to " .. nCurrentCost);
-          end
-        </script>
-      </number>
-      <label_fieldtop>
-				<bounds>25,75,80,23</bounds>
-				<static>Current</static>
-			</label_fieldtop>
-
-      <number name="cost_upgrade">
-        <bounds>100,50,80,25</bounds>
-        <frame name="border" />
-        <script>
-          function onValueChanged()
-            local sDBnode = window.getDatabaseNode();
-            local nCurrentCost = window.cost_current.getValue() or 0;
-            local nUpgradeCost = getValue() or 0;
-            local nTrainingCost = nUpgradeCost - nCurrentCost;
-            DB.setValue(sDBnode,"traincost","number",nTrainingCost);
-            Debug.console("Set Training Cost to " .. nTrainingCost);
-          end
-        </script>
-      </number>
-      <label_fieldtop>
-				<bounds>90,75,80,23</bounds>
-				<static>Next Level</static>
-			</label_fieldtop>
-
-      <buttoncontrol name="closeButton">
-        <frame>
-        	<name>buttonup</name>
-       	</frame>
-        <bounds>-20,-20,20,20</bounds>
-        <state icon="button_toolbar_window_close" />
-				<script>
-				function onButtonPress()
-        	window.close();
-				end
-				</script>
-      </buttoncontrol>
-
-		</sheetdata>
-	</windowclass>
-
-   <windowclass name="companionsheet_inventory" merge="join">
-    <sheetdata>
-
-      <button_details name="button_stats_details">
-        <bounds>-125,-95,20,20</bounds>
-				<script>
-					function onButtonPress()
-            local sDBnode = window.getDatabaseNode();
-            Debug.console("DB Node: " .. sDBnode.getPath());
-
-            local sRuleset = Interface.getRuleset();
-            Debug.console("Using ruleset: " .. sRuleset, true);
-
-            Interface.openWindow("companionCosts", sDBnode);
 					end
 				</script>
 			</button_details>
