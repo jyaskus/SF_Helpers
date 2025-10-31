@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  
+  <windowclass name="charsheet_main" merge="join">
+    <sheetdata>
+
+      <button_details name="button_stats_details">
+        <bounds>5,100,20,20</bounds>
+				<script>
+					function onButtonPress()
+            local sDBnode = window.getDatabaseNode();
+            sf.DebugOut("DB Node: " .. sDBnode.getPath());
+
+            local sRuleset = Interface.getRuleset();
+            sf.DebugOut("Using ruleset: " .. sRuleset, true);
+
+            Interface.openWindow("charsheet_abilityboost_sfrpg", sDBnode);
+					end
+				</script>
+			</button_details>
+
+    </sheetdata>
+  </windowclass>
+
+  <!--
+    <state_charammocounter name="ammocounter">
+	    <anchored to="uses" position="righthigh" offset="10,0" />
+		</state_charammocounter>      
+    -->
+  
+  <windowclass name="char_weapon_ranged" merge="join">
+    <sheetdata>
+      
+      <state_charammocounter name="ammocounter">
+        <script>
+        function onValueChanged()
+          local sDBnode = window.getDatabaseNode();
+          Debug.console("Ammo Counter DB Node: " .. sDBnode.getPath());
+
+          local nCount = DB.getValue(sDBnode, "ammo",0);
+          Debug.console("Ammo Counter changed to: " .. nCount);
+
+          checkInventory();
+        end
+        function checkInventory()
+          local sDBnode = window.getDatabaseNode();
+          local sWeaponNode = DB.getValue(sDBnode, "subtype","");
+
+          if sWeaponNode == "grenade" or sWeaponNode == "Grenade" then
+            Debug.console("Grenade used; checking if we can find its ammo count from the linked item from inventory list");
+            -- shortcut.recordname == ....inventorylist.id-00001
+            local sWeaponNode = DB.getChild(sDBnode, "shortcut.recordname");
+            Debug.console("checkInventory: sWeaponNode: " .. sWeaponNode);
+
+          else
+            Debug.console("checkInventory: not a grenade; " .. sWeaponNode);
+          end
+        end
+        </script>
+      </state_charammocounter>      
+
+    </sheetdata>
+  </windowclass>
+
+</root>

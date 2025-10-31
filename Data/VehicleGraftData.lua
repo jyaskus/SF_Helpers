@@ -269,21 +269,21 @@ end
 
 -- Debug function to list all available grafts
 function listAllGrafts()
-  Debug.console("=== Vehicle Graft Reference Data ===");
-  Debug.console("Type Grafts:");
+  sf.DebugOut("=== Vehicle Graft Reference Data ===");
+  sf.DebugOut("Type Grafts:");
   for k, v in pairs(typeGrafts) do
-    Debug.console("  " .. k .. " -> " .. v.name .. " (" .. v.recordname .. ")");
+    sf.DebugOut("  " .. k .. " -> " .. v.name .. " (" .. v.recordname .. ")");
   end
-  Debug.console("Size Grafts:");
+  sf.DebugOut("Size Grafts:");
   for k, v in pairs(sizeGrafts) do
-    Debug.console("  " .. k .. " -> " .. v.name .. " (" .. v.recordname .. ")");
+    sf.DebugOut("  " .. k .. " -> " .. v.name .. " (" .. v.recordname .. ")");
   end
-  Debug.console("Special Grafts:");
+  sf.DebugOut("Special Grafts:");
   for k, v in pairs(specialGrafts) do
-    Debug.console("  " .. k .. " -> " .. v.name .. " (" .. v.recordname .. ")");
+    sf.DebugOut("  " .. k .. " -> " .. v.name .. " (" .. v.recordname .. ")");
   end
-  Debug.console("Origin Grafts:");
+  sf.DebugOut("Origin Grafts:");
   for k, v in pairs(originGrafts) do
-    Debug.console("  " .. k .. " -> " .. v.name .. " (" .. v.recordname .. ")");
+    sf.DebugOut("  " .. k .. " -> " .. v.name .. " (" .. v.recordname .. ")");
   end
 end

@@ -1,45 +1,62 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root version="3.0">
 
-  <announcement text="QoL improvements for Fantasy Grounds Unity" font="emotefont"  />
+  <announcement text="QoL improvements for Starfinder 1e" font="emotefont"  />
 
 	<properties>
 		<name>SF_Helpers</name>
 		<version>1.0.0</version>
-		<loadorder>234</loadorder>
+		<loadorder>411</loadorder>
     <author>SgtWhy</author>
 
     <importruleset source="CoreRPG" />
 
     <ruleset name="CoreRPG" />
-    <ruleset name="PFRPG" />
     <ruleset name="SFRPG" />  
 
-    <description>Quality of Life improvements for Fantasy Grounds Unity Starfinder 1e</description>
+    <description>Quality of Life improvements for Fantasy Grounds Unity (Starfinder 1e); Uses rules from Starfinder Core Rulebook, 2017, Paizo Inc., Starfinder Tech Revolution, 2021, Paizo Inc and Alien Archive 3, 2019, Paizo Inc.</description>
 	</properties>
 
 	<base>
     <!--strings-->
     <includefile source="sf_strings.xml" />
 
-    <!-- SF fixes -->
-    <includefile source="xml/core_charsheet.xml" />
-    <includefile source="xml/sfrpg_ability.xml" />
-    <includefile source="xml/pfrpg_ability.xml" />
+    <!-- Dice roll handlers  -->
+    <script name="handlers" file="scripts/sf_handlers.lua" />
 
-    <includefile source="xml/veh_builder.xml" />
-
-    <includefile source="xml/sf_companions.xml" />
+    <!-- ability score details -->
+    <includefile source="xml/sf_charsheet.xml" />
+    <includefile source="xml/sf_abilityboost.xml" />
 
     <!-- icons -->
     <includefile source="graphics/graphics_icons.xml" />
 
+    <!-- helper functions -->
     <script name="sf" file="scripts/sf_helper.lua" />
+
+    <!-- vehicle wizard -->
+    <includefile source="xml/veh_builder.xml" /> 
     <script name="vehBuilder" file="scripts/veh_builder.lua" />
     <script name="VehicleGraftData" file="Data/VehicleGraftData.lua" />
+
+    <!-- companion wizard -->
+    <includefile source="xml/sf_companions.xml" />
     <script name="CompanionData" file="Data/CompanionData.lua" />
 
-    <string name="char_tooltip_abilitypointstotal">Total Ability Points (normally 10 pts)</string>
+    <!-- organization tables -->
+    <includefile source="xml/sf_organization.xml" />
+    
+    <includefile source="xml/detail_orgs.xml" />
+    <includefile source="xml/popup_orgs.xml" />
+
+    <includefile source="xml/detail_npcs.xml" />
+    <includefile source="xml/popup_npcs.xml" />
+
+    <icon name="sidebar_icon_recordtype_organization" file="graphics/icons/NPC.webp" />
+		<string name="library_recordtype_label_organization">Orgs</string>
+    <script name="OrganizationData" file="Data/OrganizationData.lua" />
+
+    <script name="SideBarData" file="scripts/data_library_sf.lua" />
 
     <!-- tokens -->
     <tokenroot >	

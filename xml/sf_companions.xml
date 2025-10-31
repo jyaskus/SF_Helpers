@@ -2,14 +2,21 @@
 <root>
 
   <windowclass name="companionSetDefaults">
-		<frame>referenceblock-page</frame>
+		<frame>charsheethelper</frame>
 		<placement>
 			<size height="400" width="400" />
 		</placement>
 		<sheetdata>
 
+      <stringcontrol name="companion_title">
+        <bounds>15,7,180,30</bounds>
+        <center />
+        <font>reference-h</font>
+        <static textres="label_companion_defaults" />
+      </stringcontrol>
+
       <number name="current_level">
-        <bounds>180,45,40,40</bounds>
+        <bounds>180,40,40,40</bounds>
         <default>1</default>
         <frame name="fieldlight" />
         <script>
@@ -58,7 +65,7 @@
         </script>
       </number>
       <label_fieldtop>
-				<bounds>160,30,80,20</bounds>
+				<bounds>160,75,80,20</bounds>
 				<static>level</static>
 			</label_fieldtop>
       <buttoncontrol name="level_up">
@@ -103,7 +110,7 @@
             local nodeHP = DB.getChild(sDBnode,"hp");
             DB.setValue(nodeHP, "total",   "number", nMaxHP);
             DB.setValue(nodeHP, "current", "number", nMaxHP);
-            Debug.console("Set Max HP to " .. nMaxHP);
+            sf.DebugOut("Set Max HP to " .. nMaxHP);
           end
         </script>
       </number>
@@ -114,13 +121,13 @@
       
       <number name="cost_current">
         <bounds>80,90,80,25</bounds>
-        <frame name="border" />
+        <frame name="fielddark" />
         <script>
           function onValueChanged()
             local sDBnode = window.getDatabaseNode();
             local nCurrentCost = getValue() or 0;
             DB.setValue(sDBnode,"currentcost","number",nCurrentCost);
-            Debug.console("Set Current Cost to " .. nCurrentCost);
+            sf.DebugOut("Set Current Cost to " .. nCurrentCost);
           end
         </script>
       </number>
@@ -130,7 +137,7 @@
       </label_fieldtop>
       <number name="cost_upgrade">
         <bounds>240,90,80,25</bounds>
-        <frame name="border" />
+        <frame name="fielddark" />
         <script>
           function onValueChanged()
             local sDBnode = window.getDatabaseNode();
@@ -138,7 +145,7 @@
             local nUpgradeCost = getValue() or 0;
             local nTrainingCost = nUpgradeCost - nCurrentCost;
             DB.setValue(sDBnode,"traincost","number",nTrainingCost);
-            Debug.console("Set Training Cost to " .. nTrainingCost);
+            sf.DebugOut("Set Training Cost to " .. nTrainingCost);
           end
         </script>
       </number>
@@ -165,7 +172,7 @@
 				<script>
 				function onValueChanged()
 				  local sStat = getValue();
-				  Debug.console("Primary Stat selected: " .. sStat);
+				  sf.DebugOut("Primary Stat selected: " .. sStat);
 				end
 				</script>
 			</button_stringcycler>
@@ -187,7 +194,7 @@
 				<script>
 				function onValueChanged()
 				  local sStat = getValue();
-				  Debug.console("Secondary Stat selected: " .. sStat);
+				  sf.DebugOut("Secondary Stat selected: " .. sStat);
 				end
 				</script>
 			</button_stringcycler>
@@ -202,7 +209,7 @@
         <state textres="button_dialog_ok_down" />
         <script>
           function onButtonPress()
-            Debug.console("Committing ability score changes...");
+            sf.DebugOut("Committing ability score changes...");
             
             local sDBnode = window.getDatabaseNode();
             local nLevel = window.current_level.getValue() or 1;
@@ -211,7 +218,7 @@
             
             -- Validate that primary and secondary are different
             if sPrimaryStat == sSecondaryStat then
-              Debug.console("ERROR: Primary and Secondary stats must be different!");
+              sf.ErrorOut("Primary and Secondary stats must be different!");
               return;
             end
             
@@ -229,7 +236,7 @@
               DB.setValue(nodeAbility, "score", "number", defaultScore);
               DB.setValue(nodeAbility, "bonus", "number", defaultBonus);
               
-              Debug.console("Reset " .. ability .. " to score " .. defaultScore .. " (bonus " .. defaultBonus .. ")");
+              sf.DebugOut("Reset " .. ability .. " to score " .. defaultScore .. " (bonus " .. defaultBonus .. ")");
             end
             
             -- Step 2: Apply primary stat bonus
@@ -242,7 +249,7 @@
               DB.setValue(nodePrimary, "score", "number", nPrimaryScore);
               DB.setValue(nodePrimary, "bonus", "number", nPrimaryBonus);
               
-              Debug.console("Set Primary Stat " .. sPrimaryStat .. " to score " .. nPrimaryScore .. " (bonus " .. nPrimaryBonus .. ")");
+              sf.DebugOut("Set Primary Stat " .. sPrimaryStat .. " to score " .. nPrimaryScore .. " (bonus " .. nPrimaryBonus .. ")");
             end
             
             -- Step 3: Apply secondary stat bonus
@@ -255,10 +262,10 @@
               DB.setValue(nodeSecondary, "score", "number", nSecondaryScore);
               DB.setValue(nodeSecondary, "bonus", "number", nSecondaryBonus);
               
-              Debug.console("Set Secondary Stat " .. sSecondaryStat .. " to score " .. nSecondaryScore .. " (bonus " .. nSecondaryBonus .. ")");
+              sf.DebugOut("Set Secondary Stat " .. sSecondaryStat .. " to score " .. nSecondaryScore .. " (bonus " .. nSecondaryBonus .. ")");
             end
             
-            Debug.console("Ability score commit complete!");
+            sf.DebugOut("Ability score commit complete!");
           end
         </script>
         <tooltip textres="tooltip_apply_stats_button" />
@@ -277,7 +284,7 @@
             local nLevel = window.current_level.getValue() or 1;
             local nEAC = CompanionData.getLevelEAC(nLevel);
             setValue(nEAC);
-            Debug.console("EAC updated to: " .. nEAC);
+            sf.DebugOut("EAC updated to: " .. nEAC);
           end
           
           function onValueChanged()
@@ -285,7 +292,7 @@
             local sDBnode = window.getDatabaseNode();
             -- Write to ac.sources.eac.misc (using misc instead of armor for natural AC)
             DB.setValue(sDBnode, "ac.sources.eac.misc", "number", nEAC);
-            Debug.console("Set EAC misc to " .. nEAC);
+            sf.DebugOut("Set EAC misc to " .. nEAC);
           end
         </script>
       </number>
@@ -314,7 +321,7 @@
             -- write BaB
             local sDBnode = window.getDatabaseNode();
             DB.setValue(sDBnode,"attackbonus.base","number",nBAB);
-            Debug.console("Set Base Attack Bonus to " .. nBAB);
+            sf.DebugOut("Set Base Attack Bonus to " .. nBAB);
               if sf and sf.updateAttackStrings then
                 sf.updateAttackStrings(sDBnode);
               end
@@ -339,7 +346,7 @@
             local nLevel = window.current_level.getValue() or 1;
             local nKAC = CompanionData.getLevelKAC(nLevel);
             setValue(nKAC);
-            Debug.console("KAC updated to: " .. nKAC);
+            sf.DebugOut("KAC updated to: " .. nKAC);
           end
           
           function onValueChanged()
@@ -347,7 +354,7 @@
             local sDBnode = window.getDatabaseNode();
             -- Write to ac.sources.kac.misc (using misc instead of armor for natural AC)
             DB.setValue(sDBnode, "ac.sources.kac.misc", "number", nKAC);
-            Debug.console("Set KAC misc to " .. nKAC);
+            sf.DebugOut("Set KAC misc to " .. nKAC);
           end
         </script>
       </number>
@@ -375,11 +382,11 @@
           local sSaveType = getStringValue();
           local nSaveBonus = 0;
           local nLevel = window.current_level.getValue() or 1;          
-          Debug.console("Fortitude Save Type selected: " .. sSaveType);
+          sf.DebugOut("Fortitude Save Type selected: " .. sSaveType);
 
           -- get the good or base save from reference data then write to DB
           if sSaveType == "" then
-            Debug.console("No save type selected, skipping.");
+            sf.DebugOut("No save type selected, skipping.");
             return;
           elseif sSaveType == "good"  then
             nSaveBonus = CompanionData.getLevelGoodSave(nLevel);
@@ -414,11 +421,11 @@
           local sSaveType = getStringValue();
           local nSaveBonus = 0;
           local nLevel = window.current_level.getValue() or 1;          
-          Debug.console("Reflex Save Type selected: " .. sSaveType);
+          sf.DebugOut("Reflex Save Type selected: " .. sSaveType);
 
           -- get the good or base save from reference data then write to DB
           if sSaveType == "" then
-            Debug.console("No save type selected, skipping.");
+            sf.DebugOut("No save type selected, skipping.");
             return;
           elseif sSaveType == "good"  then
             nSaveBonus = CompanionData.getLevelGoodSave(nLevel);
@@ -453,11 +460,11 @@
           local sSaveType = getStringValue();
           local nSaveBonus = 0;
           local nLevel = window.current_level.getValue() or 1;          
-          Debug.console("Will Save Type selected: " .. sSaveType);
+          sf.DebugOut("Will Save Type selected: " .. sSaveType);
 
           -- get the good or base save from reference data then write to DB
           if sSaveType == "" then
-            Debug.console("No save type selected, skipping.");
+            sf.DebugOut("No save type selected, skipping.");
             return;
           elseif sSaveType == "good"  then
             nSaveBonus = CompanionData.getLevelGoodSave(nLevel);
@@ -492,7 +499,7 @@
             local nLevel = window.current_level.getValue() or 1;
             local nBonus = CompanionData.getLevelSkillBonus(nLevel);
             setValue(nBonus);
-            Debug.console("Skill bonus updated to: " .. nBonus);
+            sf.DebugOut("Skill bonus updated to: " .. nBonus);
           end
         </script>
       </number>
@@ -503,19 +510,19 @@
 
       <buttoncontrol name="button_apply_skills">
         <frame name="filter_active" />
-        <bounds>120,290,30,25</bounds>
+        <bounds>125,290,30,25</bounds>
         <state textres="button_dialog_ok" />
         <state textres="button_dialog_ok_down" />
         <script>
           function onButtonPress()
-            Debug.console("Applying skill bonuses...");
+            sf.DebugOut("Applying skill bonuses...");
             
             local sDBnode = window.getDatabaseNode();
             local nSkillBonus = window.nSkillBonus.getValue() or 0;
             local sSkillList = window.sSkillList.getValue() or "";
             
             if sSkillList == "" then
-              Debug.console("ERROR: No skills specified!");
+              sf.ErrorOut("No skills specified!");
               return;
             end
             
@@ -540,7 +547,7 @@
             -- Write to database
             DB.setValue(sDBnode, "skills", "string", sFormattedSkills);
             
-            Debug.console("Skills updated: " .. sFormattedSkills);
+            sf.DebugOut("Skills updated: " .. sFormattedSkills);
           end
         </script>
         <tooltip textres="tooltip_update_skills_button" />
@@ -587,15 +594,15 @@
 
       <button_details name="button_companion_defaults">
         <bounds>-65,5,20,20</bounds>
-        <icon normal="button_ctnextround" />
-        <icon normal="button_ctnextround_down" />
+        <icon normal="button_edit" />
+        <icon normal="button_edit_down" />
 				<script>
 					function onButtonPress()
             local sDBnode = window.getDatabaseNode();
-            Debug.console("DB Node: " .. sDBnode.getPath());
+            sf.DebugOut("DB Node: " .. sDBnode.getPath());
 
             local sRuleset = Interface.getRuleset();
-            Debug.console("Using ruleset: " .. sRuleset, true);
+            sf.DebugOut("Using ruleset: " .. sRuleset, true);
 
             Interface.openWindow("companionSetDefaults", sDBnode);
 					end

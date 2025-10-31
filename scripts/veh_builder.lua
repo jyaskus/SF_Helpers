@@ -5,16 +5,16 @@
 function vehBuilder_createVehicleRecord(charNode, w)
   -- Validate inputs
   if not charNode then
-    Debug.console("ERROR: No character DB node provided");
+    sf.DebugOut("ERROR: No character DB node provided");
     return;
   end
 
   if not w then
-    Debug.console("ERROR: No window reference provided");
+    sf.DebugOut("ERROR: No window reference provided");
     return;
   end
 
-  Debug.console("Creating vehicle for character: " .. charNode.getPath());
+  sf.DebugOut("Creating vehicle for character: " .. charNode.getPath());
 
   -- Get vehicle properties from the builder
   local nLevel = w.nLevel.getValue() or 1;
@@ -25,11 +25,11 @@ function vehBuilder_createVehicleRecord(charNode, w)
   local sSpecial2 = w.StringCyclerVehSpecial2.getStringValue() or "none";
 
   -- Debug output for origin
-  Debug.console("Vehicle Origin Value: '" .. tostring(sOrigin) .. "'");
-  Debug.console("Origin empty check: " .. tostring(sOrigin == ""));
-  Debug.console("Origin none check: " .. tostring(sOrigin == "none"));
-  Debug.console("Origin standard check: " .. tostring(sOrigin == "standard"));
-  Debug.console("Will create origin graft: " .. tostring(sOrigin ~= "" and sOrigin ~= "none" and sOrigin ~= "standard"));
+  sf.DebugOut("Vehicle Origin Value: '" .. tostring(sOrigin) .. "'");
+  sf.DebugOut("Origin empty check: " .. tostring(sOrigin == ""));
+  sf.DebugOut("Origin none check: " .. tostring(sOrigin == "none"));
+  sf.DebugOut("Origin standard check: " .. tostring(sOrigin == "standard"));
+  sf.DebugOut("Will create origin graft: " .. tostring(sOrigin ~= "" and sOrigin ~= "none" and sOrigin ~= "standard"));
 
   -- Get total stats
   local nTotalPrice = w.nTotalPrice.getValue() or 0;
@@ -74,22 +74,24 @@ function vehBuilder_createVehicleRecord(charNode, w)
   local sDescription = buildVehicleDescription(sVehType, sSize, sOrigin, sSpecial1, sSpecial2, w);
 
   -- Create the vehicles node if it doesn't exist
+  -- pathing changed to charsheet.id-00001.vehicleBuilder.vehicles.id-00001 
+  -- we need to adjust our logic since the vehicle builder data is kept seperate from the created vehicles
   local vehiclesNode = DB.createChild(charNode, "vehicles");
   if not vehiclesNode then
-    Debug.console("ERROR: Could not create vehicles node");
+    sf.ErrorOut("Could not create vehicles node");
     return;
   end
 
   -- Create a new vehicle entry
   local newVehicle = DB.createChild(vehiclesNode);
   if not newVehicle then
-    Debug.console("ERROR: Could not create new vehicle entry");
+    sf.ErrorOut("Could not create new vehicle entry");
     return;
   end
   
   -- Get the vehicle's database node name (e.g., "id-00001")
   local newVehicleID = newVehicle.getName();
-  Debug.console("Created vehicle with ID: " .. newVehicleID);
+  sf.DebugOut("Created vehicle with ID: " .. newVehicleID);
 
   -- Set basic properties
   DB.setValue(newVehicle, "name", "string", sVehicleName);
@@ -223,7 +225,7 @@ function vehBuilder_createVehicleRecord(charNode, w)
     DB.setValue(newVehicle, "origingraftlink", "windowreference", "", "");
   end
 
-  Debug.console("Vehicle base data created successfully: " .. sVehicleName);
+  sf.DebugOut("Vehicle base data created successfully: " .. sVehicleName);
   
   -- Return the vehicle node so we can create the link AFTER this function completes
   return newVehicle;
@@ -232,22 +234,22 @@ end
 -- Helper function to create the vehicle link after the vehicle is fully in the database
 function vehBuilder_createVehicleLink(vehicleNode)
   if not vehicleNode then
-    Debug.console("ERROR: No vehicle node provided for link creation");
+    sf.DebugOut("ERROR: No vehicle node provided for link creation");
     return false;
   end
   
   -- Get the absolute database path for the vehicle
   local vehiclePath = vehicleNode.getPath();
   
-  Debug.console("Creating vehicle link for: " .. vehiclePath);
+  sf.DebugOut("Creating vehicle link for: " .. vehiclePath);
   
   -- Use DB.setValue with windowreference type (matching SFRPG's approach)
   -- This is the same pattern used in record_char_inventory.xml line 505
   DB.setValue(vehicleNode, "link", "windowreference", "charvehicle", vehiclePath);
   
-  Debug.console("Vehicle link created successfully");
-  Debug.console("  class: charvehicle");
-  Debug.console("  path: " .. vehiclePath);
+  sf.DebugOut("Vehicle link created successfully");
+  sf.DebugOut("  class: charvehicle");
+  sf.DebugOut("  path: " .. vehiclePath);
   
   return true;
 end
@@ -707,7 +709,7 @@ function createOriginGraftPart(partNode, originGraft)
   -- Get the origin data from our reference system
   local originData = VehicleGraftData.getOriginGraftData(originGraft);
   if not originData then
-    Debug.console("Origin graft not found in reference: " .. originGraft);
+    sf.DebugOut("Origin graft not found in reference: " .. originGraft);
     return;
   end
   
@@ -736,5 +738,5 @@ function createOriginGraftPart(partNode, originGraft)
   DB.setValue(partNode, "abilityscore", "number", 0);
   DB.setValue(partNode, "strength_enc", "number", 0);
   
-  Debug.console("Created origin graft: " .. originData.name .. " as id-00005");
+  sf.DebugOut("Created origin graft: " .. originData.name .. " as id-00005");
 end
