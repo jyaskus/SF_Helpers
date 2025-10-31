@@ -63,7 +63,20 @@ function vehBuilder_createVehicleRecord(charNode, w)
     sVehicleName = sUserVehName;
   else
     -- Fall back to default auto-generated pattern
-    local sCharName = DB.getValue(charNode, "name", "Character");
+    -- Resolve real character node in case the builder was opened on a temporary child
+    local resolvedCharNode = charNode;
+    local sCharPathTmp = tostring(charNode.getPath and charNode.getPath() or "");
+    if sCharPathTmp and sCharPathTmp ~= "" then
+      local sParentPathTmp = string.match(sCharPathTmp, "^(.-)%.vehicleBuilder")
+      if sParentPathTmp and sParentPathTmp ~= "" then
+        local pnodeTmp = DB.findNode(sParentPathTmp);
+        if pnodeTmp then
+          resolvedCharNode = pnodeTmp;
+        end
+      end
+    end
+
+    local sCharName = DB.getValue(resolvedCharNode, "name", "Character");
     sVehicleName = "(" .. sCharName .. ") " .. sVehType:gsub("^%l", string.upper);
   end
 
@@ -74,9 +87,28 @@ function vehBuilder_createVehicleRecord(charNode, w)
   local sDescription = buildVehicleDescription(sVehType, sSize, sOrigin, sSpecial1, sSpecial2, w);
 
   -- Create the vehicles node if it doesn't exist
-  -- pathing changed to charsheet.id-00001.vehicleBuilder.vehicles.id-00001 
-  -- we need to adjust our logic since the vehicle builder data is kept seperate from the created vehicles
-  local vehiclesNode = DB.createChild(charNode, "vehicles");
+  -- Ensure we create vehicle records under the character's `vehicles` node.
+  -- If the builder window was opened with a temporary child (e.g. "vehicleBuilder"),
+  -- resolve the real character node by trimming that suffix from the path and
+  -- using DB.findNode to get the parent character node.
+  local vehiclesParentNode = charNode;
+  local sCharPath = tostring(charNode.getPath and charNode.getPath() or "");
+  if sCharPath and sCharPath ~= "" then
+  -- If opened on a child like "...vehicleBuilder...", extract the portion before ".vehicleBuilder"
+  local sParentPath = string.match(sCharPath, "^(.-)%.vehicleBuilder")
+    if sParentPath and sParentPath ~= "" then
+      local pnode = DB.findNode(sParentPath);
+      if pnode then
+        vehiclesParentNode = pnode;
+        sf.DebugOut("Resolved vehicles parent node to: " .. vehiclesParentNode.getPath());
+      else
+        sf.DebugOut("Could not resolve parent node from path: " .. sParentPath .. ", falling back to original node: " .. sCharPath);
+      end
+    end
+  end
+
+  -- Create or get the vehicles node under the resolved parent
+  local vehiclesNode = DB.getChild(vehiclesParentNode, "vehicles") or DB.createChild(vehiclesParentNode, "vehicles");
   if not vehiclesNode then
     sf.ErrorOut("Could not create vehicles node");
     return;

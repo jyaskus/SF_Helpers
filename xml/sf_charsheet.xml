@@ -49,8 +49,6 @@
           if sWeaponNode == "grenade" or sWeaponNode == "Grenade" then
             Debug.console("Grenade used; checking if we can find its ammo count from the linked item from inventory list");
             -- shortcut.recordname == ....inventorylist.id-00001
-            local sWeaponNode = DB.getChild(sDBnode, "shortcut.recordname");
-            Debug.console("checkInventory: sWeaponNode: " .. sWeaponNode);
 
           else
             Debug.console("checkInventory: not a grenade; " .. sWeaponNode);

@@ -1932,7 +1932,7 @@
             local sRuleset = Interface.getRuleset();
             sf.DebugOut("Using ruleset: " .. sRuleset, true);
 
-            Interface.openWindow("vhBuilder", sDBnode);
+            Interface.openWindow("vhBuilder", sDBnodeChild);
 					end
 				</script>
 			</button_details>

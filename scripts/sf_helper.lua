@@ -1,5 +1,5 @@
 -- enable to view more terse debug messages
-DEBUG_CONSOLE = false;
+DEBUG_CONSOLE = true;
 
 function ErrorOut(sMessage)
   if Session.IsHost then
@@ -9,7 +9,7 @@ end
 
 function DebugOut(sMessage)
   if DEBUG_CONSOLE == true then
-    sf.DebugOut(sMessage);
+    Debug.console(sMessage);
   end
 end
 
