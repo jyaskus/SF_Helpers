@@ -38,12 +38,8 @@
             checkGrenade();
 
             -- then we call the outer reload action to do the normal behavior
-            local sDBnode = window.getDatabaseNode();
-            if not sDBnode then
-              if WindowManager and WindowManager.callOuterWindowFunction then
-                WindowManager.callOuterWindowFunction(window, "onReloadAction")
-              end
-              return
+            if WindowManager and WindowManager.callOuterWindowFunction then
+              WindowManager.callOuterWindowFunction(window, "onReloadAction");
             end
           end
 
@@ -52,124 +48,45 @@
             -- determine subtype
             local sDBnode = window.getDatabaseNode();
             local sSubtype = DB.getValue(sDBnode, "subtype", "")
-            Debug.console("uses:onDoubleClick subtype=" .. tostring(sSubtype));
+            sf.DebugOut("uses:onDoubleClick subtype=" .. tostring(sSubtype));
 
             if not (sSubtype == "grenade" or sSubtype == "Grenade") then
               -- not a grenade, return so it can continue as before
               return;
             end
 
-            -- debug the path using hard coded test nodes
-            Debug.console("sDBnode path: " .. sDBnode.getPath());
-
-            -- testing the solution
-            local sWeapName = DB.getValue(sDBnode, "name", "");
-            Debug.console("uses:onDoubleClick weapon name: " .. tostring(sWeapName));
-            local sClass, sRecordName = DB.getValue(sDBnode, "shortcut");
-            local vInvNode = DB.findNode(sRecordName);
-            Debug.console("linked inventory node: " .. tostring(vInvNode and vInvNode.getPath() or "nil"));
-            local nCount = DB.getValue(vInvNode, "count", 0);
-            Debug.console("(linked inventory) test inventory count: " .. tostring(nCount) );
-            -- testing complete
-
-            -- grenade: find linked inventory node
-            -- safer read: attempt to read the nested shortcut child first, then fall back
-            local shortcutNode = DB.getChild(sDBnode, "shortcut")
-            local sRecordName = ""
-            if shortcutNode then
-              sRecordName = DB.getText(shortcutNode, "recordname", "")
-              Debug.console("uses:onDoubleClick shortcut node found: " .. tostring(shortcutNode.getPath()))
-            else
-              Debug.console("uses:onDoubleClick shortcut node NOT found; trying fallback")
-              -- fallback attempt (some DB shims may expose dotted fields differently)
-              sRecordName = DB.getText(sDBnode, "shortcut.recordname", "")
-            end
-            Debug.console("uses:onDoubleClick shortcut.recordname=" .. tostring(sRecordName))
+            -- grenade: find linked inventory node using the windowreference value (class, recordname)
+            local sShortcutClass, sRecordName = DB.getValue(sDBnode, "shortcut")
+            sf.DebugOut("uses:onDoubleClick shortcut class=" .. tostring(sShortcutClass) .. ", recordname=" .. tostring(sRecordName))
             local nodeInv = nil
-            if sRecordName ~= "" then
+            if sRecordName and sRecordName ~= "" then
               nodeInv = DB.findNode(sRecordName)
             end
 
-            -- if not found, try resolving relative (leading dots) against weapon path
-            if (not nodeInv) and sRecordName ~= "" then
-              -- count leading dots
-              local dotCount = 0
-              for i = 1, #sRecordName do
-                if sRecordName:sub(i,i) == '.' then dotCount = dotCount + 1 else break end
-              end
-              Debug.console("uses:onDoubleClick: leading dots=" .. tostring(dotCount))
-              if sf.isGt(dotCount, 0) then
-                local sSuffix = sRecordName:sub(dotCount + 1)
-                local sWeaponPath = ""
-                if sDBnode.getPath then sWeaponPath = sDBnode.getPath() end
-                Debug.console("uses:onDoubleClick weaponPath=" .. tostring(sWeaponPath))
-
-                -- split weapon path into components and walk up dotCount parents
-                local parts = {}
-                for part in sWeaponPath:gmatch('[^%.]+') do
-                  table.insert(parts, part)
-                end
-                Debug.console("uses:onDoubleClick weaponPath parts=" .. tostring(#parts))
-                if sf.isGt(#parts, 0) then
-                  local up = dotCount
-                  if sf.isGt(up, #parts) then up = #parts end
-                  for i = 1, up do table.remove(parts) end
-                  local sBase = table.concat(parts, '.')
-                  if sBase and sBase ~= '' and sSuffix and sSuffix ~= '' then
-                    local sCandidate = sBase .. '.' .. sSuffix
-                    Debug.console("uses:onDoubleClick trying candidate=" .. tostring(sCandidate))
-                    nodeInv = DB.findNode(sCandidate)
-                  end
-                end
-              end
-            end
-
+            -- give up if no linked inventory found
             if not nodeInv then
-              Debug.console("uses:onDoubleClick: no linked inventory found")
-              if WindowManager and WindowManager.callOuterWindowFunction then
-                WindowManager.callOuterWindowFunction(window, "onReloadAction")
-              end
-              return
+              sf.ErrorOut("uses:onDoubleClick: no linked inventory found");
+              return;
             end
 
-            -- get inventory count: prefer carried, fall back to uses
-            local nInvCarried = DB.getValue(nodeInv, "carried", nil)
-            local nInvUses = DB.getValue(nodeInv, "uses", nil)
-            Debug.console("uses:onDoubleClick nodeInv.carried=" .. tostring(nInvCarried) .. ", uses=" .. tostring(nInvUses))
-            local nInvCount = 0
-            if nInvCarried ~= nil then nInvCount = nInvCarried else if nInvUses ~= nil then nInvCount = nInvUses end end
+            -- get inventory count from linked inventory item "count" element
+            local nInvCount = DB.getValue(nodeInv, "count", 0);
+            local nInvUses = DB.getValue(nodeInv, "uses", 0)
+            sf.DebugOut("linked inventory count=" .. tostring(nInvCount) .. ", uses=" .. tostring(nInvUses));
 
-            -- read current ammo (shots fired). If zero, just sync Uses to inventory and reload.
+            -- get the "ammo" count to determine how many grenades were used
             local nAmmo = DB.getValue(sDBnode, "ammo", 0)
-            Debug.console("uses:onDoubleClick current ammo=" .. tostring(nAmmo) .. ", invCount=" .. tostring(nInvCount))
-
-            if nAmmo == 0 then
-              -- sync uses to inventory
-              DB.setValue(sDBnode, "uses", "number", nInvCount)
-              Debug.console("uses:onDoubleClick synced uses to " .. tostring(nInvCount))
-              if WindowManager and WindowManager.callOuterWindowFunction then
-                WindowManager.callOuterWindowFunction(window, "onReloadAction")
-              end
-              return
-            end
-
-            -- ammo gt 0: consume that many from inventory (or at least 1). Compute new inventory count.
+            sf.DebugOut("uses:onDoubleClick current used ammo=" .. tostring(nAmmo) .. ", invCount=" .. tostring(nInvCount))
+            
+            -- determine the adjust new inventory count and set it in both places (uses and inventorylist count)
             local nToConsume = tonumber(nAmmo) or 0
             local nNewInv = math.max(nInvCount - nToConsume, 0)
-            Debug.console("uses:onDoubleClick consuming " .. tostring(nToConsume) .. ", newInv=" .. tostring(nNewInv))
+            sf.DebugOut("uses:onDoubleClick consuming " .. tostring(nToConsume) .. ", newInv=" .. tostring(nNewInv))
 
-            if DB.getValue(nodeInv, "carried", nil) ~= nil then
-              DB.setValue(nodeInv, "carried", "number", nNewInv)
-            else
-              DB.setValue(nodeInv, "uses", "number", nNewInv)
-            end
-
-            -- update weapon uses and let the outer reload clear ammo
-            DB.setValue(sDBnode, "uses", "number", nNewInv)
-            Debug.console("uses:onDoubleClick set weapon uses to " .. tostring(nNewInv) .. ", calling outer reload")
-            if WindowManager and WindowManager.callOuterWindowFunction then
-              WindowManager.callOuterWindowFunction(window, "onReloadAction")
-            end
+            -- now set the adjusted inventory counts
+            DB.setValue(nodeInv, "count", "number", nNewInv);
+            DB.setValue(sDBnode, "uses", "number", nNewInv);
+            sf.DebugOut("uses:onDoubleClick set inventory count and weapon uses to " .. tostring(nNewInv));
 					end
 				</script>
 			</number_content_base>  

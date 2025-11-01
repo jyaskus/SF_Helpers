@@ -1,5 +1,5 @@
 -- enable to view more terse debug messages
-DEBUG_CONSOLE = true;
+DEBUG_CONSOLE = false;
 
 function ErrorOut(sMessage)
   if Session.IsHost then
