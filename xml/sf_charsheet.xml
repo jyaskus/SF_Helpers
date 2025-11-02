@@ -60,7 +60,7 @@
             sf.DebugOut("uses:onDoubleClick shortcut class=" .. tostring(sShortcutClass) .. ", recordname=" .. tostring(sRecordName))
             local nodeInv = nil
             if sRecordName and sRecordName ~= "" then
-              nodeInv = DB.findNode(sRecordName)
+              nodeInv = DB.findNode(sRecordName);
             end
 
             -- give up if no linked inventory found
@@ -81,12 +81,12 @@
             -- determine the adjust new inventory count and set it in both places (uses and inventorylist count)
             local nToConsume = tonumber(nAmmo) or 0
             local nNewInv = math.max(nInvCount - nToConsume, 0)
-            sf.DebugOut("uses:onDoubleClick consuming " .. tostring(nToConsume) .. ", newInv=" .. tostring(nNewInv))
+            Debug.console("uses:onDoubleClick consuming " .. tostring(nToConsume) .. ", newInv=" .. tostring(nNewInv))
 
             -- now set the adjusted inventory counts
             DB.setValue(nodeInv, "count", "number", nNewInv);
             DB.setValue(sDBnode, "uses", "number", nNewInv);
-            sf.DebugOut("uses:onDoubleClick set inventory count and weapon uses to " .. tostring(nNewInv));
+            Debug.console("uses:onDoubleClick set inventory count and weapon uses to " .. tostring(nNewInv));
 					end
 				</script>
 			</number_content_base>  

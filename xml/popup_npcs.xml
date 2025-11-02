@@ -36,15 +36,13 @@
 				<empty textres="organizations_tooltip_linkNPC" />
 				<tooltip textres="organizations_tooltip_linkNPC" />
       </formattedtextfield>
-
 			
 			<genericcontrol name="npc_name_frame">
 				<frame name="ctentrybox_foe" />
-				<bounds>25,5,175,30</bounds>
+				<bounds>5,10,175,30</bounds>
 			</genericcontrol>
 			<stringfield name="npc_name">
-				<bounds>45,10,150,20</bounds>
-				<color>#FF000000</color>
+				<bounds>30,15,150,20</bounds>
 				<font>reference-b-large</font>
 				<controlline />
 				<lineoffset>-2</lineoffset>
@@ -52,7 +50,7 @@
 
 			<number name="npc_CR">
 				<frame name="token_ordinal" />
-				<bounds>205,8,30,30</bounds>
+				<bounds>205,15,30,30</bounds>
 				<tooltip textres="detail_npcs_CR_Tooltip" />
 				<script>
 				function onInit()
@@ -64,12 +62,6 @@
 			<button_iconcycler name="statusIconCycler">
 				<bounds>260,10,40,40</bounds>
 				<frame name="border" />
-				<!--parameters>
-					<nodefault />
-					<icons>status_001|status_002|status_003|status_004|status_005|status_006|status_007|status_008|status_009|status_010|status_011|status_012</icons>
-					<values>Active|Idle|Deployed|Enroute|Dark|Wounded|Flagged|Recruiting|Tasked|Breifing|Suspended|MIA</values>
-					<tooltipsres>detail_npc_status_001|detail_npc_status_002|detail_npc_status_003|detail_npc_status_004|detail_npc_status_005|detail_npc_status_006|detail_npc_status_007|detail_npc_status_008|detail_npc_status_009|detail_npc_status_010|detail_npc_status_011|detail_npc_status_012</tooltipsres>
-				</parameters-->
 				<parameters>
 					<defaulticon>status_001</defaulticon>
 					<icons>status_001|status_002|status_003|status_004|status_005|status_006|status_007|status_008|status_009|status_010|status_011|status_012</icons>
@@ -144,29 +136,29 @@
 			</stringfield>
 
 			<stringfield name="sDescription">
-                <bounds>20,150,-20,30</bounds>
-                <center />
+        <bounds>20,150,-20,30</bounds>
+        <center />
 				<empty textres="detail_npcs_title_empty" />
 			</stringfield>
 
-            <formattedtextfield name="freeText1">
-        	    <bounds>30,180,-25,-20</bounds>
-                <empty textres="detail_npcs_desc_empty" />
+      <formattedtextfield name="freeText1">
+        <bounds>30,180,-25,-20</bounds>
+        <empty textres="detail_npcs_desc_empty" />
 				<frame name="fielddark" offset="10,10,10,10" />
-      		</formattedtextfield>
+      </formattedtextfield>
 
-            <buttoncontrol name="closeButton">
-        		<frame>
-        			<name>buttonup</name>
-       			</frame>
-        		<bounds>-30,8,20,20</bounds>
-        		<state icon="close_button" />
+      <buttoncontrol name="closeButton">
+        <frame>
+        	<name>buttonup</name>
+       	</frame>
+        <bounds>-28,5,26,26</bounds>
+        <state icon="button_toolbar_window_close" />
 				<script>
 				function onButtonPress()
-          			window.close();
+          window.close();
 				end
 				</script>
-      		</buttoncontrol>
+      </buttoncontrol>
     
 		</sheetdata>
 	</windowclass>

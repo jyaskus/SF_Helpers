@@ -33,6 +33,18 @@ function isGe(nValue, nTest)
   return (nValue >= nTest);
 end
 
+function defaultOrgName()
+  return "<< NPC Org >>";
+end
+
+function defaultNPCname()
+  return "<< Org NPC  >>";
+end
+
+function defaultName(sName)
+  return "<< " .. sName .. " >>";
+end
+
 function stringRemoveMod(sActionName)
   local sName = sActionName;
   local sDelimiter = " %[";
@@ -165,7 +177,7 @@ function countOfficers(sDBnode)
     sf.DebugOut("countOfficers: " .. sName .. " rank=" .. nRank);
   end
 
-  DB.findNode("galacticTrade.nOfficers").setValue(nTotal);
+  DB.findNode("organizations.nOfficers").setValue(nTotal);
   sf.DebugOut("countOfficers: " .. nTotal);
 end
 
@@ -193,7 +205,7 @@ function countMembers(sDBnode)
     sf.DebugOut("countMembers: " .. sName .. " rank=" .. nRank);
   end
 
-  DB.findNode("galacticTrade.nMembers").setValue(nTotal);
+  DB.findNode("organizations.nMembers").setValue(nTotal);
   sf.DebugOut("countMembers: " .. nTotal);
 end
 
@@ -221,7 +233,7 @@ function countFollowers(sDBnode)
     sf.DebugOut("countFollowers: " .. sName .. " rank=" .. nRank);    
   end
 
-  DB.findNode("galacticTrade.nFollowers").setValue(nTotal);
+  DB.findNode("organizations.nFollowers").setValue(nTotal);
   sf.DebugOut("countFollowers: " .. nTotal);
 end
 

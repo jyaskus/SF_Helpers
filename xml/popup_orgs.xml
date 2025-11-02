@@ -9,7 +9,7 @@
 
 	<windowclass name="popup_orgs">
 		<placement>
-		  <size height="570" width="550" />
+		  <size height="470" width="470" />
 		</placement>
     <frame>
       <name>referencelist</name>
@@ -17,16 +17,19 @@
 		<sheetdata>
 
 			<windowlist name="list_organizations">
-				<frame name="" />
-				<bounds>20,30,-18,-20</bounds>
+				<frame name="groupbox" offset="5,0,5,0"/>
+				<bounds>25,80,-30,-60</bounds>
 				<class>detail_orgs</class>
 				<datasource>.organization_list</datasource>
+
 				<allowcreate />
         <allowdelete />
+
         <sortby>
 				  <control desc="true">orgLevel</control>
       	  <control>orgName</control>
         </sortby>
+
       </windowlist>
       <scrollbarcontrol name="scrollbar_orgs">
         <bounds>-26,35,20,-35</bounds>
@@ -38,42 +41,34 @@
         <normal name="scrollbutton_normal">
           <minimum height="scrollbutton_normal" />
         </normal>
-      </scrollbarcontrol>
+      </scrollbarcontrol>			
 
-			<buttoncontrol name="help_button_organization">
-				<frame>
-					<name>buttonup</name>
-				</frame>
-				<bounds>-45,2,20,20</bounds>
-				<state icon="help_button" />
-				<state icon="help_button_down" />
-				<font>button-white</font>
+      <stringcontrol name="page_orgsTitle">
+        <bounds>90,0,-90,30</bounds>
+        <center />
+        <default textres="sf_main_label_organizations_title" />
+        <font>windowtitle</font>
+        <frame name="windowtitle" />
+				<readonly />
+      </stringcontrol>
+
+      <buttoncontrol name="help_button_organization">
+				<frame name="buttonup" />
+				<bounds>-68,5,26,26</bounds>
+				<state icon="button_toolbar_help" />
 				<script>
 				function onButtonPress()
-					local sDBnode = "galacticTrade";
+					local sDBnode = "organizations";
 					Interface.openWindow("sf_organization_help_popup", sDBnode);
 				end
 				</script>
 				<tooltip textres="nm_tooltip_help_button" /> 
 			</buttoncontrol>
 
-      <stringcontrol name="page_orgsTitle">
-        <bounds>140,0,-160,30</bounds>
-        <center />
-        <default textres="sf_main_label_organizations_title" />
-        <font>windowtitle</font>
-        <frame>
-          <name>windowtitle</name>
-        </frame>
-				<readonly />
-      </stringcontrol>
-
       <buttoncontrol name="closeButton">
-      	<frame>
-        	<name>buttonup</name>
-       	</frame>
-        <bounds>-22,2,20,20</bounds>
-        <state icon="close_button" />
+      	<frame name="buttonup" />
+        <bounds>-28,5,26,26</bounds>
+        <state icon="button_toolbar_window_close" />
 				<script>
 				function onButtonPress()
           window.close();

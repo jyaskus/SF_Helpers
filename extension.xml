@@ -1,17 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root version="3.0">
 
-  <announcement text="QoL improvements for Starfinder 1e" font="emotefont"  />
+  <announcement text="QoL improvements for Starfinder 1e (10.31.2025)" font="emotefont"  />
 
 	<properties>
 		<name>SF_Helpers</name>
 		<version>1.0.0</version>
-		<loadorder>411</loadorder>
+		<loadorder>420</loadorder>
     <author>SgtWhy</author>
 
     <importruleset source="CoreRPG" />
-
-    <ruleset name="CoreRPG" />
     <ruleset name="SFRPG" />  
 
     <description>Quality of Life improvements for Fantasy Grounds Unity (Starfinder 1e); Uses rules from Starfinder Core Rulebook, 2017, Paizo Inc., Starfinder Tech Revolution, 2021, Paizo Inc and Alien Archive 3, 2019, Paizo Inc.</description>
@@ -22,7 +20,7 @@
     <includefile source="sf_strings.xml" />
 
     <!-- Dice roll handlers  -->
-    <script name="handlers" file="scripts/sf_handlers.lua" />
+    <!-- <script name="handlers" file="scripts/sf_handlers.lua" /> -->
 
     <!-- ability score details -->
     <includefile source="xml/sf_charsheet.xml" />
@@ -43,20 +41,22 @@
     <includefile source="xml/sf_companions.xml" />
     <script name="CompanionData" file="Data/CompanionData.lua" />
 
-    <!-- organization tables -->
-    <includefile source="xml/sf_organization.xml" />
-    
+    <!-- organization tables -->   
     <includefile source="xml/detail_orgs.xml" />
-    <includefile source="xml/popup_orgs.xml" />
-
     <includefile source="xml/detail_npcs.xml" />
+    <includefile source="xml/popup_orgs.xml" />
+    <includefile source="xml/popup_npc_org.xml" />    
     <includefile source="xml/popup_npcs.xml" />
 
+    <!-- initialization -->
+    <script name="sf_init" file="scripts/sf_init.lua" />
+
+    <!-- sidebar -->
     <icon name="sidebar_icon_recordtype_organization" file="graphics/icons/NPC.webp" />
 		<string name="library_recordtype_label_organization">Orgs</string>
     <script name="OrganizationData" file="Data/OrganizationData.lua" />
 
-    <script name="SideBarData" file="scripts/data_library_sf.lua" />
+    <script name="Helper_SideBar" file="scripts/data_library_sf.lua" />
 
     <!-- tokens -->
     <tokenroot >	

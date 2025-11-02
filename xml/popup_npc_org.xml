@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <root>
 
-	<windowclass name="sf_organization">
+	<windowclass name="npc_org_popup">
     <frame name="referenceblock-text1" />
 		<placement>
 			<size height="700" width="550" />
@@ -377,7 +377,7 @@
       </stringfield>
 			<windowlist name="list_organizations">
 				<frame name="fielddark" offset="-5,5,5,2" />
-				<bounds>15,180,-25,-15</bounds>
+				<bounds>20,180,-20,-15</bounds>
 				<class>detail_npcs</class>
 				<datasource>.organizations_list</datasource>
 				<allowcreate />
@@ -446,16 +446,14 @@
       </stringfield>
 
       <buttoncontrol name="help_orgs_button_dt">
-				<frame>
-					<name>buttonup</name>
-				</frame>
-				<bounds>-50,0,20,20</bounds>
-				<state icon="help_button" />
-				<state icon="help_button_down" />
+				<bounds>-68,2,26,26</bounds>
+        <frame name="buttonup" />				
 				<font>button-white</font>
+        <state icon="help_button" />
+				<state icon="help_button_down" />
 				<script>
 				function onButtonPress()
-					local sDBnode = "galacticTrade";
+					local sDBnode = "organizations";
 					Interface.openWindow("sf_organization_orgs_help_popup", sDBnode);
 				end
 				</script>
@@ -463,11 +461,9 @@
 			</buttoncontrol>
 
       <buttoncontrol name="closeButton">
-        <frame>
-          <name>buttonup</name>
-        </frame>
-        <bounds>-30,0,20,20</bounds>
-        <state icon="close_button" />
+        <frame name="buttonup" />
+        <bounds>-28,2,26,26</bounds>
+        <state icon="button_toolbar_window_close" />
         <script>
         function onButtonPress()
           window.close();

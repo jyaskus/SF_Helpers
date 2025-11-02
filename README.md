@@ -1,36 +1,34 @@
-# fgu_fixes
-QoL fixes and helpers for Fantasy Grounds Unity (Starfinder / Pathfinder).
+# SF Helpers Extension
 
-This repository contains a Fantasy Grounds Unity extension that provides a set of quality-of-life improvements for Starfinder character sheets, vehicle and companion helpers, and various UX fixes.
+Enhancement suite for Fantasy Grounds Unity's Starfinder ruleset. This extension streamlines repetitive GM/player workflows and fills in quality-of-life gaps while staying close to the stock UI.
 
-Key points for contributors
+## What's Included
 
-- Embedded Lua in XML: Lua scripts placed inside XML files for window controls are parsed by FGU's XML loader. Those embedded scripts cannot contain raw XML-sensitive comparison operators like `<`, `>`, `<=`, `>=` (they will break XML parsing or the FGU compiler). Use provided helper functions instead (see below).
+1. **Character Ability Pop-Up Enhancements**  
+   Track the breakdown of ability modifiers (base, racial, theme, incremental boosts, item bonuses). The vanilla sheet only exposes totals; this pop-up lets you audit every contributing source quickly.
 
-- Use helper comparisons: Use `sf.isGt(x,y)` and `sf.isGe(x,y)` for greater-than and greater-or-equal checks respectively when writing Lua inside XML script blocks. These wrappers avoid risky symbols and centralize numeric checks.
+2. **Companion Defaults Wizard**  
+   Adds a wizard button on companion sheets that syncs level-based stats directly from the owning character. Helpful metadata like training cost to reach the next level is populated and locked to prevent accidental edits.
 
-- Logging conventions:
-	- During development and testing, `Debug.console()` is convenient for rapid output in the debug console.
-	- Before committing production code, replace `Debug.console()` with `sf.DebugOut()` for normal extension debug output, or `sf.ErrorOut()` for messages that should be visible only to the GM/host.
+3. **Vehicle Builder**  
+   Adds a gear-sprocket button to the Vehicles tab that opens an interactive builder. Choose grafts/options, preview derived stats, then generate the finished vehicle in a single click instead of dragging every component manually.
 
-- FGU script naming pattern: `extension.xml` loads Lua script files and registers them under a script name. When calling functions from outside a script file you must call them with that prefix. Example:
+4. **Grenade Quality-of-Life Reloads**  
+   Double-clicking a grenade weapon entry now aligns the weapon's `uses` with the linked inventory item count and deducts any used grenades from inventory automatically.
 
-	- `veh_builder.lua` is registered as `vehBuilder` in `extension.xml`.
-	- To call `createVehicle()` from another script or XML control, call `vehBuilder.createVehicle(...)`.
+5. **NPC Organizations Ledger**  
+   Introduces an "NPC : Orgs" entry under the World section. Track organizations, attach NPC rosters, and open detailed pop-ups for each member (including links back to NPC or companion records).
 
-- Limited Lua environment: Fantasy Grounds' Lua is not a full desktop Lua; only basic libraries and FGU API functions are available. Keep code simple and avoid advanced external dependencies.
+## Usage Notes
 
-Structure
+- Embedded Lua inside XML controls cannot use `<`, `>`, `<=`, or `>=`. Use the helper comparisons (`sf.isGt`, `sf.isGe`, etc.) instead.
+- Prefer `sf.DebugOut`/`sf.ErrorOut` for logging. Keep `Debug.console` in place only while actively troubleshooting.
+- When reading `windowreference` fields like weapon shortcuts, retrieve both class and record name via `DB.getValue(node, "shortcut")` to avoid nil values in split fields.
+- Vehicle builder creates finished vehicles under the owning charsheet's `vehicles` node (not the temporary builder node) and prefixes auto-generated names with the character name.
 
-- `xml/` — XML window classes and UI definitions (charsheets, vehicle builder, companion UI)
-- `scripts/` — Lua helper scripts (sf_helper.lua, veh_builder.lua)
-- `Data/` — data modules used by the extension
-- `graphics/` and `tokens/` — UI assets
+## Contributing
 
-How to test
+See `.github/copilot-instructions.md` for the active workspace checklist. When submitting PRs, include:
 
-1. Edit the XML or Lua file you are working on.
-2. Reload extensions in Fantasy Grounds (reload ruleset / restart if necessary).
-3. Use the FGU debug console and `sf.DebugOut()` output for verification.
-
-If you add or change embedded XML scripts, remember to avoid raw `<`/`>` comparisons and to prefer `sf.isGt`/`sf.isGe`.
+- Repro steps, including campaign DB nodes and console excerpts if applicable.
+- Validation notes from Fantasy Grounds Unity (e.g., grenade reload test results, vehicle creation).

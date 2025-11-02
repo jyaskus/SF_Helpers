@@ -7,14 +7,15 @@
 
 <root>
 
-	<windowclass name="detail_orgs">
+
+  <windowclass name="detail_orgs">
 		<placement>
     <size height="45" width="500" />
 		</placement>
-      <frame name="border" /> <!-- combobox_list   -->
 		<sheetdata>
 
       <number name="orgLevel">
+        <invisible />
 				<bounds>5,10,30,30</bounds>
 				<color>#FF000000</color>
 				<font>sheetnumber</font>
@@ -26,10 +27,8 @@
 			</number>
 
       <tokenfield name="tOrgIcon">
-				<frame>
-					<name>border</name>
-          <offset>2,2,2,2</offset>
-				</frame>
+        <invisible />
+				<frame name="border" offset="2,2,2,2" />
 				<empty>button_char_inv_none</empty>
 				<bounds>35,5,35,35</bounds>
 				<script>
@@ -48,12 +47,31 @@
 				</script>
 			</tokenfield>
 
+      <buttoncontrol name="ButtonExamine">
+				<bounds>10,10,25,25</bounds>
+				<state icon="button_link" />
+				<state icon="button_link_down" />
+        <script>
+				function onInit()
+				 	local sName = window.orgName.getValue();
+					if sName == "" or sName == nil then
+            window.orgName.setValue("&lt;&lt; NPC Org &gt;&gt;");
+					  popup();
+					end
+				end
+        function onButtonPress()
+				  popup();
+				end
+				function popup()
+					local sDBnode = window.getDatabaseNode();
+          Debug.console("detail_orgs:ButtonExamine popup sDBnode=" .. tostring(sDBnode));
+					Interface.openWindow("npc_org_popup", sDBnode);
+				end
+        </script>        
+      </buttoncontrol>
+
       <stringfield name="orgName">
-        <bounds>70,10,125,20</bounds>
-        <center />
-        <color>#FF000000</color>
-        <font>reference-b-large</font>
-				<empty textres="sf_organizations_org_name_default" />
+        <bounds>40,10,-40,20</bounds>
       </stringfield>
 
             <!-- Followers -->
@@ -62,6 +80,7 @@
         <font>reference-i</font>
 				<tooltip textres="sf_organizations_nFollowersCR_Tooltip" />
 				<default>0.3</default>
+        <invisible />
 			</number>
 			<number name="nFollowers">
 				<frame name="fieldlight" />
@@ -69,6 +88,7 @@
 				<bounds>-255,5,35,35</bounds>
 				<tooltip textres="sf_organizations_Label_followers_LabelCaption" />
 				<default>0</default>
+        <invisible />
 			</number>
 
             <!-- Members -->
@@ -77,6 +97,7 @@
         <font>reference-i</font>
 				<tooltip textres="sf_organizations_nMembersCR_Tooltip" />
 				<default>0.3</default>
+        <invisible />
 			</number>
 			<number name="nMembers">
 				<frame name="fieldlight" />
@@ -85,6 +106,7 @@
 				<bounds>-185,5,35,35</bounds>
 				<tooltip textres="sf_organizations_Label_members_LabelCaption" />
 				<default>0</default>
+        <invisible />
 			</number>
 
             <!-- Officers -->
@@ -93,6 +115,7 @@
         <font>reference-i</font>
 				<tooltip textres="sf_organizations_nOfficersCR_Tooltip" />
 				<default>0.3</default>
+        <invisible />
 			</number>
 			<number name="nOfficers">
 				<frame name="fieldlight" />
@@ -101,6 +124,7 @@
 				<bounds>-115,5,35,35</bounds>
 				<tooltip textres="sf_organizations_Label_officers_LabelCaption" />
 				<default>0</default>
+        <invisible />
 			</number>
 
 			<number name="nOrgPower">
@@ -111,25 +135,36 @@
 				<default>5</default>
         <displaysign />
         <tooltip textres="sf_orgs_power_tooltip" />
+        <invisible />
 			</number>
 
-      <buttoncontrol name="ButtonExam">
+      <buttoncontrol name="ButtonShare">
 				<bounds>-30,25,20,20</bounds>
-				<state icon="button_export" />
-				<state icon="button_export_down" />
+				<state icon="button_toolbar_share_off" />
+				<state icon="button_toolbar_share_public" />
+        <frame name="buttonup" />
         <script>
 				function onInit()
-				 	local sName = window.orgName.getValue();
-					if sName == "" or sName == nil then
-					  popup();
-					end
+				 	updateShare();
 				end
         function onButtonPress()
-				  popup();
+				  updateShare();
 				end
-				function popup()
-					local sDBnode = window.getDatabaseNode();
-					Interface.openWindow("sf_organization", sDBnode);
+				function updateShare()
+					local nValue = getValue();
+          Debug.console("ButtonShare:onButtonPress nValue=" .. tostring(nValue));
+
+          local sDBnode = window.getDatabaseNode();
+          Debug.console("ButtonShare:onButtonPress sDBnode=" .. tostring(sDBnode));
+
+          local sDBparent = sDBnode.getParent();
+          Debug.console("ButtonShare:onButtonPress sDBparent=" .. tostring(sDBparent));
+
+          -- default to private
+          --window.setPublic(false);
+          if nValue == 1 then
+            --window.setPublic(true);
+          end
 				end
         </script>
       </buttoncontrol>

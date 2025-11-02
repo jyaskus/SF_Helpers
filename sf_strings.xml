@@ -81,7 +81,7 @@
   <string name="char_tooltip_abilitypointstotal">Total Ability Points (normally 10 pts)</string>
 
   <string name="sf_main_label_organizations_title">Organizations</string>
-  <string name="sf_organizations_org_name_default">NPC Org</string>
+  <string name="sf_organizations_org_name_default">New Organization</string>
 
   <string name="sf_orgs_power_tooltip">Organization power; the skill bonus used for any Organization related skill checks.</string> 
 
@@ -171,5 +171,8 @@
 	<string name="tooltip_npc_status_012">missing</string>
 
  	<string name="organizations_tooltip_linkNPC">Drag and drop a link to a NPC record</string>
+
+  <string name="detail_npcs_role_empty">NPC role or duty</string>
+  <string name="detail_npcs_desc_empty">Use this space to describe the NPC.</string>
 
 </root>
