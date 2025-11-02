@@ -115,9 +115,9 @@
 	<string name="sf_organizations_Label_power_LabelCaption">Power (checks)</string>
 	<string name="downtimePopup_action_Label_orgs">orgs</string>
 
-  <string name="sf_organizations_officers_named_tooltip" >detailed Leaders</string>
-  <string name="sf_organizations_members_named_tooltip"  >detailed Members</string>
-  <string name="sf_organizations_followers_named_tooltip">detailed Followers</string>
+  <string name="sf_organizations_officers_named_tooltip" >NPC Leaders</string>
+  <string name="sf_organizations_members_named_tooltip"  >NPC Members</string>
+  <string name="sf_organizations_followers_named_tooltip">NPC Followers</string>
 
   <string name="sf_organizations_nCasualMin_Tooltip">Casual interest (Min)</string>
   <string name="sf_organizations_nCasualMax_Tooltip">Casual interest (Max)</string>
@@ -174,5 +174,7 @@
 
   <string name="detail_npcs_role_empty">NPC role or duty</string>
   <string name="detail_npcs_desc_empty">Use this space to describe the NPC.</string>
+
+  <string name="detail_npc_org_desc_empty">Use this space to describe the organization.</string>
 
 </root>

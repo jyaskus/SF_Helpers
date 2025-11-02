@@ -1,0 +1,86 @@
+This definition is used to define a bitmap frame resource. Bitmap frames are used as background elements for windows, controls and widgets.
+
+Frames are built from blocks that comprise the corners, edges and center of the frame. The corner pieces are always drawn once, at each corner. The left, right, top and bottom edges are formed by repeating the corresponding edge piece as many times as needed to complete the frame at the specified size. The center piece is tiled, i.e. repeated both vertically and horizontally, to fill the remaining gap in the middle.
+
+
+Definition
+
+
+
+
+<framedef name="..." >
+  <bitmap > ... </bitmap>
+  <offset > ... </offset>
+  <topleft > ... </topleft>
+  <top > ... </top>
+  <topright > ... </topright>
+  <left > ... </left>
+  <middle > ... </middle>
+  <right > ... </right>
+  <bottomleft > ... </bottomleft>
+  <bottom > ... </bottom>
+  <bottomright > ... </bottomright>
+  <decal > ... </decal>
+  <insideoffset > ... </insideoffset>
+</framedef>
+<framedef name="..." >
+
+ 
+
+<bitmap > ... </bitmap>
+
+The file name of an image file containing the bitmap data from which the frame is built
+
+<offset > ... </offset>
+
+A comma separated list of four numbers specifying the left, top, right and bottom offsets to define the nine components of the frame.
+
+<topleft > ... </topleft>
+
+The coordinates of the top left component, in the form: x,y,width,height
+
+<top > ... </top>
+
+The coordinates of the top component
+
+<topright > ... </topright>
+
+The coordinates of the top right component
+
+<left > ... </left>
+
+The coordinates of the left component
+
+<middle > ... </middle>
+
+The coordinates of the middle component
+
+<right > ... </right>
+
+The coordinates of the right component
+
+<bottomleft > ... </bottomleft>
+
+The coordinates of the bottom left component
+
+<bottom > ... </bottom>
+
+The coordinates of the bottom component
+
+<bottomright > ... </bottomright>
+
+The coordinates of the bottom right component
+
+<decal > ... </decal>
+
+The coordinates of the decal component
+
+<insideoffset > ... </insideoffset>
+
+A comma separated list of four numbers specifying the left, top, right and bottom offsets applied when displaying the window resize arrows. If not specified, zero will be used for each offset.
+
+</framedef>
+
+ 
+
+ 

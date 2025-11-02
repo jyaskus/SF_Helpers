@@ -4,20 +4,15 @@ Enhancement suite for Fantasy Grounds Unity's Starfinder ruleset. This extension
 
 ## What's Included
 
-1. **Character Ability Pop-Up Enhancements**  
-   Track the breakdown of ability modifiers (base, racial, theme, incremental boosts, item bonuses). The vanilla sheet only exposes totals; this pop-up lets you audit every contributing source quickly.
+1. **Character Ability Pop-Up** – Surfaces the full ability score recipe (base, racial/theme, boosts, gear) so you can diagnose odd totals without drilling into the database.
 
-2. **Companion Defaults Wizard**  
-   Adds a wizard button on companion sheets that syncs level-based stats directly from the owning character. Helpful metadata like training cost to reach the next level is populated and locked to prevent accidental edits.
+2. **Companion Defaults Wizard** – Adds a smart sync button on companions that pushes level-based stats from the owner, locks the derived fields, and shows the XP cost for the next rank.
 
-3. **Vehicle Builder**  
-   Adds a gear-sprocket button to the Vehicles tab that opens an interactive builder. Choose grafts/options, preview derived stats, then generate the finished vehicle in a single click instead of dragging every component manually.
+3. **Vehicle Builder** – Provides a guided builder from the Vehicles tab. Pick grafts and upgrades, preview the math in real time, then spawn the finished vehicle record with a single click.
 
-4. **Grenade Quality-of-Life Reloads**  
-   Double-clicking a grenade weapon entry now aligns the weapon's `uses` with the linked inventory item count and deducts any used grenades from inventory automatically.
+4. **Grenade Auto-Reloads** – Double-clicking a grenade weapon keeps the weapon `uses` node and the inventory stack in lockstep, instantly refunding or deducting grenades as they’re consumed.
 
-5. **NPC Organizations Ledger**  
-   Introduces an "NPC : Orgs" entry under the World section. Track organizations, attach NPC rosters, and open detailed pop-ups for each member (including links back to NPC or companion records).
+5. **NPC Organizations Ledger** – Adds an "NPC : Orgs" library entry with color-coded ranks and quick links back to NPCs or companions, making faction rosters easy to browse in play.
 
 ## Usage Notes
 

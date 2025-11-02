@@ -19,7 +19,7 @@ function onInit()
 
 	if Session.IsHost then
 		local tNode = DB.createNode(dbRootName);
-		-- DB.setPublic(tNode, true);	  
+		DB.setPublic(tNode, true);	  
 	else
 	  -- players will have it shared via public
 	  return;

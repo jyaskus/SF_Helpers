@@ -47,23 +47,23 @@
 
   <framedef name="refblock_blue">
 		<bitmap file="graphics/frames/refblock_blue.png" />
-		<offset>19,22,20,24</offset>
+		<offset>7,6,6,6</offset>
 	</framedef>
   <framedef name="refblock_brown">
 		<bitmap file="graphics/frames/refblock_brown.png" />
-		<offset>19,22,20,24</offset>
+		<offset>7,6,6,6</offset>
 	</framedef>
   <framedef name="refblock_green">
 		<bitmap file="graphics/frames/refblock_green.png" />
-		<offset>19,22,20,24</offset>
+		<offset>7,6,6,6</offset>
 	</framedef>
   <framedef name="refblock_pink">
 		<bitmap file="graphics/frames/refblock_pink.png" />
-		<offset>19,22,20,24</offset>
+		<offset>7,6,6,6</offset>
 	</framedef>
   <framedef name="refblock_yellow">
 		<bitmap file="graphics/frames/refblock_yellow.png" />
-		<offset>19,22,20,24</offset>
+		<offset>7,6,6,6</offset>
 	</framedef>
 
 
