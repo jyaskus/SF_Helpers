@@ -86,6 +86,7 @@
   <string name="sf_orgs_power_tooltip">Organization power; the skill bonus used for any Organization related skill checks.</string> 
 
   <!-- Organizations -->
+  <string name="detail_orgs_orgLevel_Tooltip">Organization Level</string>
 	<string name="sf_organizations_orgLevel_DescriptionText">Org Level</string>
 	<string name="sf_organizations_label_org_level_LabelCaption">Org Level</string>
 	<string name="sf_organizations_nFollowersMin_Tooltip">Min Followers</string>
@@ -176,5 +177,7 @@
   <string name="detail_npcs_desc_empty">Use this space to describe the NPC.</string>
 
   <string name="detail_npc_org_desc_empty">Use this space to describe the organization.</string>
+
+  <string name="sf_tooltip_search_organizations">Type here to filter the organization list.</string>
 
 </root>

@@ -11,14 +11,16 @@
 		<placement>
 		  <size height="470" width="470" />
 		</placement>
-    <frame>
-      <name>referencelist</name>
-    </frame>
+    <sizelimits>
+      <minimum width="470" height="470" />
+      <dynamic />
+    </sizelimits>
+    <frame name="referencelist" />
 		<sheetdata>
 
 			<windowlist name="list_organizations">
 				<frame name="groupbox" offset="5,0,5,0"/>
-				<bounds>25,80,-30,-60</bounds>
+				<bounds>35,40,-30,-65</bounds>
 				<class>detail_orgs</class>
 				<datasource>.organization_list</datasource>
 
@@ -30,9 +32,16 @@
       	  <control>orgName</control>
         </sortby>
 
+        <filter>
+          <control>list_filter_orgs</control>
+        </filter>
+        <filteron>
+          <control>orgName</control>
+        </filteron>
+
       </windowlist>
       <scrollbarcontrol name="scrollbar_orgs">
-        <bounds>-26,35,20,-35</bounds>
+        <bounds>-32,60,20,-75</bounds>
         <frame>
           <name>scrollbar_base</name>
           <offset>0,12,0,12</offset>
@@ -41,7 +50,48 @@
         <normal name="scrollbutton_normal">
           <minimum height="scrollbutton_normal" />
         </normal>
-      </scrollbarcontrol>			
+      </scrollbarcontrol>
+
+      <!-- buttons to add or delete records -->
+      <buttoncontrol name="addOrgButton">
+        <bounds>-90,-60,30,30</bounds>
+        <state icon="button_add" />
+				<script>
+				function onButtonPress()
+          local sDBrootPath = "organizations";
+          local sOrgListPath = sDBrootPath .. ".organization_list";
+          local tNode = DB.createChild(sDBrootPath, "organization_list");
+					local ListNode = DB.getChild(sDBrootPath, "organization_list");
+					local listCnt = ListNode.getChildCount();
+
+					local nodeList = ListNode.createChild();
+				end
+				</script>
+      </buttoncontrol>
+      <buttoncontrol name="editOrgButton">
+        <bounds>-60,-60,30,30</bounds>
+        <state icon="button_edit" />
+        <state icon="button_edit_down" />
+				<script>
+				function onButtonPress()
+          local sDBrootPath = "organizations";
+          local sOrgListPath = sDBrootPath .. ".organization_list";
+          local tNode = DB.createChild(sDBrootPath, "organization_list");
+					local ListNode = DB.getChild(sDBrootPath, "organization_list");
+					local listCnt = ListNode.getChildCount();
+
+					local nodeList = ListNode.createChild();
+				end
+				</script>
+      </buttoncontrol>
+      <!-- search bar -->
+      <stringcontrol name="list_filter_orgs">
+        <bounds>60,-60,-100,30</bounds>
+        <controlline />
+        <lineoffset>-2</lineoffset>
+        <frame name="search" offset="30,0,5,0" />
+        <tooltip textres="sf_tooltip_search_organizations" />
+      </stringcontrol>
 
       <stringcontrol name="page_orgsTitle">
         <bounds>90,0,-90,30</bounds>
@@ -74,6 +124,12 @@
           window.close();
 				end
 				</script>
+      </buttoncontrol>
+
+      <!-- window_resize -->
+      <buttoncontrol name="window_resize_indicator">
+        <bounds>-20,-20,20,20</bounds>
+        <state icon="window_resize" />
       </buttoncontrol>
     
 		</sheetdata>

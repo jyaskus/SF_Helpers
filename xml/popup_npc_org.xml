@@ -7,20 +7,7 @@
 			<size height="700" width="550" />
 		</placement>
 		<shareable />
-		<sheetdata>
-
-			<buttoncontrol name="button_organization_notes">
-				<bounds>25,5,30,30</bounds>
-        <frame name="buttonup" />	
-				<state icon="minimized_reference" />
-				<script>
-				function onButtonPress()
-					local sDBnode = window.getDatabaseNode();
-					Interface.openWindow("npc_org_popup_notes", sDBnode);
-				end
-				</script>
-				<tooltip textres="detail_npc_org_desc_empty" />
-			</buttoncontrol>
+		<sheetdata>			
 
 			<tokenfield name="tOrgIcon">
 				<frame>
@@ -212,7 +199,7 @@
 				<tooltip textres="sf_organizations_nFollowersMax_Tooltip" />
 			</number>			
 			<number name="nFollowersCR">
-				<frame name="fielddark" />
+				<frame name="fieldlight" />
 				<bounds>260,80,40,30</bounds>
 				<tooltip textres="sf_organizations_nFollowersCR_Tooltip" />
 				<default>0.33</default>
@@ -223,6 +210,7 @@
 			</label_fieldtop>
 
 			<number name="nFollowersAdj">
+        <invisible />
 				<color>#FF000000</color>
 				<font>sheetnumber</font>
 				<frame name="fieldlight" />
@@ -236,8 +224,7 @@
 			</label_fieldtop>
 
 			<number name="nFollowers">
-				<bounds>380,80,40,30</bounds>
-				<color>#FF000000</color>
+				<bounds>310,80,60,30</bounds>
 				<font>sheetnumber</font>
 				<tooltip textres="sf_organizations_followers_named_tooltip" />
 				<default>0</default>
@@ -277,7 +264,7 @@
 				<tooltip textres="sf_organizations_nMembersMax_Tooltip" />				
 			</number>			
 			<number name="nMembersCR">
-				<frame name="fielddark" />
+				<frame name="fieldlight" />
 				<bounds>260,115,40,30</bounds>
 				<tooltip textres="sf_organizations_nMembersCR_Tooltip" />
 				<default>0.33</default>
@@ -296,6 +283,7 @@
 				</script>
 			</number>
 			<number name="nMembersAdj">
+        <invisible />
 				<color>#FF000000</color>
 				<font>sheetnumber</font>
 				<frame name="fieldlight" />
@@ -304,8 +292,7 @@
 				<default>0</default>
 			</number>
 			<number name="nMembers">
-				<bounds>380,115,40,30</bounds>
-				<color>#FF000000</color>
+				<bounds>315,115,50,30</bounds>
 				<font>sheetnumber</font>
 				<tooltip textres="sf_organizations_members_named_tooltip" />
 				<default>0</default>
@@ -345,7 +332,7 @@
 				<tooltip textres="sf_organizations_nOfficersMax_Tooltip" />				
 			</number>			
 			<number name="nOfficersCR">
-				<frame name="fielddark" />
+				<frame name="fieldlight" />
 				<bounds>260,150,40,30</bounds>
 				<tooltip textres="sf_organizations_nOfficersCR_Tooltip" />
 				<default>0.33</default>
@@ -364,6 +351,7 @@
 				</script>
 			</number>			
 			<number name="nOfficersAdj">
+        <invisible />
 				<color>#FF000000</color>
 				<font>sheetnumber</font>
 				<frame name="fieldlight" />
@@ -372,8 +360,7 @@
 				<default>0</default>
 			</number>
 			<number name="nOfficers">
-				<bounds>380,150,40,30</bounds>
-				<color>#FF000000</color>
+				<bounds>320,150,40,30</bounds>
 				<font>sheetnumber</font>
 				<tooltip textres="sf_organizations_officers_named_tooltip" />
 				<default>0</default>
@@ -390,7 +377,7 @@
 
 			<!-- ORG power level -->
 			<number name="nOrgPower">
-				<frame name="fielddark" />
+				<frame name="fieldlight" />
 				<bounds>440,135,60,40</bounds>
 				<min>5</min>
 				<max>35</max>
@@ -481,9 +468,22 @@
         <empty textres="sf_organizations_org_name_default" />
       </stringfield>
 
+      <buttoncontrol name="button_organization_notes">
+				<bounds>-90,5,26,26</bounds>
+        <frame name="" />	
+				<state icon="minimized_reference" />
+				<script>
+				function onButtonPress()
+					local sDBnode = window.getDatabaseNode();
+					Interface.openWindow("npc_org_popup_notes", sDBnode);
+				end
+				</script>
+				<tooltip textres="detail_npc_org_desc_empty" />
+			</buttoncontrol>
+
       <buttoncontrol name="help_orgs_button_dt">
 				<bounds>-60,5,26,26</bounds>
-        <frame name="buttonup" />				
+        <frame name="" />				
 				<font>button-white</font>
         <state icon="help_button" />
 				<state icon="help_button_down" />
@@ -625,7 +625,7 @@
   		<sheetdata>
 
 			<formattedtextfield name="organization_text_orgNotes">
-				<bounds>25,20,-20,-15</bounds>
+				<bounds>25,10,-20,-15</bounds>
 				<frame name="fielddark" offset="10,10,10,10" />
 				<empty textres="detail_npc_org_desc_empty" />
 			</formattedtextfield>

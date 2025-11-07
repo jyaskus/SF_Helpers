@@ -12,40 +12,7 @@
 		<placement>
     <size height="45" width="500" />
 		</placement>
-		<sheetdata>
-
-      <number name="orgLevel">
-        <invisible />
-				<bounds>5,10,30,30</bounds>
-				<color>#FF000000</color>
-				<font>sheetnumber</font>
-				<min>1</min>
-				<max>20</max>
-				<default>1</default>
-        <readonly />
-				<description textres="sf_organizations_orgLevel_DescriptionText" />
-			</number>
-
-      <tokenfield name="tOrgIcon">
-        <invisible />
-				<frame name="border" offset="2,2,2,2" />
-				<empty>button_char_inv_none</empty>
-				<bounds>35,5,35,35</bounds>
-				<script>
-				function onInit()
-					local sValue=getValue();
-					if sValue == nil or sValue == "" then
-						setValue("button_char_inv_none");
-					else
-						sf.DebugOut("sVal:" .. sValue);
-					end
-				end
-				function onDoubleClick()
-					sf.DebugOut("sVal:" .. getValue() );
-					setValue("button_char_inv_none");
-				end
-				</script>
-			</tokenfield>
+		<sheetdata>     
 
       <buttoncontrol name="ButtonExamine">
 				<bounds>10,10,25,25</bounds>
@@ -74,7 +41,50 @@
         <bounds>40,10,-40,20</bounds>
       </stringfield>
 
-            <!-- Followers -->
+      <number name="orgLevel">
+				<bounds>-90,10,20,20</bounds>
+				<font>sheetnumber</font>
+				<min>1</min>
+				<max>20</max>
+				<default>1</default>
+        <readonly />
+				<tooltip textres="detail_orgs_orgLevel_Tooltip" />
+			</number>
+
+    <!--
+      <buttoncontrol name="button_organization_notes">
+				<bounds>-60,10,20,20</bounds>
+				<state icon="minimized_reference" />
+				<script>
+				function onButtonPress()
+					local sDBnode = window.getDatabaseNode();
+					Interface.openWindow("npc_org_popup_notes", sDBnode);
+				end
+				</script>
+				<tooltip textres="detail_npc_org_desc_empty" />
+			</buttoncontrol>
+    -->
+
+      <tokenfield name="tOrgIcon">
+				<empty>button_char_inv_none</empty>
+				<bounds>-60,10,20,20</bounds>
+				<script>
+				function onInit()
+					local sValue=getValue();
+					if sValue == nil or sValue == "" then
+						setValue("button_char_inv_none");
+					else
+						sf.DebugOut("sVal:" .. sValue);
+					end
+				end
+				function onDoubleClick()
+					sf.DebugOut("sVal:" .. getValue() );
+					setValue("button_char_inv_none");
+				end
+				</script>
+			</tokenfield>      
+
+      <!-- Followers -->
 			<number name="nFollowersCR">
 				<bounds>-280,10,25,25</bounds>
         <font>reference-i</font>
@@ -91,7 +101,7 @@
         <invisible />
 			</number>
 
-            <!-- Members -->
+      <!-- Members -->
 			<number name="nMembersCR">
 				<bounds>-210,10,25,25</bounds>
         <font>reference-i</font>
@@ -109,7 +119,7 @@
         <invisible />
 			</number>
 
-            <!-- Officers -->
+      <!-- Officers -->
 			<number name="nOfficersCR">
 				<bounds>-140,10,25,25</bounds>
         <font>reference-i</font>
@@ -139,7 +149,7 @@
 			</number>
 
       <buttoncontrol name="ButtonShare">
-				<bounds>-30,25,20,20</bounds>
+				<bounds>-25,10,20,20</bounds>
 				<state icon="button_toolbar_share_off" />
 				<state icon="button_toolbar_share_public" />
         <frame name="buttonup" />
