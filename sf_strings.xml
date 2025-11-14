@@ -175,9 +175,7 @@
 
   <string name="detail_npcs_role_empty">NPC role or duty</string>
   <string name="detail_npcs_desc_empty">Use this space to describe the NPC.</string>
-
   <string name="detail_npc_org_desc_empty">Use this space to describe the organization.</string>
-
   <string name="sf_tooltip_search_organizations">Type here to filter the organization list.</string>
 
 </root>

@@ -1,30 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root version="3.0">
 
-  <announcement text="QoL improvements for Starfinder 1e (10.31.2025)" font="emotefont"  />
+  <announcement text="QoL improvements for Starfinder 1e (11.09.2025)" font="emotefont"  />
 
 	<properties>
+    <author>SgtWhy</author>
+    <loadorder>801</loadorder>
 		<name>SF_Helpers</name>
 		<version>1.0.0</version>
-		<loadorder>420</loadorder>
-    <author>SgtWhy</author>
-
-    <importruleset source="CoreRPG" />
-    <ruleset name="SFRPG" />  
 
     <description>Quality of Life improvements for Fantasy Grounds Unity (Starfinder 1e); Uses rules from Starfinder Core Rulebook, 2017, Paizo Inc., Starfinder Tech Revolution, 2021, Paizo Inc and Alien Archive 3, 2019, Paizo Inc.</description>
+
+    <ruleset name="SFRPG" />
 	</properties>
 
+  <!-- <importruleset source="SFRPG" /> -->
+
 	<base>
+    <!-- <script name="ctCompanionAttacks" file="scripts/combat_override.lua" /> -->
+
     <!--strings-->
     <includefile source="sf_strings.xml" />
-
-    <!-- Dice roll handlers  -->
-    <!-- <script name="handlers" file="scripts/sf_handlers.lua" /> -->
-
-    <!-- ability score details -->
-    <includefile source="xml/sf_charsheet.xml" />
-    <includefile source="xml/sf_abilityboost.xml" />
 
     <!-- icons -->
     <includefile source="graphics/graphics_icons.xml" />
@@ -32,36 +28,21 @@
     <!-- helper functions -->
     <script name="sf" file="scripts/sf_helper.lua" />
 
+    <!-- ability score details -->
+    <includefile source="xml/sf_charsheet.xml" />
+    <includefile source="xml/sf_abilityboost.xml" />
+
     <!-- vehicle wizard -->
     <includefile source="xml/veh_builder.xml" /> 
     <script name="vehBuilder" file="scripts/veh_builder.lua" />
     <script name="VehicleGraftData" file="Data/VehicleGraftData.lua" />
 
-    <!-- companion wizard -->
+    <!-- companion and npc wizard -->
     <includefile source="xml/sf_companions.xml" />
     <script name="CompanionData" file="Data/CompanionData.lua" />
 
-    <!-- organization tables -->   
-    <includefile source="xml/detail_orgs.xml" />
-    <includefile source="xml/detail_npcs.xml" />
-    <includefile source="xml/popup_orgs.xml" />
-    <includefile source="xml/popup_npc_org.xml" />    
-    <includefile source="xml/popup_npcs.xml" />
-
     <!-- initialization -->
     <script name="sf_init" file="scripts/sf_init.lua" />
-
-    <!-- sidebar -->
-    <icon name="sidebar_icon_recordtype_organization" file="graphics/icons/NPC.webp" />
-		<string name="library_recordtype_label_organization">Orgs</string>
-    <script name="OrganizationData" file="Data/OrganizationData.lua" />
-
-    <script name="Helper_SideBar" file="scripts/data_library_sf.lua" />
-
-    <!-- tokens -->
-    <tokenroot >	
-      <source >tokens</source>
-    </tokenroot>
 
 	</base>
 </root>

@@ -275,9 +275,10 @@ function vehBuilder_createVehicleLink(vehicleNode)
   
   sf.DebugOut("Creating vehicle link for: " .. vehiclePath);
   
-  -- Use DB.setValue with windowreference type (matching SFRPG's approach)
-  -- This is the same pattern used in record_char_inventory.xml line 505
-  DB.setValue(vehicleNode, "link", "windowreference", "charvehicle", vehiclePath);
+  -- Use DB.setValue with windowreference type (matching SFRPG's approach). Vehicles expect
+  -- an absolute recordname so keep the full path that getPath() returned.
+  local recordname = vehiclePath or ""
+  DB.setValue(vehicleNode, "link", "windowreference", "charvehicle", recordname);
   
   sf.DebugOut("Vehicle link created successfully");
   sf.DebugOut("  class: charvehicle");

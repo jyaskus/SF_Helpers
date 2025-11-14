@@ -23,10 +23,12 @@
   </windowclass>
 
   <!--
+  
     <state_charammocounter name="ammocounter">
 	    <anchored to="uses" position="righthigh" offset="10,0" />
-		</state_charammocounter>      
-    -->
+		</state_charammocounter>
+
+  -->
   
   <windowclass name="char_weapon_ranged" merge="join">
     <sheetdata>

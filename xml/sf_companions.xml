@@ -39,6 +39,11 @@
             window.nEAC.update();
             window.nKAC.update();
             window.nSkillBonus.update();
+
+            if window.cr then 
+              local nLevel = getValue();
+              window.cr.setValue(nLevel);
+            end
           end
           function updateCosts()
             local sDBnode = window.getDatabaseNode();
@@ -596,6 +601,31 @@
         <bounds>-65,5,20,20</bounds>
         <icon normal="button_edit" />
         <icon normal="button_edit_down" />
+        <gmvisibleonly />
+				<script>
+					function onButtonPress()
+            local sDBnode = window.getDatabaseNode();
+            sf.DebugOut("DB Node: " .. sDBnode.getPath());
+
+            local sRuleset = Interface.getRuleset();
+            sf.DebugOut("Using ruleset: " .. sRuleset, true);
+
+            Interface.openWindow("companionSetDefaults", sDBnode);
+					end
+				</script>
+			</button_details>
+
+    </sheetdata>
+  </windowclass>
+
+  <windowclass name="npc_header" merge="join">
+    <sheetdata>
+
+      <button_details name="button_companion_defaults">
+        <bounds>-18,35,16,16</bounds>
+        <icon normal="button_edit" />
+        <icon normal="button_edit_down" />
+        <gmvisibleonly />
 				<script>
 					function onButtonPress()
             local sDBnode = window.getDatabaseNode();
