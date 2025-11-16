@@ -2,7 +2,7 @@
 -- Vehicle Builder - Functions for creating vehicle records
 --
 
-function vehBuilder_createVehicleRecord(charNode, w)
+function createVehicleRecord(charNode, w)
   -- Validate inputs
   if not charNode then
     sf.DebugOut("ERROR: No character DB node provided");
@@ -14,7 +14,7 @@ function vehBuilder_createVehicleRecord(charNode, w)
     return;
   end
 
-  sf.DebugOut("Creating vehicle for character: " .. charNode.getPath());
+  Debug.console("Creating vehicle for character: " .. charNode.getPath());
 
   -- Get vehicle properties from the builder
   local nLevel = w.nLevel.getValue() or 1;
@@ -264,7 +264,7 @@ function vehBuilder_createVehicleRecord(charNode, w)
 end
 
 -- Helper function to create the vehicle link after the vehicle is fully in the database
-function vehBuilder_createVehicleLink(vehicleNode)
+function createVehicleLink(vehicleNode)
   if not vehicleNode then
     sf.DebugOut("ERROR: No vehicle node provided for link creation");
     return false;

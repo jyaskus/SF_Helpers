@@ -14,10 +14,7 @@
     <ruleset name="SFRPG" />
 	</properties>
 
-  <!-- <importruleset source="SFRPG" /> -->
-
 	<base>
-    <!-- <script name="ctCompanionAttacks" file="scripts/combat_override.lua" /> -->
 
     <!--strings-->
     <includefile source="sf_strings.xml" />
@@ -43,6 +40,11 @@
 
     <!-- initialization -->
     <script name="sf_init" file="scripts/sf_init.lua" />
+
+    <!-- tokens -->
+    <tokenroot >	
+      <source >vehicles</source>
+    </tokenroot>
 
 	</base>
 </root>

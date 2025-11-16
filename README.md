@@ -4,15 +4,13 @@ Enhancement suite for Fantasy Grounds Unity's Starfinder ruleset. This extension
 
 ## What's Included
 
-1. **Character Ability Pop-Up** – Surfaces the full ability score recipe (base, racial/theme, boosts, gear) so you can diagnose odd totals without drilling into the database.
+1. **Character Ability Pop-Up** – Surfaces the full ability score recipe (base, racial/theme, boosts, gear) so you can track the base startin values, racial modifiers, boosts and item modifiers - rather than simply the total stat score.
 
-2. **Companion Defaults Wizard** – Adds a smart sync button on companions that pushes level-based stats from the owner, locks the derived fields, and shows the XP cost for the next rank.
+2. **Companion Defaults Wizard** – Adds a smart sync button on companions and NPCs that set the companion level-based stats from companion pet using system introduced in AA2 (many vluaes of which, currently can be set by the player), also computes the Cost to upgrade a companion to the next level.
 
-3. **Vehicle Builder** – Provides a guided builder from the Vehicles tab. Pick grafts and upgrades, preview the math in real time, then spawn the finished vehicle record with a single click.
+3. **Vehicle Builder** – Provides a guided builder from the Vehicles tab. Start by setting the vehicle level which determines all of its metadata. Then pick grafts (size, type, specials) to define you vehicle, preview the math in real time, then spawn the finished vehicle record with a single click. This allows for rapid prototyping of new vehicles.
 
 4. **Grenade Auto-Reloads** – Double-clicking a grenade weapon keeps the weapon `uses` node and the inventory stack in lockstep, instantly refunding or deducting grenades as they’re consumed.
-
-5. **NPC Organizations Ledger** – Adds an "NPC : Orgs" library entry with color-coded ranks and quick links back to NPCs or companions, making faction rosters easy to browse in play.
 
 ## Usage Notes
 
