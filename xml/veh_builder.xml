@@ -295,11 +295,11 @@
             window.sVehTypeNotes.setValue("");
             window.sVehDescription.setValue("");
             window.sVehCover.setValue("none");
-            window.vehToken.setValue("");
+            window.vehToken.updateIcon("");
 
             if sVehType == "Boat" then
               window.VehSubTypeLabel.setValue(" (Water Vehicle)");
-              window.vehToken.setValue("tokens/vh_boat.png@Vehicles");
+              window.vehToken.updateIcon("boat");
               window.nBasePassengers.setValue(2);
               window.nBaseFullSpeedMult.setValue(15);
               window.nBasePilotingMod.setValue(0);
@@ -311,7 +311,7 @@
             end
             if sVehType == "Cruiser" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
-              window.vehToken.setValue("tokens/vh_cruiser.png@Vehicles");
+              window.vehToken.updateIcon("cruiser");
               window.nBasePassengers.setValue(3);
               window.nBaseFullSpeedMult.setValue(25);
               window.nBasePilotingMod.setValue(-1);
@@ -328,7 +328,7 @@
             end
             if sVehType == "Cycle" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
-              window.vehToken.setValue("tokens/vh_cycle.png@Vehicles");
+              window.vehToken.updateIcon("cycle");
               window.nBasePassengers.setValue(1);
               window.nBaseFullSpeedMult.setValue(20);
               window.nBasePilotingMod.setValue(2);
@@ -347,7 +347,7 @@
             end
             if sVehType == "Fast Flyer" then
               window.VehSubTypeLabel.setValue(" (Air Vehicle)");
-              window.vehToken.setValue("tokens/vh_flyer.png@Vehicles");
+              window.vehToken.updateIcon("fast flyer");
               window.nBasePassengers.setValue(2);
               window.nBaseFullSpeedMult.setValue(25);
               window.nBasePilotingMod.setValue(-1);
@@ -367,7 +367,7 @@
             end
             if sVehType == "Hovering Flyer" then
               window.VehSubTypeLabel.setValue(" (Air Vehicle)");
-              window.vehToken.setValue("tokens/vh_hover.png@Vehicles");
+              window.vehToken.updateIcon("hovering flyer");
               window.nBasePassengers.setValue(2);
               window.nBaseFullSpeedMult.setValue(20);
               window.nBasePilotingMod.setValue(0);
@@ -386,7 +386,7 @@
             end
             if sVehType == "Submersible" then
               window.VehSubTypeLabel.setValue(" (Water Vehicle)");
-              window.vehToken.setValue("tokens/vh_sub.png@Vehicles");
+              window.vehToken.updateIcon("sub");
               window.nBasePassengers.setValue(2);
               window.nBaseFullSpeedMult.setValue(10);
               window.nBasePilotingMod.setValue(-2);
@@ -403,7 +403,7 @@
             end
             if sVehType == "Tank" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
-              window.vehToken.setValue("tokens/vh_tank.png@Vehicles");
+              window.vehToken.updateIcon("tank");
               window.nBasePassengers.setValue(1);
               window.nBaseFullSpeedMult.setValue(10);
               window.nBasePilotingMod.setValue(-1);
@@ -422,7 +422,7 @@
             end
             if sVehType == "Truck" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
-              window.vehToken.setValue("tokens/vh_truck.png@Vehicles");
+              window.vehToken.updateIcon("truck");
               window.nBasePassengers.setValue(3);
               window.nBaseFullSpeedMult.setValue(20);
               window.nBasePilotingMod.setValue(-1);
@@ -436,7 +436,7 @@
             end
             if sVehType == "Walker" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
-              window.vehToken.setValue("tokens/vh_walker.png@Vehicles");
+              window.vehToken.updateIcon("walker");
               window.nBasePassengers.setValue(2);
               window.nBaseFullSpeedMult.setValue(10);
               window.nBasePilotingMod.setValue(1);
@@ -460,10 +460,43 @@
 			</stringcontrol>
 
       <tokenfield name="vehToken">
-				<bounds>200,20,60,60</bounds>
+				<bounds>200,10,60,60</bounds>
 				<empty>button_char_inv_none</empty>
         <frame name="" />
-				<tooltip textres="border" />
+        <script>
+        function onValueChanged()
+          local sToken = tostring(getValue());
+          -- set tooltip text
+          setTooltipText("Vehicle Token: " .. sToken);
+        end
+        function updateIcon( sName )
+          local sToken = "";
+
+          if sName == "boat" then
+            sToken = "tokens/vh_sub.png@Vehicles";
+          elseif sName == "cruiser" then
+            sToken = "tokens/vh_cruiser.png@Vehicles";
+          elseif sName == "cycle" then
+            sToken = "tokens/vh_cycle.png@Vehicles";
+          elseif sName == "fast flyer" then
+            sToken = "tokens/vh_flyer.png@Vehicles";
+          elseif sName == "hovering flyer" then
+            sToken = "tokens/vh_hover.png@Vehicles";
+          elseif sName == "submersible" then
+            sToken = "tokens/vh_sub.png@Vehicles";
+          elseif sName == "tank" then
+            sToken = "tokens/vh_tank.png@Vehicles";
+          elseif sName == "truck" then
+            sToken = "tokens/vh_truck.png@Vehicles";
+          elseif sName == "walker" then
+            sToken = "tokens/vh_walker.png@Vehicles";
+          else
+            sToken = "";
+          end
+          setValue(sToken);
+          sf.DebugOut("Vehicle token set to: " .. sToken);
+        end
+        </script>
 			</tokenfield>
 
       <stringcontrol name="sVehTypeNotes">
@@ -1541,11 +1574,11 @@
             local charNode = window.getDatabaseNode();
             
             -- Create the vehicle record (returns the vehicle node)
-            local vehicleNode = vehBuilder.vehBuilder_createVehicleRecord(charNode, window);
+            local vehicleNode = vehBuilder.createVehicleRecord(charNode, window);
             
             if vehicleNode then
               -- Now that the vehicle is in the database, create the self-referencing link
-              vehBuilder.vehBuilder_createVehicleLink(vehicleNode);
+              vehBuilder.createVehicleLink(vehicleNode);
               
               -- Send success message
               local vehicleName = DB.getValue(vehicleNode, "name", "Vehicle");
@@ -1923,13 +1956,10 @@
 				<script>
 					function onButtonPress()
             local sDBnode = window.getDatabaseNode();
-            sf.DebugOut("DB Node: " .. sDBnode.getPath());
+            Debug.console("DB Node: " .. sDBnode.getPath());
 
             local sDBnodeChild = DB.createChild(sDBnode, "vehicleBuilder");
-            sf.DebugOut("Created child node: " .. sDBnodeChild.getPath());
-
-            local sRuleset = Interface.getRuleset();
-            sf.DebugOut("Using ruleset: " .. sRuleset, true);
+            Debug.console("Created child node: " .. sDBnodeChild.getPath());
 
             Interface.openWindow("vhBuilder", sDBnodeChild);
 					end

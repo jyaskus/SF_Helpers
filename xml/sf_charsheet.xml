@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <root>
   
-  <windowclass name="charsheet_main" merge="join">
+  <windowclass name="char_main_abilities" merge="join">
     <sheetdata>
 
       <button_details name="button_stats_details">
-        <bounds>5,100,20,20</bounds>
+        <bounds>80,0,20,20</bounds>
+        <gmvisibleonly />
 				<script>
 					function onButtonPress()
             local sDBnode = window.getDatabaseNode();
@@ -21,14 +22,6 @@
 
     </sheetdata>
   </windowclass>
-
-  <!--
-  
-    <state_charammocounter name="ammocounter">
-	    <anchored to="uses" position="righthigh" offset="10,0" />
-		</state_charammocounter>
-
-  -->
   
   <windowclass name="char_weapon_ranged" merge="join">
     <sheetdata>
@@ -83,12 +76,12 @@
             -- determine the adjust new inventory count and set it in both places (uses and inventorylist count)
             local nToConsume = tonumber(nAmmo) or 0
             local nNewInv = math.max(nInvCount - nToConsume, 0)
-            Debug.console("uses:onDoubleClick consuming " .. tostring(nToConsume) .. ", newInv=" .. tostring(nNewInv))
+            sf.DebugOut("uses:onDoubleClick consuming " .. tostring(nToConsume) .. ", newInv=" .. tostring(nNewInv))
 
             -- now set the adjusted inventory counts
             DB.setValue(nodeInv, "count", "number", nNewInv);
             DB.setValue(sDBnode, "uses", "number", nNewInv);
-            Debug.console("uses:onDoubleClick set inventory count and weapon uses to " .. tostring(nNewInv));
+            sf.DebugOut("uses:onDoubleClick set inventory count and weapon uses to " .. tostring(nNewInv));
 					end
 				</script>
 			</number_content_base>  

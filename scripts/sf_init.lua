@@ -3,10 +3,7 @@
 -- attribution and copyright information.
 --
 
-local dbRootName = "organizations";
-local createRequestWindowName = "popup_orgs";
-
--- set global or such for max fate
+local dbRootName = "SF_Helpers";
 
 
 -- Initialization

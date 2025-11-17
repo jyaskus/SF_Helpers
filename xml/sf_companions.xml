@@ -9,7 +9,7 @@
 		<sheetdata>
 
       <stringcontrol name="companion_title">
-        <bounds>15,7,180,30</bounds>
+        <bounds>22,6,180,26</bounds>
         <center />
         <font>reference-h</font>
         <static textres="label_companion_defaults" />
@@ -565,7 +565,7 @@
       <stringcontrol name="sSkillList">
         <anchored>
           <left offset="20" />
-          <top offset="315" />
+          <top offset="322" />
           <size>
             <width>360</width>
           </size>
@@ -575,7 +575,7 @@
         <default textres="skill_list_default" />
       </stringcontrol>
       <label_fieldtop>
-        <bounds>150,300,180,20</bounds>
+        <bounds>150,305,180,20</bounds>
         <static>Skill List (comma-separated)</static>
       </label_fieldtop>
 
@@ -598,9 +598,9 @@
     <sheetdata>
 
       <button_details name="button_companion_defaults">
-        <bounds>-65,5,20,20</bounds>
-        <icon normal="button_edit" />
-        <icon normal="button_edit_down" />
+        <bounds>-20,8,16,16</bounds>        
+        <icon normal="button_details_down" />
+        <icon normal="button_details" />
         <gmvisibleonly />
 				<script>
 					function onButtonPress()
@@ -622,9 +622,9 @@
     <sheetdata>
 
       <button_details name="button_companion_defaults">
-        <bounds>-18,35,16,16</bounds>
-        <icon normal="button_edit" />
-        <icon normal="button_edit_down" />
+        <bounds>-18,40,16,16</bounds>        
+        <icon normal="button_details_down" />
+        <icon normal="button_details" />
         <gmvisibleonly />
 				<script>
 					function onButtonPress()

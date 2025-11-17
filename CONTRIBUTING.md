@@ -1,4 +1,4 @@
-Contributing — SF_Helpers extension
+# SF_Helpers extension
 
 Quick dev checklist
 
