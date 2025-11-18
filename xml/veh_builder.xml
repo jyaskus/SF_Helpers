@@ -473,7 +473,7 @@
           local sToken = "";
 
           if sName == "boat" then
-            sToken = "tokens/vh_sub.png@Vehicles";
+            sToken = "tokens/vh_boat.png@Vehicles";
           elseif sName == "cruiser" then
             sToken = "tokens/vh_cruiser.png@Vehicles";
           elseif sName == "cycle" then
@@ -482,7 +482,7 @@
             sToken = "tokens/vh_flyer.png@Vehicles";
           elseif sName == "hovering flyer" then
             sToken = "tokens/vh_hover.png@Vehicles";
-          elseif sName == "submersible" then
+          elseif (sName == "submersible" or sName == "sub") then
             sToken = "tokens/vh_sub.png@Vehicles";
           elseif sName == "tank" then
             sToken = "tokens/vh_tank.png@Vehicles";
@@ -605,12 +605,6 @@
 				<bounds>550,75,80,20</bounds>
 				<static>/</static>
 			</label_fieldtop>
-			<!--stringcontrol name="LabelBaseAttackMods">
-				<bounds>540,135,80,20</bounds>
-        <center />
-				<static textres="vhBuilder_LabelBaseAttackMods_LabelCaption" />
-				<readonly />
-			</stringcontrol-->
 
       <number name="nBasePilotingMod">
 				<frame name="fielddark" />
