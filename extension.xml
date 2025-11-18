@@ -41,10 +41,5 @@
     <!-- initialization -->
     <script name="sf_init" file="scripts/sf_init.lua" />
 
-    <!-- tokens -->
-    <tokenroot >	
-      <source >vehicles</source>
-    </tokenroot>
-
 	</base>
 </root>
