@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root version="3.0">
 
-  <announcement text="QoL improvements for Starfinder 1e (11.09.2025)" font="emotefont"  />
+  <announcement text="QoL improvements for Starfinder 1e (11.17.2025)" font="emotefont"  />
 
 	<properties>
     <author>SgtWhy</author>
-    <loadorder>801</loadorder>
+    <loadorder>822</loadorder>
 		<name>SF_Helpers</name>
 		<version>1.0.0</version>
 
@@ -40,11 +40,6 @@
 
     <!-- initialization -->
     <script name="sf_init" file="scripts/sf_init.lua" />
-
-    <!-- tokens -->
-    <tokenroot >	
-      <source >vehicles</source>
-    </tokenroot>
 
 	</base>
 </root>

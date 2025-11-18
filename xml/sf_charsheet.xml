@@ -6,17 +6,26 @@
 
       <button_details name="button_stats_details">
         <bounds>80,0,20,20</bounds>
-        <gmvisibleonly />
 				<script>
-					function onButtonPress()
-            local sDBnode = window.getDatabaseNode();
-            sf.DebugOut("DB Node: " .. sDBnode.getPath());
+        function onInit()
+          -- on init, check if the ability wizard helper is enabled; if not, hide the button
+          if not sf_init.isAbilityWizard_On() then
+            setVisible(false);
+          else
+            setVisible(true);
+          end
+        end
+				function onButtonPress()
+          local sDBnode = window.getDatabaseNode();
+          sf.DebugOut("DB Node: " .. sDBnode.getPath());
 
-            local sRuleset = Interface.getRuleset();
-            sf.DebugOut("Using ruleset: " .. sRuleset, true);
+          if not sf_init.isAbilityWizard_On() then
+            sf.ErrorOut("Character Ability Wizard helper is disabled; not opening ability boost details.");
+            return;
+          end
 
-            Interface.openWindow("charsheet_abilityboost_sfrpg", sDBnode);
-					end
+          Interface.openWindow("charsheet_abilityboost_sfrpg", sDBnode);
+				end
 				</script>
 			</button_details>
 
@@ -30,7 +39,9 @@
 				<script>
 					function onDoubleClick()
             -- add some logic for grenades: sync inventory uses/carried with weapon uses
-            checkGrenade();
+            if sf_init.isGrenadeAutoReload_On() then
+              checkGrenade();
+            end
 
             -- then we call the outer reload action to do the normal behavior
             if WindowManager and WindowManager.callOuterWindowFunction then

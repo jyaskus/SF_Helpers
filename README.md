@@ -6,7 +6,7 @@ Enhancement suite for Fantasy Grounds Unity's Starfinder ruleset. This extension
 
 1. **Character Ability Pop-Up** – Surfaces the full ability score recipe (base, racial/theme, boosts, gear) so you can track the base startin values, racial modifiers, boosts and item modifiers - rather than simply the total stat score.
 
-2. **Companion Defaults Wizard** – Adds a smart sync button on companions and NPCs that set the companion level-based stats from companion pet using system introduced in AA2 (many vluaes of which, currently can be set by the player), also computes the Cost to upgrade a companion to the next level.
+2. **Companion Defaults Wizard** – Adds a smart sync button on companions and NPCs that set the companion level-based stats from companion pet using system introduced in AA2 (many values of which, currently can be set by the player), also computes the Cost to upgrade a companion to the next level.
 
 3. **Vehicle Builder** – Provides a guided builder from the Vehicles tab. Start by setting the vehicle level which determines all of its metadata. Then pick grafts (size, type, specials) to define you vehicle, preview the math in real time, then spawn the finished vehicle record with a single click. This allows for rapid prototyping of new vehicles.
 

@@ -67,6 +67,14 @@
   <string name="label_wisdom">Wisdom</string>
   <string name="label_charisma">Charisma</string>
 
+	<!-- companion size labels -->
+	<string name="label_size_diminutive">Diminutive</string>
+	<string name="label_size_tiny">Tiny</string>
+	<string name="label_size_small">Small</string>
+	<string name="label_size_medium">Medium</string>
+	<string name="label_size_large">Large</string>
+	<string name="label_size_huge">Huge</string>
+
   <!-- companion wizard -->
   <string name="tooltip_apply_stats_button">Apply the selected primary and secondary stats to the companion.</string>
   <string name="label_good">Good</string>
@@ -75,5 +83,18 @@
   <string name="skill_list_default">Acrobatics, Athletics, Perception, Stealth, Survival</string>
   <string name="tooltip_update_skills_button">Update the companion's skill list based on their current level and class.</string>
   <string name="char_tooltip_abilitypointstotal">Total Ability Points (normally 10 pts)</string>
+
+  <!-- options for new features -->
+  <string name="SF_option_header">Starfinder Helper</string>
+  <string name="SF_option_header_debug">Starfinder Helper options</string>
+  
+  <string name="SF_option_val_off">off</string>
+  <string name="SF_option_val_on">on</string> 
+  <string name="SF_option_val_disabled">disabled</string> 
+
+  <string name="SF_option_helper_ability_wizard">Enable the Character Ability score Pop-Up helper</string>
+  <string name="SF_option_helper_companion_wizard">Enable the creature Companion wizard (for companions)</string>
+  <string name="SF_option_helper_vehicle_wizard">Enable the Vehicle Builder Pop-Up helper</string>
+  <string name="SF_option_helper_grenade_autoreload">Enable Grenade Auto-Reloads</string>
 
 </root>
