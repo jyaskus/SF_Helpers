@@ -1954,9 +1954,22 @@
       <button_details name="button_stats_details">
         <bounds>5,5,20,20</bounds>
 				<script>
+          function onInit()
+            -- on init, check if the Vehicle wizard helper is enabled; if not, hide the button
+            if not sf_init.isVehicleWizard_On() then
+              setVisible(false);
+            else
+              setVisible(true);
+            end
+          end
 					function onButtonPress()
             local sDBnode = window.getDatabaseNode();
-            Debug.console("DB Node: " .. sDBnode.getPath());
+            sf.DebugOut("DB Node: " .. sDBnode.getPath());
+
+            if not sf_init.isVehicleWizard_On() then
+              sf.ErrorOut("Vehicle Wizard helper is disabled; not opening ability boost details.");
+              return;
+            end
 
             local sDBnodeChild = DB.createChild(sDBnode, "vehicleBuilder");
             Debug.console("Created child node: " .. sDBnodeChild.getPath());

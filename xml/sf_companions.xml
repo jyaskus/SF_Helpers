@@ -295,9 +295,9 @@
           function onValueChanged()
             local nEAC = getValue() or 10;
             local sDBnode = window.getDatabaseNode();
-            -- Write to ac.sources.eac.misc (using misc instead of armor for natural AC)
-            DB.setValue(sDBnode, "ac.sources.eac.misc", "number", nEAC);
-            sf.DebugOut("Set EAC misc to " .. nEAC);
+            -- Write to ac.sources.eac.base (using base instead of misc for natural AC)
+            DB.setValue(sDBnode, "ac.sources.eac.base", "number", nEAC);
+            sf.DebugOut("Set EAC base to " .. nEAC);
           end
         </script>
       </number>
@@ -357,9 +357,9 @@
           function onValueChanged()
             local nKAC = getValue() or 10;
             local sDBnode = window.getDatabaseNode();
-            -- Write to ac.sources.kac.misc (using misc instead of armor for natural AC)
-            DB.setValue(sDBnode, "ac.sources.kac.misc", "number", nKAC);
-            sf.DebugOut("Set KAC misc to " .. nKAC);
+            -- Write to ac.sources.kac.base (using base instead of misc for natural AC)
+            DB.setValue(sDBnode, "ac.sources.kac.base", "number", nKAC);
+            sf.DebugOut("Set KAC base to " .. nKAC);
           end
         </script>
       </number>
@@ -603,12 +603,22 @@
         <icon normal="button_details" />
         <gmvisibleonly />
 				<script>
+         function onInit()
+            -- on init, check if the companion wizard helper is enabled; if not, hide the button
+            if not sf_init.isCompanionWizard_On() then
+              setVisible(false);
+            else
+              setVisible(true);
+            end
+          end
 					function onButtonPress()
             local sDBnode = window.getDatabaseNode();
             sf.DebugOut("DB Node: " .. sDBnode.getPath());
 
-            local sRuleset = Interface.getRuleset();
-            sf.DebugOut("Using ruleset: " .. sRuleset, true);
+            if not sf_init.isCompanionWizard_On() then
+              sf.ErrorOut("Companion Wizard helper is disabled; not opening ability boost details.");
+              return;
+            end
 
             Interface.openWindow("companionSetDefaults", sDBnode);
 					end
@@ -627,12 +637,22 @@
         <icon normal="button_details" />
         <gmvisibleonly />
 				<script>
+					function onInit()
+            -- on init, check if the companion wizard helper is enabled; if not, hide the button
+            if not sf_init.isCompanionWizard_On() then
+              setVisible(false);
+            else
+              setVisible(true);
+            end
+          end
 					function onButtonPress()
             local sDBnode = window.getDatabaseNode();
             sf.DebugOut("DB Node: " .. sDBnode.getPath());
 
-            local sRuleset = Interface.getRuleset();
-            sf.DebugOut("Using ruleset: " .. sRuleset, true);
+            if not sf_init.isCompanionWizard_On() then
+              sf.ErrorOut("Companion Ability Wizard helper is disabled; not opening ability boost details.");
+              return;
+            end
 
             Interface.openWindow("companionSetDefaults", sDBnode);
 					end
