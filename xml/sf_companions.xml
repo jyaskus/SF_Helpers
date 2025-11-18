@@ -2,9 +2,9 @@
 <root>
 
   <windowclass name="companionSetDefaults">
-		<frame>chatbox</frame>
+		<frame>storybox</frame>
 		<placement>
-			<size height="540" width="460" />
+			<size height="550" width="460" />
 		</placement>
     <script file="scripts/companion_helper.lua" />
 		<sheetdata>
@@ -156,23 +156,23 @@
       </stringcontrol>
 
       <button_stringcycler name="stat_primary">
-			<frame>
-				<name>filter</name>
-				<offset>0,0,0,0</offset>
-			</frame>
-			<bounds>40,138,150,32</bounds>
-			<tooltip textres="actionUsagePopup_Tooltip" />
-			<parameters>
-				<labelsres>label_charisma|label_constitution|label_dexterity|label_intelligence|label_strength|label_wisdom</labelsres>
-				<values>charisma|constitution|dexterity|intelligence|strength|wisdom</values>
-			</parameters>
-			<script>
-			function onValueChanged()
-			  local sStat = getValue();
-			  sf.DebugOut("Primary Stat selected: " .. sStat);
-			end
-			</script>
-		</button_stringcycler>
+        <frame>
+          <name>filter</name>
+          <offset>0,0,0,0</offset>
+        </frame>
+        <bounds>40,138,150,32</bounds>
+        <tooltip textres="actionUsagePopup_Tooltip" />
+        <parameters>
+          <labelsres>label_charisma|label_constitution|label_dexterity|label_intelligence|label_strength|label_wisdom</labelsres>
+          <values>charisma|constitution|dexterity|intelligence|strength|wisdom</values>
+        </parameters>
+        <script>
+        function onValueChanged()
+          local sStat = getValue();
+          sf.DebugOut("Primary Stat selected: " .. sStat);
+        end
+        </script>
+      </button_stringcycler>
       <label_fieldtop>
         <bounds>40,124,120,16</bounds>
         <static>Primary Stat</static>
@@ -203,7 +203,7 @@
 
       <buttoncontrol name="button_commit_stats">
         <frame name="filter_active" />
-        <bounds>380,138,30,32</bounds>
+        <bounds>390,138,30,32</bounds>
         <state textres="button_dialog_ok" />
         <state textres="button_dialog_ok_down" />
         <script>
@@ -283,10 +283,14 @@
         </script>
         <tooltip textres="tooltip_apply_stats_button" />
       </buttoncontrol>
+      <label_fieldtop>
+        <bounds>380,127,50,16</bounds>
+        <static>Apply</static>
+      </label_fieldtop>
 
       <!-- Step 3 - choose 1 good, 2 poor saves -->
       <stringcontrol name="label_step3">
-        <bounds>20,188,360,18</bounds>
+        <bounds>20,183,360,18</bounds>
         <font>sheetlabel</font>
         <color>#FF6f6f6f</color>
         <static>Step 3 - Choose 1 good, 2 poor saves</static>
@@ -780,41 +784,7 @@
             sf.DebugOut("DB Node: " .. sDBnode.getPath());
 
             if not sf_init.isCompanionWizard_On() then
-              sf.ErrorOut("Companion Wizard helper is disabled; not opening ability boost details.");
-              return;
-            end
-
-            Interface.openWindow("companionSetDefaults", sDBnode);
-					end
-				</script>
-			</button_details>
-
-    </sheetdata>
-  </windowclass>
-
-  <windowclass name="npc_header" merge="join">
-    <sheetdata>
-
-      <button_details name="button_companion_defaults">
-        <bounds>-18,40,16,16</bounds>        
-        <icon normal="button_details_down" />
-        <icon normal="button_details" />
-        <gmvisibleonly />
-				<script>
-					function onInit()
-            -- on init, check if the companion wizard helper is enabled; if not, hide the button
-            if not sf_init.isCompanionWizard_On() then
-              setVisible(false);
-            else
-              setVisible(true);
-            end
-          end
-					function onButtonPress()
-            local sDBnode = window.getDatabaseNode();
-            sf.DebugOut("DB Node: " .. sDBnode.getPath());
-
-            if not sf_init.isCompanionWizard_On() then
-              sf.ErrorOut("Companion Ability Wizard helper is disabled; not opening ability boost details.");
+              sf.ErrorOut("Creature Companion Wizard is disabled; not opening ability boost details.");
               return;
             end
 
