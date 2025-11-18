@@ -67,6 +67,14 @@
   <string name="label_wisdom">Wisdom</string>
   <string name="label_charisma">Charisma</string>
 
+	<!-- companion size labels -->
+	<string name="label_size_diminutive">Diminutive</string>
+	<string name="label_size_tiny">Tiny</string>
+	<string name="label_size_small">Small</string>
+	<string name="label_size_medium">Medium</string>
+	<string name="label_size_large">Large</string>
+	<string name="label_size_huge">Huge</string>
+
   <!-- companion wizard -->
   <string name="tooltip_apply_stats_button">Apply the selected primary and secondary stats to the companion.</string>
   <string name="label_good">Good</string>
