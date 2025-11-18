@@ -4,7 +4,7 @@
   <windowclass name="vhBuilder">
     <frame>recordsheet</frame>
     <placement>
-      <size height="1370" width="760" />
+      <size height="1300" width="760" />
     </placement>
 		<sheetdata>
 
@@ -180,21 +180,21 @@
 
       <number name="nBaseEAC">
         <frame name="fielddark" />
-        <bounds>20,110,100,30</bounds>
+        <bounds>500,110,40,30</bounds>
         <default>0</default>
       </number>
         <label_fieldtop>
-        <bounds>20,95,100,20</bounds>
+        <bounds>500,95,40,20</bounds>
         <static>EAC</static>
       </label_fieldtop>
 
       <number name="nBaseKAC">
         <frame name="fielddark" />
-        <bounds>140,110,100,30</bounds>
+        <bounds>560,110,40,30</bounds>
         <default>0</default>
       </number>
       <label_fieldtop>
-        <bounds>140,95,100,20</bounds>
+        <bounds>560,95,40,20</bounds>
         <static>KAC</static>
       </label_fieldtop>
 
@@ -302,11 +302,9 @@
             window.sVehTypeNotes.setValue("");
             window.sVehDescription.setValue("");
             window.sVehCover.setValue("none");
-            window.vehToken.updateIcon("");
 
             if sVehType == "Boat" then
               window.VehSubTypeLabel.setValue(" (Water Vehicle)");
-              window.vehToken.updateIcon("boat");
               window.nBasePassengers.setValue(2);
               window.nBaseFullSpeedMult.setValue(15);
               window.nBasePilotingMod.setValue(0);
@@ -318,7 +316,6 @@
             end
             if sVehType == "Cruiser" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
-              window.vehToken.updateIcon("cruiser");
               window.nBasePassengers.setValue(3);
               window.nBaseFullSpeedMult.setValue(25);
               window.nBasePilotingMod.setValue(-1);
@@ -335,7 +332,6 @@
             end
             if sVehType == "Cycle" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
-              window.vehToken.updateIcon("cycle");
               window.nBasePassengers.setValue(1);
               window.nBaseFullSpeedMult.setValue(20);
               window.nBasePilotingMod.setValue(2);
@@ -354,7 +350,6 @@
             end
             if sVehType == "Fast Flyer" then
               window.VehSubTypeLabel.setValue(" (Air Vehicle)");
-              window.vehToken.updateIcon("fast flyer");
               window.nBasePassengers.setValue(2);
               window.nBaseFullSpeedMult.setValue(25);
               window.nBasePilotingMod.setValue(-1);
@@ -374,7 +369,6 @@
             end
             if sVehType == "Hovering Flyer" then
               window.VehSubTypeLabel.setValue(" (Air Vehicle)");
-              window.vehToken.updateIcon("hovering flyer");
               window.nBasePassengers.setValue(2);
               window.nBaseFullSpeedMult.setValue(20);
               window.nBasePilotingMod.setValue(0);
@@ -393,7 +387,6 @@
             end
             if sVehType == "Submersible" then
               window.VehSubTypeLabel.setValue(" (Water Vehicle)");
-              window.vehToken.updateIcon("sub");
               window.nBasePassengers.setValue(2);
               window.nBaseFullSpeedMult.setValue(10);
               window.nBasePilotingMod.setValue(-2);
@@ -410,7 +403,6 @@
             end
             if sVehType == "Tank" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
-              window.vehToken.updateIcon("tank");
               window.nBasePassengers.setValue(1);
               window.nBaseFullSpeedMult.setValue(10);
               window.nBasePilotingMod.setValue(-1);
@@ -429,7 +421,6 @@
             end
             if sVehType == "Truck" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
-              window.vehToken.updateIcon("truck");
               window.nBasePassengers.setValue(3);
               window.nBaseFullSpeedMult.setValue(20);
               window.nBasePilotingMod.setValue(-1);
@@ -443,7 +434,6 @@
             end
             if sVehType == "Walker" then
               window.VehSubTypeLabel.setValue(" (Land Vehicle)");
-              window.vehToken.updateIcon("walker");
               window.nBasePassengers.setValue(2);
               window.nBaseFullSpeedMult.setValue(10);
               window.nBasePilotingMod.setValue(1);
@@ -464,46 +454,6 @@
         end
         </script>
 		  </stringcontrol>
-
-      <!-- Vehicle Token -->
-      <tokenfield name="vehToken">
-        <bounds>-250,140,80,80</bounds>
-			  <empty>button_char_inv_none</empty>
-        <frame name="fieldlight" />
-        <script>
-        function onValueChanged()
-          local sToken = tostring(getValue());
-          setTooltipText("Vehicle Token: " .. sToken);
-        end
-        function updateIcon( sName )
-          local sToken = "";
-
-          if sName == "boat" then
-            sToken = "tokens/vh_boat.png@Vehicles";
-          elseif sName == "cruiser" then
-            sToken = "tokens/vh_cruiser.png@Vehicles";
-          elseif sName == "cycle" then
-            sToken = "tokens/vh_cycle.png@Vehicles";
-          elseif sName == "fast flyer" then
-            sToken = "tokens/vh_flyer.png@Vehicles";
-          elseif sName == "hovering flyer" then
-            sToken = "tokens/vh_hover.png@Vehicles";
-          elseif (sName == "submersible" or sName == "sub") then
-            sToken = "tokens/vh_sub.png@Vehicles";
-          elseif sName == "tank" then
-            sToken = "tokens/vh_tank.png@Vehicles";
-          elseif sName == "truck" then
-            sToken = "tokens/vh_truck.png@Vehicles";
-          elseif sName == "walker" then
-            sToken = "tokens/vh_walker.png@Vehicles";
-          else
-            sToken = "";
-          end
-          setValue(sToken);
-          sf.DebugOut("Vehicle token set to: " .. sToken);
-        end
-        </script>
-		  </tokenfield>
 
       <stringcontrol name="sVehDescription">
         <bounds>20,330,-20,20</bounds>
@@ -644,7 +594,7 @@
       <stringcontrol name="sVehCover">
         <bounds>620,300,100,26</bounds>
         <center />
-        <frame name="fielddark"  offset="10,5,5,5" />
+        <frame name="fielddark"  />
         <static textres="" />
         <readonly />
       </stringcontrol>
@@ -957,7 +907,7 @@
         <readonly />
       </stringcontrol>
       
-      <!-- STEP 5 - Special -->
+      <!-- STEP 5 - Special 1 -->
       <stringcontrol name="LabelSpecial1">
         <bounds>30,620,300,23</bounds>
         <font>diemod</font>
@@ -1272,7 +1222,7 @@
       </label_fieldtop>
 
 	    <stringcontrol name="sSpecial1Notes">
-			  <bounds>20,725,-20,30</bounds>
+			  <bounds>20,730,-20,30</bounds>
 			  <static textres="" />
 			  <readonly />
 		  </stringcontrol>
@@ -1322,7 +1272,7 @@
         <static>KAC</static>
       </label_fieldtop>
 
-      <!-- step 5 part 2 -->      
+       <!-- STEP 5 - Special 2 -->    
       <button_stringcycler name="StringCyclerVehSpecial2">
 				<frame name="fielddarksolid" offset="0,0,0,0" />
         <font>reference-header</font>
@@ -1610,75 +1560,76 @@
       </label_fieldtop>
       <number name="nSpecial2AttackMod">
         <frame name="fielddark" />
-        <bounds>500,835,100,30</bounds>
+        <bounds>620,835,100,30</bounds>
         <displaysign />
         <hideonvalue>0</hideonvalue>
       </number>
       <label_fieldtop>
-        <bounds>500,820,100,20</bounds>
+        <bounds>620,820,100,20</bounds>
         <static>Attack</static>
       </label_fieldtop>
       <number name="nSpecial2FullSpeedMult">
         <frame name="fielddark" />
-        <bounds>500,885,100,30</bounds>
+        <bounds>140,875,100,30</bounds>
 			  <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
       </number>
       <label_fieldtop>
-        <bounds>500,870,100,20</bounds>
+        <bounds>140,860,100,20</bounds>
         <static>Full Speed</static>
       </label_fieldtop>
       <number name="nSpecial2Hardness">
         <frame name="fielddark" />
-        <bounds>380,885,100,30</bounds>
+        <bounds>380,875,100,30</bounds>
         <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
       </number>
       <label_fieldtop>
-        <bounds>380,870,100,20</bounds>
+        <bounds>380,860,100,20</bounds>
         <static>Hardness</static>
       </label_fieldtop>
         <number name="nSpecial2HP">
         <frame name="fielddark" />
-        <bounds>260,885,100,30</bounds>
+        <bounds>260,875,100,30</bounds>
         <displaysign />
         <hideonvalue>0</hideonvalue>
       </number>
       <label_fieldtop>
-        <bounds>260,870,100,20</bounds>
+        <bounds>260,860,100,20</bounds>
         <static>HP Adj</static>
       </label_fieldtop>
 
       <stringcontrol name="sSpecial2Notes">
-        <bounds>20,925,720,30</bounds>
+        <bounds>20,900,-20,30</bounds>
         <static textres="" />
         <readonly />
       </stringcontrol>
       <number name="nSpecial2EAC">
         <frame name="fielddark" />
-        <bounds>20,885,100,30</bounds>
+        <bounds>500,875,40,30</bounds>
 			  <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
 		  </number>
       <label_fieldtop>
-        <bounds>20,870,100,20</bounds>
+        <bounds>500,860,40,20</bounds>
         <static>EAC</static>
       </label_fieldtop>
 
       <number name="nSpecial2KAC">
         <frame name="fielddark" />
-        <bounds>140,885,100,30</bounds>
+        <bounds>560,875,40,30</bounds>
 			  <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
 		  </number>
       <label_fieldtop>
-        <bounds>140,870,100,20</bounds>
+        <bounds>560,860,40,20</bounds>
         <static>KAC</static>
       </label_fieldtop>
+      <!-- end STEP 5 - Special 2 -->  
 
       <!-- total stats -->
       <genericcontrol name="frameTotal">
@@ -2116,6 +2067,40 @@
 	</windowclass>
 
    <windowclass name="charsheet_inv_vehicles" merge="join">
+    <sheetdata>
+
+      <button_details name="button_stats_details">
+        <bounds>5,-100,20,20</bounds>
+				<script>
+          function onInit()
+            -- on init, check if the Vehicle wizard helper is enabled; if not, hide the button
+            if not sf_init.isVehicleWizard_On() then
+              setVisible(false);
+            else
+              setVisible(true);
+            end
+          end
+					function onButtonPress()
+            local sDBnode = window.getDatabaseNode();
+            sf.DebugOut("DB Node: " .. sDBnode.getPath());
+
+            if not sf_init.isVehicleWizard_On() then
+              sf.ErrorOut("Vehicle Wizard helper is disabled; not opening ability boost details.");
+              return;
+            end
+
+            local sDBnodeChild = DB.createChild(sDBnode, "vehicleBuilder");
+            sf.DebugOut("Created child node: " .. sDBnodeChild.getPath());
+
+            Interface.openWindow("vhBuilder", sDBnodeChild);
+					end
+				</script>
+			</button_details>
+
+    </sheetdata>
+  </windowclass>
+
+  <windowclass name="charvehicle" merge="join">
     <sheetdata>
 
       <button_details name="button_stats_details">
