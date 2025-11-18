@@ -39,7 +39,7 @@ function registerOptions()
     -- options for the new features added in this extension, all are ENABLED by default
 
     -- 1. **Character Ability Pop-Up** – Surfaces the full ability score recipe (base, racial/theme, boosts, gear) so you can track the base startin values, racial modifiers, boosts and item modifiers - rather than simply the total stat score.
-    -- 2. **Companion Defaults Wizard** – Adds a smart sync button on companions that set the companion level-based stats from companion pet using system introduced in AA2 (many vluaes of which, currently can be set by the player), also computes the Cost to upgrade a companion to the next level.
+    -- 2. **Companion Defaults Wizard** – Adds a smart sync button on companions that set the companion level-based stats from companion pet using system introduced in AA2 (many values of which, currently can be set by the player), also computes the Cost to upgrade a companion to the next level.
     -- 3. **Vehicle Builder** – Provides a guided builder from the Vehicles tab. Start by setting the vehicle level which determines all of its metadata. Then pick grafts (size, type, specials) to define you vehicle, preview the math in real time, then spawn the finished vehicle record with a single click. This allows for rapid prototyping of new vehicles.
     -- 4. **Grenade Auto-Reloads** – Double-clicking a grenade weapon keeps the weapon `uses` node and the inventory stack in lockstep, instantly refunding or deducting grenades as they’re consumed.
 
@@ -58,29 +58,25 @@ function registerOptions()
   end
 end
 
----Checks if the automatic vs throws option is on for PCs.
----On means it should popup a throw when a vs throw is made against the player.
+---Checks if the Ability Wizard is enabled
 ---@return boolean "true if option is on"
 function isAbilityWizard_On()
 	return OptionsManager.isOption("SF_option_helper_ability_wizard", "on");
 end
 
----Checks if the automatic vs throws option is on for PCs.
----On means it should popup a throw when a vs throw is made against the player.
+---Checks if the Companion Wizard is enabled
 ---@return boolean "true if option is on"
 function isCompanionWizard_On()
 	return OptionsManager.isOption("SF_option_helper_companion_wizard", "on");
 end
 
----Checks if the automatic vs throws option is on for PCs.
----On means it should popup a throw when a vs throw is made against the player.
+---Checks if the Vehicle Wizard is enabled.
 ---@return boolean "true if option is on"
 function isVehicleWizard_On()
 	return OptionsManager.isOption("SF_option_helper_vehicle_wizard", "on");
 end
 
----Checks if the automatic vs throws option is on for PCs.
----On means it should popup a throw when a vs throw is made against the player.
+---Checks if the Grenade Auto-Reload option is enabled.
 ---@return boolean "true if option is on"
 function isGrenadeAutoReload_On()
 	return OptionsManager.isOption("SF_option_helper_grenade_autoreload", "on");

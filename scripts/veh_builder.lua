@@ -14,7 +14,7 @@ function createVehicleRecord(charNode, w)
     return;
   end
 
-  Debug.console("Creating vehicle for character: " .. charNode.getPath());
+  sf.DebugOut("Creating vehicle for character: " .. charNode.getPath());
 
   -- Get vehicle properties from the builder
   local nLevel = w.nLevel.getValue() or 1;

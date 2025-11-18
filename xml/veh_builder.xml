@@ -1972,7 +1972,7 @@
             end
 
             local sDBnodeChild = DB.createChild(sDBnode, "vehicleBuilder");
-            Debug.console("Created child node: " .. sDBnodeChild.getPath());
+            sf.DebugOut("Created child node: " .. sDBnodeChild.getPath());
 
             Interface.openWindow("vhBuilder", sDBnodeChild);
 					end

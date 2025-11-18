@@ -459,13 +459,13 @@
         </parameters>
         <script>
           function onValueChanged()
-            Debug.console("Creature Size selected: " .. getStringValue());
+            sf.DebugOut("Creature Size selected: " .. getStringValue());
             if window.onSizeCyclerChanged then
               window.onSizeCyclerChanged(window, self);
-              Debug.console("Called onSizeCyclerChanged");
+              sf.DebugOut("Called onSizeCyclerChanged");
             elseif window.label_step4 and window.label_step4.handleSizeCyclerChanged then
               window.label_step4.handleSizeCyclerChanged(self);
-              Debug.console("Called handleSizeCyclerChanged on label_step4");
+              sf.DebugOut("Called handleSizeCyclerChanged on label_step4");
             end
           end
         </script>
