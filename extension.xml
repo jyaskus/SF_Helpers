@@ -31,6 +31,7 @@
 
     <!-- vehicle wizard -->
     <includefile source="xml/veh_builder.xml" /> 
+    <includefile source="xml/veh_builder_sw.xml" /> 
     <script name="vehBuilder" file="scripts/veh_builder.lua" />
     <script name="VehicleGraftData" file="Data/VehicleGraftData.lua" />
 

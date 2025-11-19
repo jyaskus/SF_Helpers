@@ -11,19 +11,33 @@ function onInit()
 	--- list extensions to help with debugging
 	sf.sendChat("Loading QoL improvements for Starfinder 1e", true);
 
-	-- add icons
-	-- registerButtons();	
-
-	if Session.IsHost then
-		local tNode = DB.createNode(dbRootName);
-		DB.setPublic(tNode, true);	  
-	else
-	  -- players will have it shared via public
-	  return;
-	end
-
-	-- add options, mostly just a DEBUG
+  -- add options
 	registerOptions();
+
+	if not Session.IsHost then
+    return;
+  end
+  -- create the database root node
+  local tNode = DB.createNode(dbRootName);
+	DB.setPublic(tNode, true);	  
+
+  -- create SF_Helpers.vehicleBuilder.nLevel
+  local vehNode = DB.createChild(tNode, "vehicleBuilder");
+  DB.createChild(vehNode, "nLevel", "number");
+  -- "SF_Helpers.vehicleBuilder.nBasePrice"
+  DB.createChild(vehNode, "nBasePrice", "number");
+  -- SF_Helpers.vehicleBuilder.nVehTypePrice
+  DB.createChild(vehNode, "nVehTypePrice", "number");
+  -- SF_Helpers.vehicleBuilder.nSizePrice
+  DB.createChild(vehNode, "nSizePrice", "number");
+  -- SF_Helpers.vehicleBuilder.nSpecial1Price
+  DB.createChild(vehNode, "nSpecial1Price", "number");
+  -- SF_Helpers.vehicleBuilder.nSpecial2Price
+  DB.createChild(vehNode, "nSpecial2Price", "number");
+  -- SF_Helpers.vehicleBuilder.nOriginPrice
+  DB.createChild(vehNode, "nOriginPrice", "number");
+  
+
   
   -- load data from OGL
   -- loadOGLData();
