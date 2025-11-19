@@ -4,7 +4,7 @@
   <windowclass name="vhBuilder">
     <frame>recordsheet</frame>
     <placement>
-      <size height="960" width="740" />
+      <size height="920" width="740" />
     </placement>
 		<sheetdata>
 
@@ -456,7 +456,7 @@
       <stringcontrol name="VehSubTypeLabel">
         <bounds>-200,120,-20,18</bounds>
 		  </stringcontrol>
-      
+
       <stringcontrol name="sVehDescription">
         <bounds>20,230,-20,20</bounds>
         <center />
@@ -1564,105 +1564,105 @@
       <!-- BELOW HERE-->
       <number name="nSpecial2Speed">
         <frame name="fieldlight" />
-        <bounds>140,680,100,30</bounds>
+        <bounds>140,640,100,30</bounds>
 			  <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
 		  </number>
       <label_fieldtop>
-        <bounds>140,665,100,20</bounds>
+        <bounds>140,625,100,20</bounds>
         <static>Speed Adj</static>
       </label_fieldtop>
       <number name="nSpecial2Passengers">
         <frame name="fieldlight" />
-        <bounds>260,680,100,30</bounds>
+        <bounds>260,640,100,30</bounds>
         <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
       </number>
       <label_fieldtop>
-        <bounds>260,665,100,20</bounds>
+        <bounds>260,625,100,20</bounds>
         <static>Passengers</static>
       </label_fieldtop>
       <number name="nSpecial2PilotingMod">
         <frame name="fieldlight" />
-        <bounds>380,680,100,30</bounds>
+        <bounds>380,640,100,30</bounds>
 			  <displaysign />
         <hideonvalue>0</hideonvalue>
 		  </number>
       <label_fieldtop>
-        <bounds>380,665,100,20</bounds>
+        <bounds>380,625,100,20</bounds>
         <static>Piloting</static>
       </label_fieldtop>
       <number name="nSpecial2AttackMod">
         <frame name="fieldlight" />
-        <bounds>620,680,100,30</bounds>
+        <bounds>620,640,100,30</bounds>
         <displaysign />
         <hideonvalue>0</hideonvalue>
       </number>
       <label_fieldtop>
-        <bounds>620,665,100,20</bounds>
+        <bounds>620,625,100,20</bounds>
         <static>Attack</static>
       </label_fieldtop>
 
       <!-- step 2 special 2 row 2 -->
       <number name="nSpecial2FullSpeedMult">
         <frame name="fieldlight" />
-        <bounds>140,720,100,30</bounds>
+        <bounds>140,680,100,30</bounds>
 			  <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
       </number>
       <label_fieldtop>
-        <bounds>140,705,100,20</bounds>
+        <bounds>140,665,100,20</bounds>
         <static>Full Speed</static>
       </label_fieldtop>
       <number name="nSpecial2Hardness">
         <frame name="fieldlight" />
-        <bounds>380,720,100,30</bounds>
+        <bounds>380,680,100,30</bounds>
         <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
       </number>
       <label_fieldtop>
-        <bounds>380,705,100,20</bounds>
+        <bounds>380,665,100,20</bounds>
         <static>Hardness</static>
       </label_fieldtop>
       <number name="nSpecial2HP">
         <frame name="fieldlight" />
-        <bounds>260,720,100,30</bounds>
+        <bounds>260,680,100,30</bounds>
         <displaysign />
         <hideonvalue>0</hideonvalue>
       </number>
       <label_fieldtop>
-        <bounds>260,705,100,20</bounds>
+        <bounds>260,665,100,20</bounds>
         <static>HP Adj</static>
       </label_fieldtop>      
       <number name="nSpecial2EAC">
         <frame name="fieldlight" />
-        <bounds>500,720,40,30</bounds>
+        <bounds>500,680,40,30</bounds>
 			  <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
 		  </number>
       <label_fieldtop>
-        <bounds>500,705,40,20</bounds>
+        <bounds>500,665,40,20</bounds>
         <static>EAC</static>
       </label_fieldtop>
       <number name="nSpecial2KAC">
         <frame name="fieldlight" />
-        <bounds>560,720,40,30</bounds>
+        <bounds>560,680,40,30</bounds>
 			  <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
 		  </number>
       <label_fieldtop>
-        <bounds>560,705,40,20</bounds>
+        <bounds>560,665,40,20</bounds>
         <static>KAC</static>
       </label_fieldtop>
 
       <stringcontrol name="sSpecial2Notes">
-        <bounds>20,750,-20,30</bounds>
+        <bounds>20,710,-20,30</bounds>
         <center />
         <static textres="" />
         <readonly />
@@ -1671,19 +1671,19 @@
 
       <!-- total stats -->
       <genericcontrol name="frameTotal">
-        <bounds>15,775,-15,-15</bounds>
+        <bounds>15,735,-15,-15</bounds>
         <frame name="groupbox" />
       </genericcontrol>
 
       <stringcontrol name="sVehName">
         <empty textres="vhBuilder_sVehName_Label_Vehicle_Name" />
         <font>reference-i</font>
-        <bounds>35,790,240,22</bounds>
+        <bounds>35,750,240,22</bounds>
         <frame name="fielddark"  offset="10,5,5,5" />
       </stringcontrol>
 
       <button_details name="button_update_totals">
-        <bounds>310,790,20,20</bounds>
+        <bounds>310,750,20,20</bounds>
         <icon normal="button_dialog_ok" />
         <icon normal="button_dialog_ok_down" />
 				<script>
@@ -1718,11 +1718,11 @@
 				</script>
 			</button_details>
       <label_fieldtop>
-        <bounds>330,790,40,20</bounds>
+        <bounds>330,750,40,20</bounds>
         <static>Update</static>
       </label_fieldtop>
       <button_details name="button_create_vehicle">
-        <bounds>390,790,20,20</bounds>
+        <bounds>390,750,20,20</bounds>
         <icon normal="button_forward_add" />
 				<script>
 					function onButtonPress()
@@ -1752,13 +1752,13 @@
 				</script>
 			</button_details>
       <label_fieldtop>
-        <bounds>405,790,40,20</bounds>
+        <bounds>405,750,40,20</bounds>
         <static>Save</static>
       </label_fieldtop>
 
       <!-- totals row 1 -->
       <number name="nTotalPrice">
-        <bounds>20,830,100,30</bounds>
+        <bounds>20,790,100,30</bounds>
         <frame name="fielddark" />        
         <script>
           function update()
@@ -1768,13 +1768,13 @@
         </script>
 			</number>
       <label_fieldtop>
-        <bounds>20,815,80,20</bounds>
+        <bounds>20,775,80,20</bounds>
         <static>Total Price</static>
       </label_fieldtop>
 
       <number name="nTotalSpeed">
         <frame name="fielddark" />
-        <bounds>140,830,100,30</bounds>
+        <bounds>140,790,100,30</bounds>
 				<default>0</default>
         <script>
           function update()
@@ -1784,13 +1784,13 @@
         </script>
 			</number>
       <label_fieldtop>
-        <bounds>140,815,100,23</bounds>
+        <bounds>140,775,100,23</bounds>
         <static>Speed</static>
       </label_fieldtop>
 
       <number name="nTotalFullSpeedMult">
         <frame name="fielddark" />
-        <bounds>140,870,100,30</bounds>
+        <bounds>140,830,100,30</bounds>
 				<default>0</default>
 				<hideonvalue>0</hideonvalue>
         <script>
@@ -1813,13 +1813,13 @@
         </script>
 			</number>
       <label_fieldtop>
-        <bounds>140,855,100,23</bounds>
+        <bounds>140,815,100,23</bounds>
         <static>Top speed</static>
       </label_fieldtop>
 
       <number name="nTotalOverlandSpeed">
         <frame name="fielddark" />
-        <bounds>140,910,100,30</bounds>
+        <bounds>140,870,100,30</bounds>
 				<default>0</default>
 				<hideonvalue>0</hideonvalue>
         <script>
@@ -1841,13 +1841,13 @@
         </script>
 			</number>
       <label_fieldtop>
-        <bounds>140,895,100,23</bounds>
+        <bounds>140,855,100,23</bounds>
         <static>overland (mph)</static>
       </label_fieldtop>
 
       <number name="nTotalPassengers">
         <frame name="fielddark" />
-        <bounds>260,830,100,30</bounds>
+        <bounds>260,790,100,30</bounds>
 				<default>0</default>
 				<hideonvalue>0</hideonvalue>
         <script>
@@ -1858,13 +1858,13 @@
         </script>
 			</number>
       <label_fieldtop>
-        <bounds>260,815,100,23</bounds>
+        <bounds>260,775,100,23</bounds>
         <static>passengers</static>
       </label_fieldtop>
 
       <number name="nTotalPilotingMod">
         <frame name="fielddark" />
-        <bounds>380,830,100,30</bounds>
+        <bounds>380,790,100,30</bounds>
 				<displaysign />
         <script>
           function update()
@@ -1874,13 +1874,13 @@
         </script>
 			</number>
       <label_fieldtop>
-        <bounds>380,815,100,20</bounds>
+        <bounds>380,775,100,20</bounds>
         <static>piloting</static>
       </label_fieldtop>
 
       <number name="nTotalAttackMod">
         <frame name="fielddark" />
-        <bounds>620,830,40,30</bounds>
+        <bounds>620,790,40,30</bounds>
 				<displaysign />
         <script>
           function update()
@@ -1890,12 +1890,12 @@
         </script>
 			</number>
       <label_fieldtop>
-        <bounds>620,815,40,20</bounds>
+        <bounds>620,775,40,20</bounds>
         <static>Attack</static>
       </label_fieldtop>
       <number name="nTotalAttackFullMod">
         <frame name="fielddark" />
-        <bounds>660,830,40,30</bounds>
+        <bounds>660,790,40,30</bounds>
 				<displaysign />
         <script>
           function update()
@@ -1905,13 +1905,13 @@
         </script>
 			</number>
       <label_fieldtop>
-        <bounds>660,815,40,20</bounds>
+        <bounds>660,775,40,20</bounds>
         <static>(Full)</static>
       </label_fieldtop>      
       
       <number name="nTotalEAC">
         <frame name="fielddark" />
-        <bounds>500,830,40,30</bounds>
+        <bounds>500,790,40,30</bounds>
 				<default>0</default>
         <script>
           function update()
@@ -1921,12 +1921,12 @@
         </script>
 			</number>
         <label_fieldtop>
-        <bounds>500,815,40,23</bounds>
+        <bounds>500,775,40,23</bounds>
         <static>EAC</static>
       </label_fieldtop>
       <number name="nTotalKAC">
         <frame name="fielddark" />
-        <bounds>560,830,40,30</bounds>
+        <bounds>560,790,40,30</bounds>
 				<default>0</default>
         <script>
           function update()
@@ -1936,13 +1936,13 @@
         </script>
 			</number>
         <label_fieldtop>
-        <bounds>560,815,40,23</bounds>
+        <bounds>560,775,40,23</bounds>
         <static>KAC</static>
       </label_fieldtop>
 
       <number name="nTotalHP">
         <frame name="fielddark" />
-        <bounds>260,870,100,30</bounds>
+        <bounds>260,830,100,30</bounds>
 				<default>0</default>
         <script>
           function update()
@@ -1952,13 +1952,13 @@
         </script>
 			</number>
         <label_fieldtop>
-        <bounds>260,855,100,23</bounds>
+        <bounds>260,815,100,23</bounds>
         <static>Hit Points</static>
       </label_fieldtop>
 
         <number name="nBrokenHP">
         <frame name="fielddark" />
-        <bounds>260,910,100,30</bounds>
+        <bounds>260,870,100,30</bounds>
 				<default>0</default>
         <script>
           function update()
@@ -1971,13 +1971,13 @@
         </script>
 			</number>
         <label_fieldtop>
-        <bounds>260,895,100,23</bounds>
+        <bounds>260,855,100,23</bounds>
         <static>Broken HP</static>
       </label_fieldtop>
 
       <number name="nTotalHardness">
         <frame name="fielddark" />
-        <bounds>380,870,100,30</bounds>
+        <bounds>380,830,100,30</bounds>
 				<default>5</default>
         <minimum>5</minimum>
         <script>
@@ -1988,13 +1988,13 @@
         </script>
 			</number>
       <label_fieldtop>
-        <bounds>380,855,100,23</bounds>
+        <bounds>380,815,100,23</bounds>
         <static>Hardness</static>
       </label_fieldtop>
 
       <number name="nTotalDiceCount">
         <frame name="fielddark" />
-        <bounds>500,870,40,30</bounds>
+        <bounds>500,830,40,30</bounds>
         <script>
           function update()
             local nDice = window.nBaseDiceCount.getValue() + window.nSizeDiceCount.getValue();
@@ -2004,7 +2004,7 @@
 			</number>
       <number name="nTotalDiceSize">
         <frame name="fielddark" />
-        <bounds>560,870,40,30</bounds>
+        <bounds>560,830,40,30</bounds>
         <script>
           function update()
             local nDiceSize = window.nBaseDiceSize.getValue();
@@ -2013,17 +2013,17 @@
         </script>
 			</number>
       <label_fieldtop>
-        <bounds>542,873,20,20</bounds>
+        <bounds>542,833,20,20</bounds>
         <static>d</static>
       </label_fieldtop>      
       <label_fieldtop>
-        <bounds>500,855,100,23</bounds>
+        <bounds>500,815,100,23</bounds>
         <static>Collision DMG</static>
       </label_fieldtop>
 
       <number name="nTotalCollisionDC">
         <frame name="fielddark" />
-        <bounds>620,870,100,30</bounds>
+        <bounds>620,830,100,30</bounds>
 				<default>0</default>
         <script>
           function update()
@@ -2033,13 +2033,13 @@
         </script>
 			</number>
         <label_fieldtop>
-        <bounds>620,855,100,23</bounds>
+        <bounds>620,815,100,23</bounds>
         <static>Collision DC</static>
       </label_fieldtop>
 
       <number name="nTotalModSlots">
         <frame name="fielddark" />
-        <bounds>620,910,100,30</bounds>        
+        <bounds>620,870,100,30</bounds>        
 				<default>0</default>
         <displaysign />
         <script>
@@ -2053,12 +2053,12 @@
         </script>
 			</number>
       <label_fieldtop>
-        <bounds>620,895,100,20</bounds>
+        <bounds>620,855,100,20</bounds>
         <static>Mod Slots</static>
       </label_fieldtop>
 
       <stringcontrol name="sTotalVehCover">
-        <bounds>500,910,100,30</bounds>
+        <bounds>500,870,100,30</bounds>
         <center />
         <frame name="fielddark"  />
 				<static textres="" />
@@ -2082,7 +2082,7 @@
           </script>
 			</stringcontrol>
       <label_fieldtop>
-        <bounds>500,895,100,20</bounds>
+        <bounds>500,855,100,20</bounds>
         <static>cover provided</static>
       </label_fieldtop>
 
