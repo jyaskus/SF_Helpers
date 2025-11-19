@@ -36,7 +36,40 @@ function onInit()
   DB.createChild(vehNode, "nSpecial2Price", "number");
   -- SF_Helpers.vehicleBuilder.nOriginPrice
   DB.createChild(vehNode, "nOriginPrice", "number");
-  
+  -- SF_Helpers.vehicleBuilder.nBaseSpeed
+  DB.createChild(vehNode, "nBaseSpeed", "number");
+  -- SF_Helpers.vehicleBuilder.nVehTypeSpeedMod
+  DB.createChild(vehNode, "nVehTypeSpeedMod", "number");
+  -- SF_Helpers.vehicleBuilder.nSpecial1Speed
+  DB.createChild(vehNode, "nSpecial1Speed", "number");
+  -- SF_Helpers.vehicleBuilder.nSpecial2Speed
+  DB.createChild(vehNode, "nSpecial2Speed", "number");
+  -- SF_Helpers.vehicleBuilder.nBaseSpeed
+  DB.createChild(vehNode, "nBaseSpeed", "number");
+  -- SF_Helpers.vehicleBuilder.nBaseDiceCount
+  DB.createChild(vehNode, "nBaseDiceCount", "number");
+  -- SF_Helpers.vehicleBuilder.nBaseDiceSize
+  DB.createChild(vehNode, "nBaseDiceSize", "number");
+  -- SF_Helpers.vehicleBuilder.nBaseCollisionDC
+  DB.createChild(vehNode, "nBaseCollisionDC", "number");
+  -- SF_Helpers.vehicleBuilder.nBaseHP
+  DB.createChild(vehNode, "nBaseHP", "number");
+  -- SF_Helpers.vehicleBuilder.nBaseHardness
+  DB.createChild(vehNode, "nBaseHardness", "number");
+  -- SF_Helpers.vehicleBuilder.nBaseEAC
+  DB.createChild(vehNode, "nBaseEAC", "number");
+  -- SF_Helpers.vehicleBuilder.nBaseKAC
+  DB.createChild(vehNode, "nBaseKAC", "number");
+  -- SF_Helpers.vehicleBuilder.nBaseModSlots
+  DB.createChild(vehNode, "nBaseModSlots", "number");
+  -- SF_Helpers.vehicleBuilder.nBaseFullSpeedMult
+  DB.createChild(vehNode, "nBaseFullSpeedMult", "number");
+
+  -- "SF_Helpers.vehicleBuilder.sVehTypeGraft"
+  DB.createChild(vehNode, "sVehTypeGraft", "string");
+
+
+
 
   
   -- load data from OGL

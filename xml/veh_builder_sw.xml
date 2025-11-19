@@ -58,7 +58,8 @@
               nLevel = 20;
               setValue(nLevel);
             end
-            DB.setValue("SF_Helpers.vehicleBuilder.nLevel", "number", nLevel);
+            -- should not be need with the source in place 
+            -- DB.setValue("SF_Helpers.vehicleBuilder.nLevel", "number", nLevel);
             updateBaseLevelStats();
           end
 
@@ -167,7 +168,7 @@
         <static>Price</static>
       </label_fieldtop>
 
-      <number name="nBaseSpeed">
+      <number name="nBaseSpeed" source ="SF_Helpers.vehicleBuilder.nBaseSpeed">
         <frame name="fieldlight" />
         <bounds>140,60,100,30</bounds>
         <default>0</default>
@@ -177,11 +178,11 @@
         <static>Speed</static>
       </label_fieldtop>
 
-      <number name="nBaseDiceCount">
+      <number name="nBaseDiceCount" source ="SF_Helpers.vehicleBuilder.nBaseDiceCount">
         <frame name="fieldlight" />
         <bounds>500,20,40,30</bounds>
       </number>
-      <number name="nBaseDiceSize">
+      <number name="nBaseDiceSize" source ="SF_Helpers.vehicleBuilder.nBaseDiceSize">
         <frame name="fieldlight" />
         <bounds>560,20,40,30</bounds>
       </number>
@@ -194,7 +195,7 @@
         <static>Collision DMG</static>
       </label_fieldtop>
 
-      <number name="nBaseCollisionDC">
+      <number name="nBaseCollisionDC" source ="SF_Helpers.vehicleBuilder.nBaseCollisionDC">
         <frame name="fieldlight" />
         <bounds>620,20,100,30</bounds>
         <default>0</default>
@@ -204,7 +205,7 @@
         <static>Collision DC</static>
       </label_fieldtop>
 
-      <number name="nBaseHP">
+      <number name="nBaseHP"  source ="SF_Helpers.vehicleBuilder.nBaseHP">
         <frame name="fieldlight" />
         <bounds>260,60,100,30</bounds>
         <default>0</default>
@@ -214,7 +215,7 @@
         <static>Hit Points</static>
       </label_fieldtop>
 
-      <number name="nBaseHardness">
+      <number name="nBaseHardness" source ="SF_Helpers.vehicleBuilder.nBaseHardness">
         <frame name="fieldlight" />
         <bounds>380,60,100,30</bounds>
         <default>5</default>
@@ -225,7 +226,7 @@
         <static>Hardness</static>
       </label_fieldtop>
 
-      <number name="nBaseEAC">
+      <number name="nBaseEAC" source ="SF_Helpers.vehicleBuilder.nBaseEAC">
         <frame name="fieldlight" />
         <bounds>500,60,40,30</bounds>
         <default>0</default>
@@ -235,7 +236,7 @@
         <static>EAC</static>
       </label_fieldtop>
 
-      <number name="nBaseKAC">
+      <number name="nBaseKAC" source ="SF_Helpers.vehicleBuilder.nBaseKAC">
         <frame name="fieldlight" />
         <bounds>560,60,40,30</bounds>
         <default>0</default>
@@ -245,7 +246,7 @@
         <static>KAC</static>
       </label_fieldtop>
 			
-      <number name="nBaseModSlots">
+      <number name="nBaseModSlots" source ="SF_Helpers.vehicleBuilder.nBaseModSlots">
         <frame name="fieldlight" />
         <bounds>620,60,100,30</bounds>
         <default>0</default>
@@ -279,7 +280,7 @@
           end
         </script>
 			</stringcontrol>
-      <button_stringcycler name="StringCyclerVehType">
+      <button_stringcycler name="StringCyclerVehType" source ="SF_Helpers.vehicleBuilder.sVehTypeGraft">
 				<frame name="fielddarksolid" offset="0,0,0,0" />
         <font>reference-header</font>
         <bounds>300,0,200,40</bounds>
@@ -468,14 +469,14 @@
         <bounds>520,15,200,18</bounds>
 		  </stringcontrol>
 
-      <stringcontrol name="sVehDescription">
+      <stringcontrol name="sVehDescription" source="SF_Helpers.vehicleBuilder.sVehDescription">
         <bounds>20,170,700,22</bounds>
         <center />
         <static textres="" />
         <readonly />
       </stringcontrol>
 
-      <stringcontrol name="sVehTypeNotes">
+      <stringcontrol name="sVehTypeNotes" source="SF_Helpers.vehicleBuilder.sVehTypeNotes">
         <bounds>20,200,700,22</bounds>
         <color>#FF0000</color>
         <center />
@@ -494,7 +495,7 @@
         <static>Type Cost</static>
       </label_fieldtop>
 
-      <number name="nVehTypeSpeedMod">
+      <number name="nVehTypeSpeedMod" source="SF_Helpers.vehicleBuilder.nVehTypeSpeedMod">
         <frame name="fieldlight" />
           <bounds>140,65,100,30</bounds>
 			  <default>0</default>
@@ -506,7 +507,7 @@
         <static>Speed Mod</static>
       </label_fieldtop>
 
-      <number name="nBasePassengers">
+      <number name="nBasePassengers" source="SF_Helpers.vehicleBuilder.nBasePassengers">
         <frame name="fieldlight" />
           <bounds>260,65,100,30</bounds>
 			  <default>0</default>
@@ -517,7 +518,7 @@
         <static>Passengers</static>
       </label_fieldtop>
 
-      <number name="nBasePilotingMod">
+      <number name="nBasePilotingMod" source="SF_Helpers.vehicleBuilder.nBasePilotingMod">
         <frame name="fieldlight" />
           <bounds>380,65,100,30</bounds>
         <displaysign />
@@ -528,7 +529,7 @@
       </label_fieldtop>
 
       <!-- attack / full attack modifiers -->
-      <number name="nBaseAttackMod">
+      <number name="nBaseAttackMod" source="SF_Helpers.vehicleBuilder.nBaseAttackMod">
         <frame name="fieldlight" />
           <bounds>520,65,40,30</bounds>
         <displaysign />
@@ -537,7 +538,7 @@
           <bounds>520,45,40,20</bounds>
         <static>Attack</static>
       </label_fieldtop>
-      <number name="nBaseAttackFullMod">
+      <number name="nBaseAttackFullMod" source="SF_Helpers.vehicleBuilder.nBaseAttackFullMod">
         <frame name="fieldlight" />
           <bounds>580,65,40,30</bounds>
         <displaysign />
@@ -547,7 +548,7 @@
         <static>(Full)</static>
       </label_fieldtop>
 
-      <number name="nBaseFullSpeedMult">
+      <number name="nBaseFullSpeedMult" source="SF_Helpers.vehicleBuilder.nBaseFullSpeedMult">
         <frame name="fieldlight" />
           <bounds>20,120,100,30</bounds>
         <default>0</default>
@@ -558,21 +559,21 @@
         <static>Full Speed x</static>
       </label_fieldtop>
 
-      <number name="nVehTypeHP">
+      <number name="nVehTypeHP" source="SF_Helpers.vehicleBuilder.nVehTypeHP">
         <frame name="fieldlight" />
-          <bounds>140,120,100,30</bounds>
+        <bounds>140,120,100,30</bounds>
         <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
       </number>
       <label_fieldtop>
-          <bounds>140,100,100,20</bounds>
+        <bounds>140,100,100,20</bounds>
         <static>HP Mod</static>
       </label_fieldtop>
 
-      <number name="nVehTypeHardness">
+      <number name="nVehTypeHardness" source="SF_Helpers.vehicleBuilder.nVehTypeHardness">
         <frame name="fieldlight" />
-          <bounds>260,120,100,30</bounds>
+        <bounds>260,120,100,30</bounds>
         <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
@@ -583,9 +584,9 @@
       </label_fieldtop>
 
       <!-- armor -->
-      <number name="nVehTypeEACmod">
+      <number name="nVehTypeEACmod" source="SF_Helpers.vehicleBuilder.nVehTypeEACmod">
         <frame name="fieldlight" />
-          <bounds>520,120,40,30</bounds>
+        <bounds>520,120,40,30</bounds>
         <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
@@ -594,9 +595,9 @@
           <bounds>520,100,40,20</bounds>
         <static>EAC</static>
       </label_fieldtop>
-      <number name="nVehTypeKACmod">
+      <number name="nVehTypeKACmod" source="SF_Helpers.vehicleBuilder.nVehTypeKACmod">
         <frame name="fieldlight" />
-          <bounds>580,120,40,30</bounds>
+        <bounds>580,120,40,30</bounds>
         <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
@@ -606,8 +607,8 @@
         <static>KAC</static>
       </label_fieldtop>
       
-      <stringcontrol name="sVehCover">
-          <bounds>640,120,80,30</bounds>
+      <stringcontrol name="sVehCover" source="SF_Helpers.vehicleBuilder.sVehCover">
+        <bounds>640,120,80,30</bounds>
         <center />
         <frame name="fieldlight"  />
         <static textres="" />
@@ -642,7 +643,7 @@
           end
         </script>
 			</stringcontrol>
-      <button_stringcycler name="StringCyclerVehSize">
+      <button_stringcycler name="StringCyclerVehSize" source ="SF_Helpers.vehicleBuilder.sVehSize">
 				<frame name="fielddarksolid" offset="0,0,0,0" />
         <font>reference-header</font>
         <bounds>300,5,120,40</bounds>
@@ -761,7 +762,7 @@
 				</script>
 			</button_stringcycler>
       
-      <number name="nSizePrice">
+      <number name="nSizePrice" source="SF_Helpers.vehicleBuilder.nSizePrice">
         <frame name="fieldlight" />
         <displaysign />
         <hideonvalue>0</hideonvalue>
@@ -772,7 +773,7 @@
         <static>Cost Adj</static>
       </label_fieldtop>
 
-      <number name="nSizePassengers">
+      <number name="nSizePassengers" source="SF_Helpers.vehicleBuilder.nSizePassengers">
         <frame name="fieldlight" />
         <bounds>260,55,100,30</bounds>
         <default>0</default>
@@ -784,7 +785,7 @@
         <static>Passengers</static>
       </label_fieldtop>
 
-      <number name="nSizePilotingMod">
+      <number name="nSizePilotingMod" source="SF_Helpers.vehicleBuilder.nSizePilotingMod">
         <frame name="fieldlight" />
         <bounds>380,55,100,30</bounds>
         <displaysign />
@@ -795,7 +796,7 @@
         <static>Piloting</static>
       </label_fieldtop>
 
-      <number name="nSizeAttackMod">
+      <number name="nSizeAttackMod" source="SF_Helpers.vehicleBuilder.nSizeAttackMod">
         <frame name="fieldlight" />
         <bounds>620,55,100,30</bounds>
         <displaysign />
@@ -806,7 +807,7 @@
         <static>Attack</static>
       </label_fieldtop>
 
-      <number name="nSizeHP">
+      <number name="nSizeHP" source="SF_Helpers.vehicleBuilder.nSizeHP">
         <frame name="fieldlight" />
         <displaysign />
         <hideonvalue>0</hideonvalue>
@@ -818,7 +819,7 @@
         <static>HP Mod</static>
       </label_fieldtop>
 
-      <number name="nSizeDiceCount">
+      <number name="nSizeDiceCount" source="SF_Helpers.vehicleBuilder.nSizeDiceCount">
         <frame name="fieldlight" />
         <displaysign />
         <hideonvalue>0</hideonvalue>
@@ -829,7 +830,7 @@
         <static>dice</static>
       </label_fieldtop>
 
-      <number name="nSizeCollisionDC">
+      <number name="nSizeCollisionDC" source="SF_Helpers.vehicleBuilder.nSizeCollisionDC">
         <frame name="fieldlight" />
         <displaysign />
         <hideonvalue>0</hideonvalue>
@@ -865,7 +866,7 @@
         end
       </script>
       </stringcontrol>
-      <button_stringcycler name="StringCyclerVehOrigin">
+      <button_stringcycler name="StringCyclerVehOrigin" source="SF_Helpers.vehicleBuilder.sVehOrigin">
         <frame name="fielddarksolid" offset="0,0,0,0" />
         <font>reference-header</font>
         <bounds>300,0,200,40</bounds>
@@ -931,7 +932,7 @@
         </script>
       </button_stringcycler>
 
-	    <number name="nOriginPrice">
+	    <number name="nOriginPrice" source="SF_Helpers.vehicleBuilder.nOriginPrice">
         <frame name="fieldlight" />
         <displaysign />
         <hideonvalue>0</hideonvalue>
@@ -942,14 +943,14 @@
         <static>Cost Adj</static>
       </label_fieldtop>
 
-      <stringcontrol name="nOriginNotes">
+      <stringcontrol name="nOriginNotes" source="SF_Helpers.vehicleBuilder.nOriginNotes">
         <bounds>20,120,700,24</bounds>
         <center />
         <font>reference-i</font>
         <readonly />
       </stringcontrol>
 
-      <number name="nOriginModSlots">
+      <number name="nOriginModSlots" source="SF_Helpers.vehicleBuilder.nOriginModSlots">
         <frame name="fieldlight" />
         <displaysign />
         <hideonvalue>0</hideonvalue>
@@ -988,7 +989,7 @@
           end
         </script>
 			</stringcontrol>
-      <button_stringcycler name="StringCyclerVehSpecial1">
+      <button_stringcycler name="StringCyclerVehSpecial1" source="SF_Helpers.vehicleBuilder.sSpecial1">
 				<frame name="fielddarksolid" offset="0,0,0,0" />
         <font>reference-header</font>
         <bounds>20,40,320,32</bounds>
@@ -1233,7 +1234,7 @@
         <tooltip textres="vhBuilder_StringCyclerVehSpecial1_Tooltip" />
 			</button_stringcycler>
 
-	    <number name="nSpecial1Price">
+	    <number name="nSpecial1Price" source="SF_Helpers.vehicleBuilder.nSpecial1Price">
 			  <frame name="fieldlight" />
       <bounds>20,100,120,30</bounds>
         <displaysign />
@@ -1244,7 +1245,7 @@
         <static>Price Adj</static>
       </label_fieldtop>
 
-      <number name="nSpecial1Speed">
+      <number name="nSpecial1Speed" source="SF_Helpers.vehicleBuilder.nSpecial1Speed">
 			  <frame name="fieldlight" />
       <bounds>170,100,120,30</bounds>
 			  <default>0</default>
@@ -1256,7 +1257,7 @@
         <static>Speed Adj</static>
       </label_fieldtop>
 	    
-	    <number name="nSpecial1Passengers">
+	    <number name="nSpecial1Passengers" source="SF_Helpers.vehicleBuilder.nSpecial1Passengers">
         <frame name="fieldlight" />
 		  <bounds>20,140,120,30</bounds>
         <default>0</default>
@@ -1267,7 +1268,7 @@
 		  <bounds>20,120,120,20</bounds>
         <static>Passengers</static>
       </label_fieldtop>
-	    <number name="nSpecial1PilotingMod">
+	    <number name="nSpecial1PilotingMod" source="SF_Helpers.vehicleBuilder.nSpecial1PilotingMod">
 			  <frame name="fieldlight" />
       <bounds>170,140,120,30</bounds>
 			  <displaysign />
@@ -1277,7 +1278,7 @@
       <bounds>170,120,120,20</bounds>
         <static>Piloting</static>
       </label_fieldtop>
-	    <number name="nSpecial1AttackMod">
+	    <number name="nSpecial1AttackMod" source="SF_Helpers.vehicleBuilder.nSpecial1AttackMod">
         <frame name="fieldlight" />
 		  <bounds>20,180,80,30</bounds>
         <displaysign />
@@ -1288,7 +1289,7 @@
         <static>Attack</static>
       </label_fieldtop>      
 
-	    <number name="nSpecial1HP">
+	    <number name="nSpecial1HP" source="SF_Helpers.vehicleBuilder.nSpecial1HP">
         <frame name="fieldlight" />
 		  <bounds>20,220,100,30</bounds>
         <displaysign />
@@ -1299,7 +1300,7 @@
         <static>HP Adj</static>
       </label_fieldtop>
 
-	    <number name="nSpecial1Hardness">
+	    <number name="nSpecial1Hardness" source="SF_Helpers.vehicleBuilder.nSpecial1Hardness">
         <frame name="fieldlight" />
 		  <bounds>130,220,100,30</bounds>
         <displaysign />
@@ -1310,7 +1311,7 @@
         <static>Hardness</static>
       </label_fieldtop>      
 
-      <number name="nSpecial1FullSpeedMult">
+      <number name="nSpecial1FullSpeedMult" source="SF_Helpers.vehicleBuilder.nSpecial1FullSpeedMult">
       <bounds>120,180,140,30</bounds>
 			  <frame name="fieldlight" />			  
 			  <default>0</default>
@@ -1322,7 +1323,7 @@
         <static>Full Speed</static>
       </label_fieldtop>
 
-      <number name="nSpecial1EAC">
+      <number name="nSpecial1EAC" source="SF_Helpers.vehicleBuilder.nSpecial1EAC">
         <frame name="fieldlight" />
 		  <bounds>240,220,60,30</bounds>
         <displaysign />
@@ -1333,7 +1334,7 @@
         <static>EAC</static>
       </label_fieldtop>
 
-      <number name="nSpecial1KAC">
+      <number name="nSpecial1KAC" source="SF_Helpers.vehicleBuilder.nSpecial1KAC">
         <frame name="fieldlight" />
 		  <bounds>310,220,60,30</bounds>
         <displaysign />
@@ -1344,7 +1345,7 @@
         <static>KAC</static>
       </label_fieldtop>
 
-      <stringcontrol name="sSpecial1Notes">
+      <stringcontrol name="sSpecial1Notes" source="SF_Helpers.vehicleBuilder.sSpecial1Notes">
       <bounds>20,260,320,24</bounds>
         <center />
 			  <static textres="" />
@@ -1352,7 +1353,7 @@
 		  </stringcontrol>
 
        <!-- STEP 5 - Special 2 -->    
-      <button_stringcycler name="StringCyclerVehSpecial2">
+      <button_stringcycler name="StringCyclerVehSpecial2" source="SF_Helpers.vehicleBuilder.sSpecial2">
 				<frame name="fielddarksolid" offset="0,0,0,0" />
         <font>reference-header</font>
         <bounds>400,40,320,32</bounds>
@@ -1600,7 +1601,7 @@
 			</button_stringcycler>
 
       <!-- step 2 special 2 row 1 -->
-      <number name="nSpecial2Price">
+      <number name="nSpecial2Price" source="SF_Helpers.vehicleBuilder.nSpecial2Price">
         <frame name="fieldlight" />
         <bounds>400,100,120,30</bounds>
         <displaysign />
@@ -1611,7 +1612,7 @@
         <static>Price Adj</static>
       </label_fieldtop>
       <!-- BELOW HERE-->
-      <number name="nSpecial2Speed">
+      <number name="nSpecial2Speed" source="SF_Helpers.vehicleBuilder.nSpecial2Speed">
         <frame name="fieldlight" />
         <bounds>550,100,120,30</bounds>
 			  <default>0</default>
@@ -1622,7 +1623,7 @@
         <bounds>550,80,120,20</bounds>
         <static>Speed Adj</static>
       </label_fieldtop>
-      <number name="nSpecial2Passengers">
+      <number name="nSpecial2Passengers" source="SF_Helpers.vehicleBuilder.nSpecial2Passengers">
         <frame name="fieldlight" />
         <bounds>400,140,120,30</bounds>
         <default>0</default>
@@ -1633,7 +1634,7 @@
         <bounds>400,120,120,20</bounds>
         <static>Passengers</static>
       </label_fieldtop>
-      <number name="nSpecial2PilotingMod">
+      <number name="nSpecial2PilotingMod" source="SF_Helpers.vehicleBuilder.nSpecial2PilotingMod">
         <frame name="fieldlight" />
         <bounds>550,140,120,30</bounds>
 			  <displaysign />
@@ -1643,7 +1644,7 @@
         <bounds>550,120,120,20</bounds>
         <static>Piloting</static>
       </label_fieldtop>
-      <number name="nSpecial2AttackMod">
+      <number name="nSpecial2AttackMod" source="SF_Helpers.vehicleBuilder.nSpecial2AttackMod">
         <frame name="fieldlight" />
         <bounds>400,180,80,30</bounds>
         <displaysign />
@@ -1655,7 +1656,7 @@
       </label_fieldtop>
 
       <!-- step 2 special 2 row 2 -->
-      <number name="nSpecial2FullSpeedMult">
+      <number name="nSpecial2FullSpeedMult" source="SF_Helpers.vehicleBuilder.nSpecial2FullSpeedMult">
         <frame name="fieldlight" />
         <bounds>500,180,140,30</bounds>
 			  <default>0</default>
@@ -1666,7 +1667,7 @@
         <bounds>500,160,140,20</bounds>
         <static>Full Speed</static>
       </label_fieldtop>
-      <number name="nSpecial2Hardness">
+      <number name="nSpecial2Hardness" source="SF_Helpers.vehicleBuilder.nSpecial2Hardness">
         <frame name="fieldlight" />
         <bounds>510,220,100,30</bounds>
         <default>0</default>
@@ -1677,7 +1678,7 @@
         <bounds>510,200,100,20</bounds>
         <static>Hardness</static>
       </label_fieldtop>
-      <number name="nSpecial2HP">
+      <number name="nSpecial2HP" source="SF_Helpers.vehicleBuilder.nSpecial2HP">
         <frame name="fieldlight" />
         <bounds>400,220,100,30</bounds>
         <displaysign />
@@ -1687,7 +1688,7 @@
         <bounds>400,200,100,20</bounds>
         <static>HP Adj</static>
       </label_fieldtop>      
-      <number name="nSpecial2EAC">
+      <number name="nSpecial2EAC" source="SF_Helpers.vehicleBuilder.nSpecial2EAC">
         <frame name="fieldlight" />
         <bounds>620,220,60,30</bounds>
 			  <default>0</default>
@@ -1698,7 +1699,7 @@
         <bounds>620,200,60,20</bounds>
         <static>EAC</static>
       </label_fieldtop>
-      <number name="nSpecial2KAC">
+      <number name="nSpecial2KAC" source="SF_Helpers.vehicleBuilder.nSpecial2KAC">
         <frame name="fieldlight" />
         <bounds>690,220,60,30</bounds>
 			  <default>0</default>
@@ -1710,7 +1711,7 @@
         <static>KAC</static>
       </label_fieldtop>
 
-      <stringcontrol name="sSpecial2Notes">
+      <stringcontrol name="sSpecial2Notes" source="SF_Helpers.vehicleBuilder.sSpecial2Notes">
         <bounds>400,260,320,24</bounds>
         <center />
         <static textres="" />
@@ -1843,7 +1844,11 @@
 				<default>0</default>
         <script>
           function update()
-            local nSpeed = window.nBaseSpeed.getValue() + window.nVehTypeSpeedMod.getValue() + window.nSpecial1Speed.getValue() + window.nSpecial2Speed.getValue();
+            local nBaseSpeed = DB.getValue("SF_Helpers.vehicleBuilder.nBaseSpeed",0);
+            local nVehTypeSpeedMod = DB.getValue("SF_Helpers.vehicleBuilder.nVehTypeSpeedMod",0);
+            local nSpecial1Speed = DB.getValue("SF_Helpers.vehicleBuilder.nSpecial1Speed",0);
+            local nSpecial2Speed = DB.getValue("SF_Helpers.vehicleBuilder.nSpecial2Speed",0);
+            local nSpeed = nBaseSpeed + nVehTypeSpeedMod + nSpecial1Speed + nSpecial2Speed;
             setValue(nSpeed);
           end
         </script>
@@ -1861,14 +1866,13 @@
         <script>
           function update()            
             local nFullSpeed = window.nTotalSpeed.getValue();
-            local nFullSpeedMult = window.nBaseFullSpeedMult.getValue();
-            local nFullSpeedMods = window.nSpecial1FullSpeedMult.getValue() + window.nSpecial2FullSpeedMult.getValue();
+            local nFullSpeedMult = DB.getValue("SF_Helpers.vehicleBuilder.nBaseFullSpeedMult", 1);
+            local nFullSpeedMods = DB.getValue("SF_Helpers.vehicleBuilder.nSpecial1FullSpeedMult", 0) + DB.getValue("SF_Helpers.vehicleBuilder.nSpecial2FullSpeedMult", 0);
             local nTotalFullSpeed = (nFullSpeed * nFullSpeedMult) + nFullSpeedMods;
 
-            if (window.StringCyclerVehSpecial2.getStringValue() == "racer" or window.StringCyclerVehSpecial1.getStringValue() == "racer") then
+            if DB.getValue("SF_Helpers.vehicleBuilder.sSpecial1","") == "racer" or DB.getValue("SF_Helpers.vehicleBuilder.sSpecial2","") == "racer" then
               nTotalFullSpeed = math.floor(nTotalFullSpeed * 1.25); -- racers gets 25% bonus after all calculations
             end
-
 
             setValue(nTotalFullSpeed);
             
@@ -1892,12 +1896,8 @@
             -- Base calculation: 1/10 of full speed
             local nFullSpeed = window.nTotalFullSpeedMult.getValue();
             local nOverlandSpeed = nFullSpeed / 10;
-            
-            -- Check if transport special ability is active
-            local sSpecial1 = window.StringCyclerVehSpecial1.getStringValue();
-            local sSpecial2 = window.StringCyclerVehSpecial2.getStringValue();
-            
-            if (sSpecial1 == "transport" or sSpecial2 == "transport") then
+
+            if (DB.getValue("SF_Helpers.vehicleBuilder.sSpecial1","") == "transport" or DB.getValue("SF_Helpers.vehicleBuilder.sSpecial2","") == "transport") then
               nOverlandSpeed = nOverlandSpeed * 1.20; -- +20% bonus for transport
             end
             
@@ -1917,12 +1917,12 @@
 				<hideonvalue>0</hideonvalue>
         <script>
           function update()
-            local nPassengers = window.nBasePassengers.getValue() + window.nSizePassengers.getValue() + window.nSpecial1Passengers.getValue() + window.nSpecial2Passengers.getValue();
+            local nPassengers = DB.getValue("SF_Helpers.vehicleBuilder.nBasePassengers", 0) + DB.getValue("SF_Helpers.vehicleBuilder.nSizePassengers", 0) + DB.getValue("SF_Helpers.vehicleBuilder.nSpecial1Passengers", 0) + DB.getValue("SF_Helpers.vehicleBuilder.nSpecial2Passengers", 0);
             local sName = window.sVehName.getValue();
             if sf.isGt(0, nPassengers) then
               nPassengers = 0; -- can't have negative passengers
             end
-            if sName == "cycle" and sf.isGt(nPassengers, 1) then
+            if DB.getValue("SF_Helpers.vehicleBuilder.sVehTypeGraft","") == "cycle" and sf.isGt(nPassengers, 1) then
                 nPassengers = 1; -- cycles can only hold 1 passenger
             end
             setValue(nPassengers);
@@ -1940,7 +1940,7 @@
 				<displaysign />
         <script>
           function update()
-            local nPiloting = window.nBasePilotingMod.getValue() + window.nSizePilotingMod.getValue() + window.nSpecial1PilotingMod.getValue() + window.nSpecial2PilotingMod.getValue();
+            local nPiloting = DB.getValue("SF_Helpers.vehicleBuilder.nBasePilotingMod",0) + DB.getValue("SF_Helpers.vehicleBuilder.nSizePilotingMod",0) + DB.getValue("SF_Helpers.vehicleBuilder.nSpecial1PilotingMod",0) + DB.getValue("SF_Helpers.vehicleBuilder.nSpecial2PilotingMod",0);
             setValue(nPiloting);
           end
         </script>
@@ -1956,7 +1956,7 @@
 				<displaysign />
         <script>
           function update()
-            local nAttack = window.nBaseAttackMod.getValue() + window.nSizeAttackMod.getValue() + window.nSpecial1AttackMod.getValue() + window.nSpecial2AttackMod.getValue();
+            local nAttack = DB.getValue("SF_Helpers.vehicleBuilder.nBaseAttackMod",0) + DB.getValue("SF_Helpers.vehicleBuilder.nSizeAttackMod",0) + DB.getValue("SF_Helpers.vehicleBuilder.nSpecial1AttackMod",0) + DB.getValue("SF_Helpers.vehicleBuilder.nSpecial2AttackMod",0);
             setValue(nAttack);
           end
         </script>
@@ -1971,7 +1971,7 @@
 				<displaysign />
         <script>
           function update()
-            local nAttack = window.nBaseAttackFullMod.getValue() + window.nSizeAttackMod.getValue() + window.nSpecial1AttackMod.getValue() + window.nSpecial2AttackMod.getValue();
+            local nAttack = DB.getValue("SF_Helpers.vehicleBuilder.nBaseAttackFullMod",0) + DB.getValue("SF_Helpers.vehicleBuilder.nSizeAttackMod",0) + DB.getValue("SF_Helpers.vehicleBuilder.nSpecial1AttackMod",0) + DB.getValue("SF_Helpers.vehicleBuilder.nSpecial2AttackMod",0);
             setValue(nAttack);
           end
         </script>
@@ -1987,7 +1987,7 @@
 				<default>0</default>
         <script>
           function update()
-            local nEAC = window.nBaseEAC.getValue() + window.nVehTypeEACmod.getValue() + window.nSpecial1EAC.getValue() + window.nSpecial2EAC.getValue();
+            local nEAC = DB.getValue("SF_Helpers.vehicleBuilder.nBaseEAC", 0) + DB.getValue("SF_Helpers.vehicleBuilder.nVehTypeEACmod", 0) + DB.getValue("SF_Helpers.vehicleBuilder.nSpecial1EAC", 0) + DB.getValue("SF_Helpers.vehicleBuilder.nSpecial2EAC", 0);
             setValue(nEAC);
           end
         </script>
@@ -2002,7 +2002,7 @@
 				<default>0</default>
         <script>
           function update()
-            local nKAC = window.nBaseKAC.getValue() + window.nVehTypeKACmod.getValue() + window.nSpecial1KAC.getValue() + window.nSpecial2KAC.getValue();
+            local nKAC = DB.getValue("SF_Helpers.vehicleBuilder.nBaseKAC",0) + DB.getValue("SF_Helpers.vehicleBuilder.nVehTypeKACmod",0) + DB.getValue("SF_Helpers.vehicleBuilder.nSpecial1KAC",0) + DB.getValue("SF_Helpers.vehicleBuilder.nSpecial2KAC",0);
             setValue(nKAC);
           end
         </script>
@@ -2018,7 +2018,7 @@
 				<default>0</default>
         <script>
           function update()
-            local nHP = window.nBaseHP.getValue() + window.nVehTypeHP.getValue() + window.nSizeHP.getValue() + window.nSpecial1HP.getValue() + window.nSpecial2HP.getValue();
+            local nHP = DB.getValue("SF_Helpers.vehicleBuilder.nBaseHP",0) + DB.getValue("SF_Helpers.vehicleBuilder.nVehTypeHP",0) + DB.getValue("SF_Helpers.vehicleBuilder.nSizeHP",0) + DB.getValue("SF_Helpers.vehicleBuilder.nSpecial1HP",0) + DB.getValue("SF_Helpers.vehicleBuilder.nSpecial2HP",0);
             setValue(nHP);
           end
         </script>
@@ -2034,9 +2034,9 @@
 				<default>0</default>
         <script>
           function update()
-            local nBrokenHP = math.floor(window.nTotalHP.getValue() * 0.50);
-            if (window.StringCyclerVehSpecial2.getStringValue() == "junk" or window.StringCyclerVehSpecial1.getStringValue() == "junk") then
-              nBrokenHP = math.floor(window.nTotalHP.getValue() * 0.75);
+            local nBrokenHP = math.floor(DB.getValue("SF_Helpers.vehicleBuilder.nTotalHP",0) * 0.50);
+            if (DB.getValue("SF_Helpers.vehicleBuilder.sSpecial2","") == "junk" or DB.getValue("SF_Helpers.vehicleBuilder.sSpecial1","") == "junk") then
+              nBrokenHP = math.floor(DB.getValue("SF_Helpers.vehicleBuilder.nTotalHP",0) * 0.75);
             end
             setValue(nBrokenHP);
           end
@@ -2054,7 +2054,7 @@
         <minimum>5</minimum>
         <script>
           function update()
-            local nHardness = window.nBaseHardness.getValue() + window.nVehTypeHardness.getValue() + window.nSpecial1Hardness.getValue() + window.nSpecial2Hardness.getValue();
+            local nHardness = DB.getValue("SF_Helpers.vehicleBuilder.nBaseHardness", 0) + DB.getValue("SF_Helpers.vehicleBuilder.nVehTypeHardness", 0) + DB.getValue("SF_Helpers.vehicleBuilder.nSpecial1Hardness", 0) + DB.getValue("SF_Helpers.vehicleBuilder.nSpecial2Hardness", 0);
             setValue(nHardness);
           end
         </script>
@@ -2069,7 +2069,7 @@
         <bounds>500,110,40,30</bounds>
         <script>
           function update()
-            local nDice = window.nBaseDiceCount.getValue() + window.nSizeDiceCount.getValue();
+            local nDice = DB.getValue("SF_Helpers.vehicleBuilder.nBaseDiceCount",0) + DB.getValue("SF_Helpers.vehicleBuilder.nSizeDiceCount",0);
             setValue(nDice);
           end
         </script>
@@ -2079,7 +2079,7 @@
         <bounds>560,110,40,30</bounds>
         <script>
           function update()
-            local nDiceSize = window.nBaseDiceSize.getValue();
+            local nDiceSize = DB.getValue("SF_Helpers.vehicleBuilder.nBaseDiceSize",0) + DB.getValue("SF_Helpers.vehicleBuilder.nSizeDiceSize",0);
             setValue(nDiceSize);
           end
         </script>
@@ -2099,7 +2099,7 @@
 				<default>0</default>
         <script>
           function update()
-            local nDC = window.nBaseCollisionDC.getValue() + window.nSizeCollisionDC.getValue();
+            local nDC = DB.getValue("SF_Helpers.vehicleBuilder.nBaseCollisionDC",0) + DB.getValue("SF_Helpers.vehicleBuilder.nSizeCollisionDC",0);
             setValue(nDC);
           end
         </script>
@@ -2116,7 +2116,7 @@
         <displaysign />
         <script>
           function update()
-            local nModSlots = window.nOriginModSlots.getValue() + window.nBaseModSlots.getValue();
+            local nModSlots = DB.getValue("SF_Helpers.vehicleBuilder.nOriginModSlots",0) + DB.getValue("SF_Helpers.vehicleBuilder.nBaseModSlots",0);
             if sf.isGt(1,nModSlots) then
               nModSlots = 1; -- minimum of 1 mod slot
             end
@@ -2137,8 +2137,8 @@
 				<readonly />
         <script>
           function update()
-            local sCover = window.sVehCover.getValue();
-            if window.StringCyclerVehSpecial2.getStringValue() == "armored" or window.StringCyclerVehSpecial1.getStringValue() == "armored" then
+            local sCover = DB.getValue("SF_Helpers.vehicleBuilder.sVehCover", "");
+            if DB.getValue("SF_Helpers.vehicleBuilder.sSpecial1","") == "armored" or DB.getValue("SF_Helpers.vehicleBuilder.sSpecial2","") == "armored" then
               if sCover == "" or sCover == "none" then
                 sCover = "partial";
               elseif sCover == "partial" then
