@@ -257,6 +257,10 @@
       </label_fieldtop>
 
       <!-- STEP 2 - Type -->
+      <genericcontrol name="frameStep2">
+        <bounds>15,105,-15,175</bounds>
+        <frame name="referenceblock-sidebar" />
+      </genericcontrol>
       <stringcontrol name="LabelStep2">
         <bounds>30,120,240,23</bounds>
         <font>diemod</font>
@@ -352,7 +356,7 @@
               window.nVehTypeEACmod.setValue(-2); -- decreases -2 EAC              
               local nHP = 0 - (window.nBaseHP.getValue() * 0.10); -- decreases 10% HP
               window.nVehTypeHP.setValue(math.floor(nHP));
-              window.sVehTypeNotes.setValue("Cycles cant increase passengers beyond 1 with other grafts.");
+              window.sVehTypeNotes.setValue("Cycles cannot increase passengers beyond 1 with other Grafts.");
               window.sVehDescription.setValue("Cycles are vehicles that the pilot and sometimes a passenger, ride directly on top of, and they can have a wide variety of uses.");
             end
             if sVehType == "Fast Flyer" then
@@ -819,6 +823,10 @@
       </label_fieldtop>
 
       <!-- STEP 4 - Origin -->
+      <genericcontrol name="frameStep4">
+        <bounds>15,385,-15,90</bounds>
+        <frame name="referenceblock-sidebar" />
+      </genericcontrol>
       <stringcontrol name="LabelStep4">
         <bounds>30,400,300,23</bounds>
         <font>diemod</font>
@@ -1671,8 +1679,8 @@
 
       <!-- total stats -->
       <genericcontrol name="frameTotal">
-        <bounds>15,735,-15,-15</bounds>
-        <frame name="groupbox" />
+        <bounds>15,735,-15,-10</bounds>
+        <frame name="referenceblock-sidebar2" />
       </genericcontrol>
 
       <stringcontrol name="sVehName">
@@ -1895,7 +1903,7 @@
       </label_fieldtop>
       <number name="nTotalAttackFullMod">
         <frame name="fielddark" />
-        <bounds>660,790,40,30</bounds>
+        <bounds>680,790,40,30</bounds>
 				<displaysign />
         <script>
           function update()
@@ -1905,7 +1913,7 @@
         </script>
 			</number>
       <label_fieldtop>
-        <bounds>660,775,40,20</bounds>
+        <bounds>680,775,40,20</bounds>
         <static>(Full)</static>
       </label_fieldtop>      
       
