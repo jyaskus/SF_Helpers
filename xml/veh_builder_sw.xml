@@ -1,0 +1,2263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+
+  <windowclass name="sw_veh_step1">
+    <frame>recordsheet</frame>
+    <placement>
+      <size height="300" width="740" />
+    </placement>
+		<sheetdata>
+
+      <!-- STEP 1 - Level -->
+      <stringcontrol name="LabelStep1">
+        <bounds>20,20,300,23</bounds>
+        <font>diemod</font>
+				<static textres="vhBuilder_LabelStep1_LabelCaption" />
+				<readonly />
+			</stringcontrol>
+
+      <buttoncontrol name="ButtonLevelDown">
+        <frame name="buttonup" />
+        <bounds>300,20,18,18</bounds>
+        <icon normal="arrowleft" />
+        <stateframe>
+          <pressed name="buttonup" offset="-1,-1,-1,-1" nobaseframe="true" />
+        </stateframe>
+        <font>button-white</font>
+        <script>
+          function onButtonPress()
+            local nLevel = window.nLevel.getValue();
+            nLevel = nLevel -1;
+            if sf.isGt(1,nLevel) then
+              nLevel = 1;
+            end
+            window.nLevel.setValue(nLevel);
+          end				
+        </script>
+      </buttoncontrol>
+      <number name="nLevel" source="SF_Helpers.vehicleBuilder.nLevel">
+        <frame name="fielddark" />
+        <bounds>320,15,60,50</bounds>
+        <default>1</default>
+        <minimum>1</minimum>
+        <script>
+          function onInit()
+            if getValue() == 0 then
+              setValue(1);
+            end
+            updateBaseLevelStats();
+          end
+
+          function onValueChanged()
+            local nLevel = getValue();
+            if sf.isGt(1, nLevel) then
+              nLevel = 1;
+              setValue(nLevel);
+            end
+            if sf.isGt(nLevel, 20) then
+              nLevel = 20;
+              setValue(nLevel);
+            end
+            DB.setValue("SF_Helpers.vehicleBuilder.nLevel", "number", nLevel);
+            updateBaseLevelStats();
+          end
+
+          function updateBaseLevelStats()
+            local nLevel = getValue();
+ 
+            -- base Price
+            local nCostArray = { "700","1600","2600","4000","6000","8500","13000","19000","27000","36000","50000","73000","100000","150000","230000","345000","520000","750000","1150000","1750000" };
+            local nCost = tonumber(nCostArray[nLevel]);            
+            window.nBasePrice.setValue(nCost);
+            sf.DebugOut("Vehicle level " .. nLevel .. " base price is " .. nCost);
+
+            -- base Speed
+            local nSpeedArray = { "25","25","25","25","25","30","30","30","35","35","35","40","40","40","45","45","45","50","50","50" };
+            local nSpeed = tonumber(nSpeedArray[nLevel]);
+            window.nBaseSpeed.setValue(nSpeed);
+            sf.DebugOut("Vehicle level " .. nLevel .. " base speed is " .. nSpeed);
+
+            -- base EAC / KAC
+            local nACarray = { "12","13","14","15","17","18","19","20","21","23","24","25","26","27","29","30","31","32","33","35" };
+            local nEAC = tonumber(nACarray[nLevel]);
+            local nKAC = nEAC + 2;
+            window.nBaseEAC.setValue(nEAC);
+            window.nBaseKAC.setValue(nKAC);
+            sf.DebugOut("Vehicle level " .. nLevel .. " base EAC/KAC is " .. nEAC .. "/" .. nKAC);
+
+            -- base HP
+            local nHParray = { "12","20","30","40","55","75","95","120","135","150","165","185","205","230","255","280","310","340","370","400" };
+            local nHP = tonumber(nHParray[nLevel]);
+            window.nBaseHP.setValue(nHP);
+            sf.DebugOut("Vehicle level " .. nLevel .. " base HP is " .. nHP);
+
+            -- base Hardness
+            local nHardnessArray = { "5","5","5","5","5", "6","7","8","9","10","11","12","13","14","15","16","17","18","19","20" };
+            local nHardness = tonumber(nHardnessArray[nLevel]);
+            window.nBaseHardness.setValue(nHardness);
+            sf.DebugOut("Vehicle level " .. nLevel .. " base Hardness is " .. nHardness);
+
+            -- nBaseDiceCount (collisions)
+            local nDiceCountArray = { "4","5","6","5","5","6","6","7","8","9","10","11","12","14","15","17","18","20","23","25" };
+            local nBaseDiceCount = tonumber(nDiceCountArray[nLevel]);
+            window.nBaseDiceCount.setValue(nBaseDiceCount);
+            sf.DebugOut("Vehicle level " .. nLevel .. " base Dice Count is " .. nBaseDiceCount);
+
+            -- nBaseDiceSize (collisions)
+            local nDiceSizeArray = { "4","4","4","6","8","8","10","10","10","10","10","10","10","10","10","10","10","10","10","10" };
+            local nBaseDiceSize = tonumber(nDiceSizeArray[nLevel]);
+            window.nBaseDiceSize.setValue(nBaseDiceSize);
+            sf.DebugOut("Vehicle level " .. nLevel .. " base Dice Size is " .. nBaseDiceSize);
+
+            -- nBaseCollisionDC
+            local nCollisionDCArray = { "10","11","12","13","13","14","15","16","16","17","18","19","19","20","21","22","22","23","24","25" };
+            local nBaseCollisionDC = tonumber(nCollisionDCArray[nLevel]);
+            window.nBaseCollisionDC.setValue(nBaseCollisionDC);
+            sf.DebugOut("Vehicle level " .. nLevel .. " base Collision DC is " .. nBaseCollisionDC);
+
+            -- nBaseModSlots
+            local nModSlotsArray = { "1","1","1","1", "2","2","2","2","2", "3","3","3","3","3", "4","4","4","4","4", "5" };
+            local nBaseModSlots = tonumber(nModSlotsArray[nLevel]);
+            window.nBaseModSlots.setValue(nBaseModSlots);
+            sf.DebugOut("Vehicle level " .. nLevel .. " base Mod Slots is " .. nBaseModSlots);
+
+            if window.StringCyclerVehType then
+              window.StringCyclerVehType.updateVehType();
+            end
+            if window.StringCyclerVehSize then
+              window.StringCyclerVehSize.updateVehSize();
+            end
+            if window.StringCyclerVehOrigin then
+              window.StringCyclerVehOrigin.updateVehOrigin();
+            end
+            if window.StringCyclerVehSpecial1 then
+              window.StringCyclerVehSpecial1.updateSpecial1();
+            end
+            if window.StringCyclerVehSpecial2 then
+              window.StringCyclerVehSpecial2.updateSpecial2();
+            end
+          end
+        </script>
+      </number>
+      <buttoncontrol name="ButtonLevelUp">
+				<frame name="buttonup" />
+        <bounds>390,20,18,18</bounds>
+				<icon normal="arrowright" />
+				<stateframe>
+					<pressed name="buttonup" offset="-1,-1,-1,-1" nobaseframe="true" />
+				</stateframe>
+				<script>
+					function onButtonPress()
+						local nLevel = window.nLevel.getValue();
+						nLevel = nLevel +1;
+						if sf.isGt(nLevel,20) then
+							nLevel = 20;
+						end
+						window.nLevel.setValue(nLevel);
+					end
+				</script>
+			</buttoncontrol>
+
+      <number name="nBasePrice" source ="SF_Helpers.vehicleBuilder.nBasePrice">
+        <frame name="fieldlight" />
+        <bounds>20,60,100,30</bounds>
+      </number>
+      <label_fieldtop>
+        <bounds>20,45,100,20</bounds>
+        <static>Price</static>
+      </label_fieldtop>
+
+      <number name="nBaseSpeed">
+        <frame name="fieldlight" />
+        <bounds>140,60,100,30</bounds>
+        <default>0</default>
+      </number>
+      <label_fieldtop>
+        <bounds>140,45,100,20</bounds>
+        <static>Speed</static>
+      </label_fieldtop>
+
+      <number name="nBaseDiceCount">
+        <frame name="fieldlight" />
+        <bounds>500,20,40,30</bounds>
+      </number>
+      <number name="nBaseDiceSize">
+        <frame name="fieldlight" />
+        <bounds>560,20,40,30</bounds>
+      </number>
+        <label_fieldtop>
+        <bounds>542,25,20,18</bounds>
+        <static>d</static>
+      </label_fieldtop>      
+      <label_fieldtop>
+        <bounds>500,5,100,20</bounds>
+        <static>Collision DMG</static>
+      </label_fieldtop>
+
+      <number name="nBaseCollisionDC">
+        <frame name="fieldlight" />
+        <bounds>620,20,100,30</bounds>
+        <default>0</default>
+      </number>
+      <label_fieldtop>
+        <bounds>620,5,100,20</bounds>
+        <static>Collision DC</static>
+      </label_fieldtop>
+
+      <number name="nBaseHP">
+        <frame name="fieldlight" />
+        <bounds>260,60,100,30</bounds>
+        <default>0</default>
+      </number>
+      <label_fieldtop>
+        <bounds>260,45,100,20</bounds>
+        <static>Hit Points</static>
+      </label_fieldtop>
+
+      <number name="nBaseHardness">
+        <frame name="fieldlight" />
+        <bounds>380,60,100,30</bounds>
+        <default>5</default>
+        <minimum>5</minimum>
+      </number>
+      <label_fieldtop>
+        <bounds>380,45,100,20</bounds>
+        <static>Hardness</static>
+      </label_fieldtop>
+
+      <number name="nBaseEAC">
+        <frame name="fieldlight" />
+        <bounds>500,60,40,30</bounds>
+        <default>0</default>
+      </number>
+      <label_fieldtop>
+        <bounds>500,45,40,20</bounds>
+        <static>EAC</static>
+      </label_fieldtop>
+
+      <number name="nBaseKAC">
+        <frame name="fieldlight" />
+        <bounds>560,60,40,30</bounds>
+        <default>0</default>
+      </number>
+      <label_fieldtop>
+        <bounds>560,45,40,20</bounds>
+        <static>KAC</static>
+      </label_fieldtop>
+			
+      <number name="nBaseModSlots">
+        <frame name="fieldlight" />
+        <bounds>620,60,100,30</bounds>
+        <default>0</default>
+      </number>
+      <label_fieldtop>
+        <bounds>620,45,100,20</bounds>
+        <static>Mod Slots</static>
+      </label_fieldtop>
+
+		</sheetdata>
+	</windowclass>
+
+  <windowclass name="sw_veh_step2">
+    <frame>recordsheet</frame>
+    <placement>
+      <size height="300" width="740" />
+    </placement>
+		<sheetdata>
+
+      <!-- STEP 2 - Type -->
+      <stringcontrol name="LabelStep2">
+        <bounds>20,10,240,23</bounds>
+        <font>diemod</font>
+				<static textres="vhBuilder_LabelStep2_LabelCaption" />
+				<readonly />
+        <script>
+          function onInit()
+            if window.StringCyclerVehType and window.StringCyclerVehType.updateVehType then
+              window.StringCyclerVehType.updateVehType();
+            end
+          end
+        </script>
+			</stringcontrol>
+      <button_stringcycler name="StringCyclerVehType">
+				<frame name="fielddarksolid" offset="0,0,0,0" />
+        <font>reference-header</font>
+        <bounds>300,0,200,40</bounds>
+				<parameters>
+					<labelsres>vhBuilder_StringCyclerVehType_Label_Boat__Water_Vehicle_|vhBuilder_StringCyclerVehType_Label_Cruiser__Land_Vehicle_|vhBuilder_StringCyclerVehType_Label_Cycle__Land_Vehicle_|vhBuilder_StringCyclerVehType_Label_Fast_Flyer__Air_Vehicle_|vhBuilder_StringCyclerVehType_Label_Hovering_Flyer__Air_Vehicle_|vhBuilder_StringCyclerVehType_Label_Submersible__Water_Vehicle_|vhBuilder_StringCyclerVehType_Label_Tank__Land_Vehicle_|vhBuilder_StringCyclerVehType_Label_Truck__Land_Vehicle_|vhBuilder_StringCyclerVehType_Label_Walker__Land_Vehicle_</labelsres>
+					<values>Boat|Cruiser|Cycle|Fast Flyer|Hovering Flyer|Submersible|Tank|Truck|Walker</values>
+				</parameters>
+        <script>
+					function onValueChanged()
+            updateVehType();
+            
+            -- Recalculate all dependent steps when type changes
+            window.StringCyclerVehSize.updateVehSize();
+            window.StringCyclerVehOrigin.updateVehOrigin();
+            window.StringCyclerVehSpecial1.updateSpecial1();
+            window.StringCyclerVehSpecial2.updateSpecial2();
+          end
+          function updateVehType()
+						local sVehType = getStringValue();
+						sf.DebugOut("vehicle graft type selection: " .. sVehType);
+
+            -- clear subtype label
+            window.VehSubTypeLabel.setValue("");
+            window.nBasePassengers.setValue(0);
+            window.nBaseFullSpeedMult.setValue(0);
+            window.nBasePilotingMod.setValue(0);
+				    window.nBaseAttackMod.setValue(0);
+					  window.nBaseAttackFullMod.setValue(0);
+            -- window.sBaseCover.setValue("");
+            window.nVehTypeSpeedMod.setValue(0);
+            window.nVehTypeEACmod.setValue(0);
+            window.nVehTypeKACmod.setValue(0);
+            window.nVehTypeHP.setValue(0);
+            window.nVehTypeHardness.setValue(0);
+            window.nVehTypePrice.setValue(0);
+            window.sVehTypeNotes.setValue("");
+            window.sVehDescription.setValue("");
+            window.sVehCover.setValue("none");
+
+            local nBasePrice = DB.getValue("SF_Helpers.vehicleBuilder.nBasePrice",0);
+
+            if sVehType == "Boat" then
+              window.VehSubTypeLabel.setValue(" (Water Vehicle)");
+              window.nBasePassengers.setValue(2);
+              window.nBaseFullSpeedMult.setValue(15);
+              window.nBasePilotingMod.setValue(0);
+						  window.nBaseAttackMod.setValue(-2);
+						  window.nBaseAttackFullMod.setValue(-4);
+              -- partial cover
+              window.sVehCover.setValue("partial");
+              window.sVehDescription.setValue("Boats travel on the surface of the water and can be powered by a wide variety of propulsion methods.");
+            end
+            if sVehType == "Cruiser" then
+              window.VehSubTypeLabel.setValue(" (Land Vehicle)");
+              window.nBasePassengers.setValue(3);
+              window.nBaseFullSpeedMult.setValue(25);
+              window.nBasePilotingMod.setValue(-1);
+						  window.nBaseAttackMod.setValue(-2);
+						  window.nBaseAttackFullMod.setValue(-4);
+              -- improved cover
+              window.sVehCover.setValue("improved");
+              local nVehTypePrice = nBasePrice * 0.10; -- adds 10% cost
+              window.nVehTypePrice.setValue(nVehTypePrice);
+              window.nVehTypeKACmod.setValue(1); -- adds +1 KAC
+              local nHP = (window.nBaseHP.getValue() * 0.10); -- adds 10% HP
+              window.nVehTypeHP.setValue(math.floor(nHP));
+              window.sVehDescription.setValue("The Cruiser uses powerful propulsion methods that enable travel at high speeds over open terrain.");
+            end
+            if sVehType == "Cycle" then
+              window.VehSubTypeLabel.setValue(" (Land Vehicle)");
+              window.nBasePassengers.setValue(1);
+              window.nBaseFullSpeedMult.setValue(20);
+              window.nBasePilotingMod.setValue(2);
+						  window.nBaseAttackMod.setValue(-1);
+						  window.nBaseAttackFullMod.setValue(-3);
+              -- none
+              window.sVehCover.setValue("none");
+              local nVehTypePrice = nBasePrice * 0.10; -- decreases 10% cost
+              window.nVehTypePrice.setValue(0 - nVehTypePrice);
+              window.nVehTypeKACmod.setValue(-2); -- adds -2 KAC
+              window.nVehTypeEACmod.setValue(-2); -- decreases -2 EAC              
+              local nHP = 0 - (window.nBaseHP.getValue() * 0.10); -- decreases 10% HP
+              window.nVehTypeHP.setValue(math.floor(nHP));
+              window.sVehTypeNotes.setValue("Cycles cannot increase passengers beyond 1 with other Grafts.");
+              window.sVehDescription.setValue("Cycles are vehicles that the pilot and sometimes a passenger, ride directly on top of, and they can have a wide variety of uses.");
+            end
+            if sVehType == "Fast Flyer" then
+              window.VehSubTypeLabel.setValue(" (Air Vehicle)");
+              window.nBasePassengers.setValue(2);
+              window.nBaseFullSpeedMult.setValue(25);
+              window.nBasePilotingMod.setValue(-1);
+						  window.nBaseAttackMod.setValue(-2);
+						  window.nBaseAttackFullMod.setValue(-5);
+              -- total cover
+              window.sVehCover.setValue("total");
+              local nVehTypePrice = nBasePrice * 0.20; -- adds 20% cost
+              window.nVehTypePrice.setValue(nVehTypePrice);
+              window.nVehTypeKACmod.setValue(-2); -- adds -2 KAC
+              window.nVehTypeEACmod.setValue(-2); -- decreases -2 EAC 
+              local nHP = 0 - (window.nBaseHP.getValue() * 0.10); -- decreases 10% HP
+              window.nVehTypeHP.setValue(math.floor(nHP));             
+              window.nVehTypeSpeedMod.setValue(15);  -- increase speed by 15
+              window.sVehTypeNotes.setValue("Fast Flyers move continuously forward to stay airborne and have no ground movement speed.");
+              window.sVehDescription.setValue("These speedy vehicles are designed for continuous forward movement and generally have wings and landing gear.");
+            end
+            if sVehType == "Hovering Flyer" then
+              window.VehSubTypeLabel.setValue(" (Air Vehicle)");
+              window.nBasePassengers.setValue(2);
+              window.nBaseFullSpeedMult.setValue(20);
+              window.nBasePilotingMod.setValue(0);
+						  window.nBaseAttackMod.setValue(-1);
+						  window.nBaseAttackFullMod.setValue(-4);
+              -- cover
+              window.sVehCover.setValue("cover");
+              local nVehTypePrice = nBasePrice * 0.20; -- adds 20% cost
+              window.nVehTypePrice.setValue(nVehTypePrice);
+              window.nVehTypeKACmod.setValue(-1); -- adds -1 KAC
+              window.nVehTypeEACmod.setValue(-1); -- decreases -1 EAC 
+              local nHP = 0 - (window.nBaseHP.getValue() * 0.10); -- decreases 10% HP
+              window.nVehTypeHP.setValue(math.floor(nHP));
+              window.sVehTypeNotes.setValue("Hovering Flyers can move as easily horizontally as vertically, needing no runway to take off.");
+              window.sVehDescription.setValue("These rotor or hover pad powered air vehicles provide maximum stability and maneuverability.");
+            end
+            if sVehType == "Submersible" then
+              window.VehSubTypeLabel.setValue(" (Water Vehicle)");
+              window.nBasePassengers.setValue(2);
+              window.nBaseFullSpeedMult.setValue(10);
+              window.nBasePilotingMod.setValue(-2);
+						  window.nBaseAttackMod.setValue(-2);
+						  window.nBaseAttackFullMod.setValue(-5);
+              -- total cover
+              window.sVehCover.setValue("total");
+              local nVehTypePrice = nBasePrice * 0.20; -- adds 20% cost
+              window.nVehTypePrice.setValue(nVehTypePrice);
+              local nHardness = math.floor(window.nBaseHardness.getValue() * 0.20); -- adds 20% Hardness
+              window.nVehTypeHardness.setValue( nHardness );
+              window.sVehTypeNotes.setValue("Submersibles cannot use Grafts or Mods that would reduce cover less than total cover.");
+              window.sVehDescription.setValue("These vehicles can submerge completely in a liquid (usualy water) for extended periods.");
+            end
+            if sVehType == "Tank" then
+              window.VehSubTypeLabel.setValue(" (Land Vehicle)");
+              window.nBasePassengers.setValue(1);
+              window.nBaseFullSpeedMult.setValue(10);
+              window.nBasePilotingMod.setValue(-1);
+						  window.nBaseAttackMod.setValue(-2);
+						  window.nBaseAttackFullMod.setValue(-4);
+              -- total cover
+              window.sVehCover.setValue("total");
+              local nVehTypePrice = nBasePrice * 0.35; -- adds 35% cost
+              window.nVehTypePrice.setValue(math.floor(nVehTypePrice));
+              window.nVehTypeSpeedMod.setValue(-5);  -- decrease speed by 5
+              window.nVehTypeKACmod.setValue(2); -- adds 2 KAC
+              window.nVehTypeEACmod.setValue(2); -- adds 2 EAC
+              local nHardness = math.floor(window.nBaseHardness.getValue() * 0.20); -- adds 20% Hardness
+              window.nVehTypeHardness.setValue( nHardness );
+              window.sVehDescription.setValue("These heavily armored vehicles resist damage, maneuver ponderously, and are rarely available to civilians.");
+            end
+            if sVehType == "Truck" then
+              window.VehSubTypeLabel.setValue(" (Land Vehicle)");
+              window.nBasePassengers.setValue(3);
+              window.nBaseFullSpeedMult.setValue(20);
+              window.nBasePilotingMod.setValue(-1);
+						  window.nBaseAttackMod.setValue(-3);
+						  window.nBaseAttackFullMod.setValue(-5);
+              -- cover
+              window.sVehCover.setValue("cover");
+              local nHP = (window.nBaseHP.getValue() * 0.10); -- adds 10% HP
+              window.nVehTypeHP.setValue(math.floor(nHP));
+              window.sVehDescription.setValue("These rugged ground vehicles transport passengers or cargo.");
+            end
+            if sVehType == "Walker" then
+              window.VehSubTypeLabel.setValue(" (Land Vehicle)");
+              window.nBasePassengers.setValue(2);
+              window.nBaseFullSpeedMult.setValue(10);
+              window.nBasePilotingMod.setValue(1);
+						  window.nBaseAttackMod.setValue(-2);
+						  window.nBaseAttackFullMod.setValue(-6);
+              -- improved cover
+              window.sVehCover.setValue("improved");
+              window.sVehDescription.setValue("These relatively slow vehicles use numerous legs to stride over challenging terrain with ease.");
+            end
+					end					
+				</script>
+			</button_stringcycler>
+      <stringcontrol name="VehSubTypeLabel">
+        <bounds>520,15,200,18</bounds>
+		  </stringcontrol>
+
+      <stringcontrol name="sVehDescription">
+        <bounds>20,170,700,22</bounds>
+        <center />
+        <static textres="" />
+        <readonly />
+      </stringcontrol>
+
+      <stringcontrol name="sVehTypeNotes">
+        <bounds>20,200,700,22</bounds>
+        <color>#FF0000</color>
+        <center />
+        <readonly />
+      </stringcontrol>
+
+      <number name="nVehTypePrice" source="SF_Helpers.vehicleBuilder.nVehTypePrice">
+        <frame name="fieldlight" />
+          <bounds>20,65,100,30</bounds>
+        <default>0</default>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+		  </number>
+      <label_fieldtop>
+          <bounds>20,45,100,20</bounds>
+        <static>Type Cost</static>
+      </label_fieldtop>
+
+      <number name="nVehTypeSpeedMod">
+        <frame name="fieldlight" />
+          <bounds>140,65,100,30</bounds>
+			  <default>0</default>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+		  </number>
+      <label_fieldtop>
+          <bounds>140,45,100,20</bounds>
+        <static>Speed Mod</static>
+      </label_fieldtop>
+
+      <number name="nBasePassengers">
+        <frame name="fieldlight" />
+          <bounds>260,65,100,30</bounds>
+			  <default>0</default>
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+          <bounds>260,45,100,20</bounds>
+        <static>Passengers</static>
+      </label_fieldtop>
+
+      <number name="nBasePilotingMod">
+        <frame name="fieldlight" />
+          <bounds>380,65,100,30</bounds>
+        <displaysign />
+      </number>
+        <label_fieldtop>
+          <bounds>380,45,100,20</bounds>
+        <static>Piloting</static>
+      </label_fieldtop>
+
+      <!-- attack / full attack modifiers -->
+      <number name="nBaseAttackMod">
+        <frame name="fieldlight" />
+          <bounds>520,65,40,30</bounds>
+        <displaysign />
+      </number>
+        <label_fieldtop>
+          <bounds>520,45,40,20</bounds>
+        <static>Attack</static>
+      </label_fieldtop>
+      <number name="nBaseAttackFullMod">
+        <frame name="fieldlight" />
+          <bounds>580,65,40,30</bounds>
+        <displaysign />
+      </number>
+        <label_fieldtop>
+          <bounds>580,45,40,20</bounds>
+        <static>(Full)</static>
+      </label_fieldtop>
+
+      <number name="nBaseFullSpeedMult">
+        <frame name="fieldlight" />
+          <bounds>20,120,100,30</bounds>
+        <default>0</default>
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+          <bounds>20,100,100,20</bounds>
+        <static>Full Speed x</static>
+      </label_fieldtop>
+
+      <number name="nVehTypeHP">
+        <frame name="fieldlight" />
+          <bounds>140,120,100,30</bounds>
+        <default>0</default>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+          <bounds>140,100,100,20</bounds>
+        <static>HP Mod</static>
+      </label_fieldtop>
+
+      <number name="nVehTypeHardness">
+        <frame name="fieldlight" />
+          <bounds>260,120,100,30</bounds>
+        <default>0</default>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+          <bounds>260,100,100,20</bounds>
+        <static>Hardness Mod</static>
+      </label_fieldtop>
+
+      <!-- armor -->
+      <number name="nVehTypeEACmod">
+        <frame name="fieldlight" />
+          <bounds>520,120,40,30</bounds>
+        <default>0</default>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+          <bounds>520,100,40,20</bounds>
+        <static>EAC</static>
+      </label_fieldtop>
+      <number name="nVehTypeKACmod">
+        <frame name="fieldlight" />
+          <bounds>580,120,40,30</bounds>
+        <default>0</default>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+          <bounds>580,100,40,20</bounds>
+        <static>KAC</static>
+      </label_fieldtop>
+      
+      <stringcontrol name="sVehCover">
+          <bounds>640,120,80,30</bounds>
+        <center />
+        <frame name="fieldlight"  />
+        <static textres="" />
+        <readonly />
+      </stringcontrol>
+      <label_fieldtop>
+          <bounds>640,100,80,20</bounds>
+        <static>Cover</static>
+      </label_fieldtop>
+
+		</sheetdata>
+	</windowclass>
+
+  <windowclass name="sw_veh_step3">
+    <frame>recordsheet</frame>
+    <placement>
+      <size height="300" width="740" />
+    </placement>
+		<sheetdata>
+
+      <!-- STEP 3 - Size -->
+      <stringcontrol name="LabelStep3">
+        <bounds>30,15,300,23</bounds>
+        <font>diemod</font>
+				<static textres="vhBuilder_LabelStep3_LabelCaption" />
+				<readonly />
+        <script>
+          function onInit()
+            if window.StringCyclerVehSize and window.StringCyclerVehSize.updateVehSize then
+              window.StringCyclerVehSize.updateVehSize();
+            end
+          end
+        </script>
+			</stringcontrol>
+      <button_stringcycler name="StringCyclerVehSize">
+				<frame name="fielddarksolid" offset="0,0,0,0" />
+        <font>reference-header</font>
+        <bounds>300,5,120,40</bounds>
+				<parameters>
+					<labelsres>vhBuilder_StringCyclerVehSize_Label_Medium|vhBuilder_StringCyclerVehSize_Label_Large|vhBuilder_StringCyclerVehSize_Label_Huge|vhBuilder_StringCyclerVehSize_Label_Gargantuan|vhBuilder_StringCyclerVehSize_Label_Colossal</labelsres>
+					<values>medium|large|huge|gargantuan|colossal</values>
+				</parameters>
+        <script>
+					function onValueChanged()
+						updateVehSize();
+						
+						-- Recalculate all dependent steps when size changes
+						window.StringCyclerVehOrigin.updateVehOrigin();
+						window.StringCyclerVehSpecial1.updateSpecial1();
+						window.StringCyclerVehSpecial2.updateSpecial2();
+					end
+					
+					function updateVehSize()
+						local sSize = getStringValue();
+						sf.DebugOut("vehicle size is: " .. sSize);
+
+            -- defaults
+            window.nSizePrice.setValue(0);
+            window.nSizeHP.setValue(0);
+            window.nSizeDiceCount.setValue(0);
+            window.nSizeCollisionDC.setValue(0);
+            window.nSizePilotingMod.setValue(0);
+            window.nSizeAttackMod.setValue(0);
+            window.nSizePassengers.setValue(0);
+
+            local nBasePrice = DB.getValue("SF_Helpers.vehicleBuilder.nBasePrice",0);
+
+            -- apply size changes						
+						if sSize == "medium" then
+							-- reduce collision dice by (-1)
+              window.nSizeDiceCount.setValue(0 - 1);
+
+							-- increase collision DC by (+1)
+              window.nSizeCollisionDC.setValue(1);
+
+							-- if piloting mod is less than +0, increase by +1
+              local nPilotingMod = window.nBasePilotingMod.getValue();              
+              if sf.isGt(0, nPilotingMod) then
+                window.nSizePilotingMod.setValue(1);
+              end
+						end
+						if sSize == "large" then
+							-- nothing this is normal size
+						end
+						if sSize == "huge" then
+							-- increase price by 10%
+              local nPrice = nBasePrice * 0.10;
+              window.nSizePrice.setValue(nPrice);
+
+							-- increase collision dice by (+1)
+              window.nSizeDiceCount.setValue(1);
+
+							-- reduce collision DC by (-1)
+              window.nSizeCollisionDC.setValue(0 - 1);
+
+							-- decrease Piloting and Attack mods by (-1)
+              window.nSizePilotingMod.setValue(0 - 1);
+              window.nSizeAttackMod.setValue(0 - 1);
+
+							-- increase passengers by 100%
+              local nPassengers = window.nBasePassengers.getValue();
+              window.nSizePassengers.setValue(nPassengers);
+						end
+						if sSize == "gargantuan" then
+							-- increase price by 10%
+              local nPrice = nBasePrice * 0.10;
+              window.nSizePrice.setValue(nPrice);
+
+							-- increase HP by 10%
+              local nHP = window.nBaseHP.getValue() * 0.10;
+              window.nSizeHP.setValue(math.floor(nHP));
+
+							-- increase collision dice by (+2)
+              window.nSizeDiceCount.setValue(2);
+
+							-- reduce collision DC by (-2)
+              window.nSizeCollisionDC.setValue(0 - 2);
+
+							-- decrease Piloting and Attack mods by (-1)
+              window.nSizePilotingMod.setValue(0 - 1);
+              window.nSizeAttackMod.setValue(0 - 1);
+
+							-- increase passengers by 200%
+              local nPassengers = window.nBasePassengers.getValue() * 2;
+              window.nSizePassengers.setValue(nPassengers);
+						end
+						if sSize == "colossal" then
+							-- increase price by 20%
+              local nPrice = nBasePrice * 0.20;
+              window.nSizePrice.setValue(nPrice);
+
+							-- incease HP by 20%
+              local nHP = window.nBaseHP.getValue() * 0.20;
+              window.nSizeHP.setValue(math.floor(nHP));
+
+							-- increase collision dice by (+3)
+              window.nSizeDiceCount.setValue(3);
+
+							-- reduce collision DC by (-3)
+              window.nSizeCollisionDC.setValue(0 - 3);
+
+							-- decrease Piloting and Attack mods by (-2)
+              window.nSizePilotingMod.setValue(0 - 2);
+              window.nSizeAttackMod.setValue(0 - 2);
+
+							-- increase passengers by 400%
+              local nPassengers = window.nBasePassengers.getValue() * 4;
+              window.nSizePassengers.setValue(nPassengers);
+						end
+					end					
+				</script>
+			</button_stringcycler>
+      
+      <number name="nSizePrice">
+        <frame name="fieldlight" />
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+        <bounds>20,55,100,30</bounds>
+      </number>
+      <label_fieldtop>
+        <bounds>20,40,60,20</bounds>
+        <static>Cost Adj</static>
+      </label_fieldtop>
+
+      <number name="nSizePassengers">
+        <frame name="fieldlight" />
+        <bounds>260,55,100,30</bounds>
+        <default>0</default>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+        <bounds>260,40,100,20</bounds>
+        <static>Passengers</static>
+      </label_fieldtop>
+
+      <number name="nSizePilotingMod">
+        <frame name="fieldlight" />
+        <bounds>380,55,100,30</bounds>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+        <bounds>380,40,100,20</bounds>
+        <static>Piloting</static>
+      </label_fieldtop>
+
+      <number name="nSizeAttackMod">
+        <frame name="fieldlight" />
+        <bounds>620,55,100,30</bounds>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+        <bounds>620,330,100,20</bounds>
+        <static>Attack</static>
+      </label_fieldtop>
+
+      <number name="nSizeHP">
+        <frame name="fieldlight" />
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+        <bounds>140,55,100,30</bounds>
+        <default>0</default>
+      </number>
+      <label_fieldtop>
+        <bounds>140,40,100,20</bounds>
+        <static>HP Mod</static>
+      </label_fieldtop>
+
+      <number name="nSizeDiceCount">
+        <frame name="fieldlight" />
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+        <bounds>500,55,40,30</bounds>
+      </number>
+      <label_fieldtop>
+        <bounds>500,40,40,20</bounds>
+        <static>dice</static>
+      </label_fieldtop>
+
+      <number name="nSizeCollisionDC">
+        <frame name="fieldlight" />
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+        <bounds>560,55,40,30</bounds>
+        <default>0</default>
+      </number>
+      <label_fieldtop>
+        <bounds>560,40,40,20</bounds>
+        <static>DC</static>
+      </label_fieldtop>
+
+		</sheetdata>
+	</windowclass>
+
+  <windowclass name="sw_veh_step4">
+    <frame>recordsheet</frame>
+    <placement>
+      <size height="300" width="740" />
+    </placement>
+		<sheetdata>
+
+      <!-- STEP 4 - Origin -->
+      <stringcontrol name="LabelStep4">
+        <bounds>20,10,300,23</bounds>
+        <font>diemod</font>
+        <static textres="vhBuilder_LabelStep4_LabelCaption" />
+        <readonly />
+      <script>
+        function onInit()
+          if window.StringCyclerVehOrigin and window.StringCyclerVehOrigin.updateVehOrigin then
+            window.StringCyclerVehOrigin.updateVehOrigin()
+          end
+        end
+      </script>
+      </stringcontrol>
+      <button_stringcycler name="StringCyclerVehOrigin">
+        <frame name="fielddarksolid" offset="0,0,0,0" />
+        <font>reference-header</font>
+        <bounds>300,0,200,40</bounds>
+        <parameters>
+          <labelsres>vhBuilder_StringCyclerOrigin_experimental|vhBuilder_StringCyclerOrigin_factory_made|vhBuilder_StringCyclerOrigin_prototype</labelsres>
+          <values>experimental|factory-made|prototype</values>
+        </parameters>
+        <script>
+          function onValueChanged()
+            updateVehOrigin();
+						
+            -- Recalculate all dependent steps when origin changes
+            window.StringCyclerVehSpecial1.updateSpecial1();
+            window.StringCyclerVehSpecial2.updateSpecial2();
+          end
+					
+          function updateVehOrigin()
+            local sOrigin = getStringValue();
+            sf.DebugOut("vehicle origin is: " .. sOrigin);
+
+            -- set defaults
+            window.nOriginPrice.setValue(0);
+            window.nOriginModSlots.setValue(0);
+            window.nOriginNotes.setValue("");
+
+            local nBasePrice = DB.getValue("SF_Helpers.vehicleBuilder.nBasePrice",0);
+						
+            if sOrigin == "" then
+              sf.DebugOut("default origin");	
+            end
+            if sOrigin == "experimental" then
+              -- decrease cost by 50% (-50%)
+              local nCost = 0 - nBasePrice * 0.50; -- minus 50% cost
+              window.nOriginPrice.setValue(nCost);
+
+              -- increase mod slots by (+1)
+              window.nOriginModSlots.setValue(1);
+
+              -- warn it requires experimental vehicle class feature (mechanic)
+              window.nOriginNotes.setValue("Requires Experimental Vehicle class feature (Mechanic).");
+            end
+            if sOrigin == "factory-made" then
+              -- decrease price by 10%
+              window.nOriginPrice.setValue(0 - nBasePrice * 0.10);
+
+              -- decrease mod slots by (-1, min. 1)
+              window.nOriginModSlots.setValue(0 - 1);
+
+              -- reduce cost to repair by 10% and time to repair by 25%
+              window.nOriginNotes.setValue("Repairs cost 10% less and take 25% less time.");
+            end
+            if sOrigin == "prototype" then
+              -- increase price by 10%
+              window.nOriginPrice.setValue(nBasePrice * 0.10);
+
+              -- increase mod slots by (1)
+              window.nOriginModSlots.setValue(1);
+
+              -- increase costs and time to repair by 20% (add to list of vehice special notes)
+              window.nOriginNotes.setValue("Repairs cost 20% more and take 20% more time.");
+            end					
+          end					
+        </script>
+      </button_stringcycler>
+
+	    <number name="nOriginPrice">
+        <frame name="fieldlight" />
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+        <bounds>20,70,120,30</bounds>
+      </number>
+      <label_fieldtop>
+        <bounds>20,50,120,20</bounds>
+        <static>Cost Adj</static>
+      </label_fieldtop>
+
+      <stringcontrol name="nOriginNotes">
+        <bounds>20,120,700,24</bounds>
+        <center />
+        <font>reference-i</font>
+        <readonly />
+      </stringcontrol>
+
+      <number name="nOriginModSlots">
+        <frame name="fieldlight" />
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+        <bounds>160,70,120,30</bounds>
+        <default>0</default>
+      </number>
+      <label_fieldtop>
+        <bounds>160,50,120,20</bounds>
+        <static>Mod Slots</static>
+      </label_fieldtop>
+
+		</sheetdata>
+	</windowclass>
+
+  <windowclass name="sw_veh_step5">
+    <frame>recordsheet</frame>
+    <placement>
+      <size height="300" width="740" />
+    </placement>
+		<sheetdata>           
+      
+      <!-- STEP 5 - Special 1 -->
+      <stringcontrol name="LabelStep5a">
+        <bounds>20,10,300,23</bounds>
+        <font>diemod</font>
+				<static textres="vhBuilder_LabelStep5_LabelCaption" />
+				<readonly />
+        <script>
+          function onInit()
+            if window.StringCyclerVehSpecial1 and window.StringCyclerVehSpecial1.updateSpecial1 then
+              window.StringCyclerVehSpecial1.updateSpecial1();
+            end
+            if window.StringCyclerVehSpecial2 and window.StringCyclerVehSpecial2.updateSpecial2 then
+              window.StringCyclerVehSpecial2.updateSpecial2();
+            end
+          end
+        </script>
+			</stringcontrol>
+      <button_stringcycler name="StringCyclerVehSpecial1">
+				<frame name="fielddarksolid" offset="0,0,0,0" />
+        <font>reference-header</font>
+        <bounds>20,40,320,32</bounds>
+				<parameters>
+					<labelsres>vhBuilder_StringCyclerVehSpecial1_Label_All_Terrain|vhBuilder_StringCyclerVehSpecial1_Label_Amphibious|vhBuilder_StringCyclerVehSpecial1_Label_Armored|vhBuilder_StringCyclerVehSpecial1_Label_Computer_Assisted|vhBuilder_StringCyclerVehSpecial1_Label_Hover|vhBuilder_StringCyclerVehSpecial1_Label_Hybrid_Aircraft|vhBuilder_StringCyclerVehSpecial1_Label_Junk|vhBuilder_StringCyclerVehSpecial1_Label_Luxury|vhBuilder_StringCyclerVehSpecial1_Label_Racer|vhBuilder_StringCyclerVehSpecial1_Label_Transport</labelsres>
+					<values>all-terrain|amphibious|armored|computer-assisted|hover|hybrid aircraft|junk|luxury|racer|transport</values>
+				</parameters>
+        <script>
+					function onValueChanged()
+						updateSpecial1();
+						
+						-- Recalculate Special2 when Special1 changes
+						window.StringCyclerVehSpecial2.updateSpecial2();
+					end
+          function updateSpecial1()
+            local sOrigin = getStringValue();
+            sf.DebugOut("vehicle special 1 is: " .. sOrigin);
+
+            -- defaults
+            window.nSpecial1Price.setValue(0);
+            window.nSpecial1Speed.setValue(0);
+            window.nSpecial1AttackMod.setValue(0);
+            window.nSpecial1PilotingMod.setValue(0);
+            window.nSpecial1Passengers.setValue(0);
+            window.nSpecial1HP.setValue(0);
+            window.nSpecial1FullSpeedMult.setValue(0);
+            window.sSpecial1Notes.setValue("");
+            window.nSpecial1Hardness.setValue(0);
+            window.nSpecial1EAC.setValue(0);
+            window.nSpecial1KAC.setValue(0);
+            window.nSpecial1Hardness.setValue(0);
+
+            sf.DebugOut("vehicle special 1 is: " .. sOrigin);
+
+            -- all-terrain, amphibious, armored, computer-assisted, hover, hybrid aircraft, junk, luxury, racer, transport
+
+            local nBasePrice = DB.getValue("SF_Helpers.vehicleBuilder.nBasePrice",0);
+
+            if sOrigin == "all-terrain" then
+              sf.DebugOut("all-terrain origin");
+
+              -- increase cost by 5%
+              local nCost = nBasePrice * 0.05; -- adds 5% cost
+              window.nSpecial1Price.setValue(nCost);
+
+              -- decrease speed by 5 feet.
+              window.nSpecial1Speed.setValue(0 - 5);
+
+              -- decrease full speed by 25 feet
+              window.nSpecial1FullSpeedMult.setValue(0 - 25);
+
+              -- decrease attack modifiers by 1
+              window.nSpecial1AttackMod.setValue(0 - 1);
+
+              -- when moving through difficult terrain, treat every other space of difficult terrain as normal terrain (minimum 1/2 speed).
+              -- note: we will need to add a DIFFICULT TERRAIN movement mode when exporting (results in 3/4 speed instead of 1/2 speed)
+
+              -- can move on land and rough terrain
+              window.sSpecial1Notes.setValue("Can move on land and rough terrain.");
+
+              -- note: we will need to add a ROUGH TERRAIN movement mode when exporting
+            end
+
+            if sOrigin == "amphibious" then
+              sf.DebugOut("amphibious origin");
+              -- increase cost by 10%
+              local nCost = nBasePrice * 0.10; -- adds 10% cost
+              window.nSpecial1Price.setValue(nCost);
+
+              -- can move on land and water
+              window.sSpecial1Notes.setValue("Can move on land and water.");
+
+              -- note: we will need to add a LAND and WATER movement mode when exporting
+            end
+
+            if sOrigin == "armored" then
+              sf.DebugOut("armored origin");
+
+              -- increase price by 20%
+              local nCost = math.floor(nBasePrice * 0.20); -- adds 20% cost
+              window.nSpecial1Price.setValue(nCost);
+
+              -- descrease speed by 10 feet
+              window.nSpecial1Speed.setValue(0 - 10);
+
+              -- increase EAC and KAC by 2
+              window.nSpecial1EAC.setValue(2);
+              window.nSpecial1KAC.setValue(2);
+
+              -- increase HP by 10%
+              local HP = window.nBaseHP.getValue() * 0.10; -- adds 10% HP
+              window.nSpecial1HP.setValue(math.floor(HP));
+
+              -- increase hardness by 10%
+              local nHardness = math.floor(window.nBaseHardness.getValue() * 0.10); -- adds 10% Hardness
+              window.nSpecial1Hardness.setValue( nHardness );
+
+             -- increase cover by one step  (partial to cover, cover to improved, etc)
+             -- done with the total update function
+
+
+              window.sSpecial1Notes.setValue("Cannot have the Tank type graft, increases Cover by one level.");
+            end
+
+            if sOrigin == "computer-assisted" then
+              sf.DebugOut("computer-assisted origin");
+
+              -- increase price by 15%
+              local nCost = math.floor(nBasePrice * 0.15); -- adds 15% cost
+              window.nSpecial1Price.setValue(nCost);
+
+              -- decrease piloting mod by 2
+              window.nSpecial1PilotingMod.setValue(2);
+
+              -- increase attack mod by 2
+              window.nSpecial1AttackMod.setValue(2);
+
+              window.sSpecial1Notes.setValue("Gains an autopilot with Piloting bonus of 4 + (1.5 * vehicles level)");
+            end
+
+            if sOrigin == "hover" then
+              sf.DebugOut("hover origin");
+
+              -- increase price by 10%
+              local nCost = math.floor(nBasePrice * 0.10); -- adds 10% cost
+              window.nSpecial1Price.setValue(nCost);
+
+              -- increase speed by 5 feet
+              window.nSpecial1Speed.setValue(5);
+
+              -- decrease eac and kac by 1
+              window.nSpecial1EAC.setValue(0 - 1);
+              window.nSpecial1KAC.setValue(0 - 1);
+
+              -- decrease hp by 20%
+              local nHP = 0 - (window.nBaseHP.getValue() * 0.20); -- decreases 20% HP
+              window.nSpecial1HP.setValue(math.floor(nHP));
+
+              -- It can hover up to 5 feet over surfaces and ignores difficult terrain.
+              -- note: we will need to add a HOVER movement mode when exporting
+
+              -- note requires a land speed and grants a fly speed.
+              window.sSpecial1Notes.setValue("Requires a land speed and grants a fly speed.");
+            end
+
+            if sOrigin == "hybrid aircraft" then
+              sf.DebugOut("hybrid aircraft origin");
+
+              -- increase price by 15%
+              local nCost = math.floor(nBasePrice * 0.15); -- adds 15% cost
+              window.nSpecial1Price.setValue(nCost);
+
+              -- increase speed by 10 feet
+              window.nSpecial1Speed.setValue(10);
+
+              -- decrease eac and kac by 1
+              window.nSpecial1EAC.setValue(0 - 1);
+              window.nSpecial1KAC.setValue(0 - 1);
+
+              -- decrease hp by 10%
+              local nHP = 0 - (window.nBaseHP.getValue() * 0.10); -- decreases 10% HP
+              window.nSpecial1HP.setValue(math.floor(nHP));
+
+              -- note requires either a land or air speed and grants the other speed.
+              window.sSpecial1Notes.setValue("Requires either a land or air speed and grants the other speed.");
+            end
+
+            if sOrigin == "junk" or sOrigin == "Junk" then
+              sf.DebugOut("junk origin");
+
+              -- decrease cost by 50% (-50%)
+              local nCost = 0 - nBasePrice * 0.50; -- minus 50% cost
+              window.nSpecial1Price.setValue(nCost);
+
+              -- decrease full speed by 50 feet.              
+              window.nSpecial1FullSpeedMult.setValue(0 - 50);
+
+              -- decrease piloting mod by 3
+              window.nSpecial1PilotingMod.setValue(0 - 3);
+
+              -- decrease attack mod by 1
+              window.nSpecial1AttackMod.setValue(0 - 1);
+
+              -- gain broken condition at 75% not 50% of HP.
+              -- unstable engine 
+              window.sSpecial1Notes.setValue("Unstable engine: When broken, it explodes in 1d4 rounds dealing damage in a 10-foot radius.");
+            end
+
+            if sOrigin == "luxury" then
+              sf.DebugOut("luxury origin");
+              -- increase cost by 20% (+20%)
+              local nCost = nBasePrice * 0.20; -- adds 20% cost
+              window.nSpecial1Price.setValue(nCost);
+              -- decrease attack mod by 1
+              window.nSpecial1AttackMod.setValue(1);
+              -- gains planetary comm unit and auto-control with Piloting of 4 + (1.5 * vehicles level)
+              window.sSpecial1Notes.setValue("Gains a planetary comm unit and auto-control with Piloting of 4 + (1.5 * vehicles level)");
+            end
+
+            if sOrigin == "racer" then
+              sf.DebugOut("racer origin");
+
+              -- increase full speed by 5 feet.
+              window.nSpecial1Speed.setValue(5);
+
+              -- decrease HP by 10%
+              local nHP = 0 - (window.nBaseHP.getValue() * 0.10); -- decreases 10% HP
+              window.nSpecial1HP.setValue(math.floor(nHP));
+
+              -- decreaste Hardness by 20%
+              local nHardness = 0 - math.floor(window.nBaseHardness.getValue() * 0.20); -- decreases 20% Hardness
+              window.nSpecial1Hardness.setValue( nHardness );
+
+              -- decrease passengers by 50%
+              local nPassengers = window.nBasePassengers.getValue() * 0.50;
+              window.nSpecial1Passengers.setValue(math.floor(0 - nPassengers));
+
+              -- note that it gets +25% top speed after calculating top speeds
+              window.sSpecial1Notes.setValue("Gets +25% top speed after calculating top speeds.");
+            end
+
+            if sOrigin == "transport" then
+              sf.DebugOut("transport origin");
+              -- increase overland speed by 20%
+              local nSpeedMulti = window.nBaseFullSpeedMult.getValue();
+              local nSpeed = window.nBaseSpeed.getValue();
+              local nBonusTopSpeed = math.floor((nSpeedMulti * nSpeed) * 0.20);
+              window.nSpecial1FullSpeedMult.setValue( nBonusTopSpeed );
+
+              -- decrease piloting modifier by 1
+              window.nSpecial1PilotingMod.setValue(1);
+              -- increase passengers by 100%
+              local nPassengers = window.nBasePassengers.getValue();
+              window.nSpecial1Passengers.setValue(nPassengers);
+
+              -- gain +20% overland speed after calculating top speeds
+              window.sSpecial1Notes.setValue("Gains +20 overland speed after calculating top speeds.");
+            end
+            
+          end
+				</script>
+        <tooltip textres="vhBuilder_StringCyclerVehSpecial1_Tooltip" />
+			</button_stringcycler>
+
+	    <number name="nSpecial1Price">
+			  <frame name="fieldlight" />
+      <bounds>20,100,120,30</bounds>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+		  </number>
+      <label_fieldtop>
+      <bounds>20,80,120,20</bounds>
+        <static>Price Adj</static>
+      </label_fieldtop>
+
+      <number name="nSpecial1Speed">
+			  <frame name="fieldlight" />
+      <bounds>170,100,120,30</bounds>
+			  <default>0</default>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+		  </number>
+      <label_fieldtop>
+      <bounds>170,80,120,20</bounds>
+        <static>Speed Adj</static>
+      </label_fieldtop>
+	    
+	    <number name="nSpecial1Passengers">
+        <frame name="fieldlight" />
+		  <bounds>20,140,120,30</bounds>
+        <default>0</default>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+		  <bounds>20,120,120,20</bounds>
+        <static>Passengers</static>
+      </label_fieldtop>
+	    <number name="nSpecial1PilotingMod">
+			  <frame name="fieldlight" />
+      <bounds>170,140,120,30</bounds>
+			  <displaysign />
+        <hideonvalue>0</hideonvalue>
+		  </number>
+      <label_fieldtop>
+      <bounds>170,120,120,20</bounds>
+        <static>Piloting</static>
+      </label_fieldtop>
+	    <number name="nSpecial1AttackMod">
+        <frame name="fieldlight" />
+		  <bounds>20,180,80,30</bounds>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+		  <bounds>20,160,80,20</bounds>
+        <static>Attack</static>
+      </label_fieldtop>      
+
+	    <number name="nSpecial1HP">
+        <frame name="fieldlight" />
+		  <bounds>20,220,100,30</bounds>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+		  <bounds>20,200,100,20</bounds>
+        <static>HP Adj</static>
+      </label_fieldtop>
+
+	    <number name="nSpecial1Hardness">
+        <frame name="fieldlight" />
+		  <bounds>130,220,100,30</bounds>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+		  <bounds>130,200,100,20</bounds>
+        <static>Hardness</static>
+      </label_fieldtop>      
+
+      <number name="nSpecial1FullSpeedMult">
+      <bounds>120,180,140,30</bounds>
+			  <frame name="fieldlight" />			  
+			  <default>0</default>
+        <displaysign />
+			  <hideonvalue>0</hideonvalue>
+		  </number>
+      <label_fieldtop>
+      <bounds>120,160,140,20</bounds>
+        <static>Full Speed</static>
+      </label_fieldtop>
+
+      <number name="nSpecial1EAC">
+        <frame name="fieldlight" />
+		  <bounds>240,220,60,30</bounds>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+		  <bounds>240,200,60,20</bounds>
+        <static>EAC</static>
+      </label_fieldtop>
+
+      <number name="nSpecial1KAC">
+        <frame name="fieldlight" />
+		  <bounds>310,220,60,30</bounds>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+      </number>        
+      <label_fieldtop>
+		  <bounds>310,200,60,20</bounds>
+        <static>KAC</static>
+      </label_fieldtop>
+
+      <stringcontrol name="sSpecial1Notes">
+      <bounds>20,260,320,24</bounds>
+        <center />
+			  <static textres="" />
+			  <readonly />
+		  </stringcontrol>
+
+       <!-- STEP 5 - Special 2 -->    
+      <button_stringcycler name="StringCyclerVehSpecial2">
+				<frame name="fielddarksolid" offset="0,0,0,0" />
+        <font>reference-header</font>
+        <bounds>400,40,320,32</bounds>
+				<parameters>
+					<labelsres>vhBuilder_StringCyclerVehSpecial2_Label_All_Terrain|vhBuilder_StringCyclerVehSpecial2_Label_Amphibious|vhBuilder_StringCyclerVehSpecial2_Label_Armored|vhBuilder_StringCyclerVehSpecial2_Label_Computer_Assisted|vhBuilder_StringCyclerVehSpecial2_Label_Hover|vhBuilder_StringCyclerVehSpecial2_Label_Hybrid_Aircraft|vhBuilder_StringCyclerVehSpecial2_Label_Junk|vhBuilder_StringCyclerVehSpecial2_Label_Luxury|vhBuilder_StringCyclerVehSpecial2_Label_Racer|vhBuilder_StringCyclerVehSpecial2_Label_Transport</labelsres>
+					<values>all-terrain|amphibious|armored|computer-assisted|hover|hybrid aircraft|junk|luxury|racer|transport</values>
+				</parameters>
+        <script>
+					function onValueChanged()
+						updateSpecial2();
+					end
+          function updateSpecial2()
+            local sOrigin = getStringValue();
+            sf.DebugOut("vehicle special 2 is: " .. sOrigin);
+
+            -- defaults
+            window.nSpecial2Price.setValue(0);
+            window.nSpecial2Speed.setValue(0);
+            window.nSpecial2AttackMod.setValue(0);
+            window.nSpecial2PilotingMod.setValue(0);
+            window.nSpecial2Passengers.setValue(0);
+            window.nSpecial2HP.setValue(0);
+            window.nSpecial2FullSpeedMult.setValue(0);
+            window.nSpecial2EAC.setValue(0);
+            window.nSpecial2KAC.setValue(0);
+            window.nSpecial2Hardness.setValue(0);
+            window.sSpecial2Notes.setValue("");
+            
+            sf.DebugOut("vehicle special 2 is: " .. sOrigin);
+
+            -- all-terrain, amphibious, armored, computer-assisted, hover, hybrid aircraft, junk, luxury, racer, transport
+
+            local nBasePrice = DB.getValue("SF_Helpers.vehicleBuilder.nBasePrice",0);
+
+            if sOrigin == "all-terrain" then
+              sf.DebugOut("all-terrain origin");
+
+              -- increase cost by 5%
+              local nCost = nBasePrice * 0.05; -- adds 5% cost
+              window.nSpecial2Price.setValue(nCost);
+
+              -- decrease speed by 5 feet.
+              window.nSpecial2Speed.setValue(0 - 5);
+
+              -- decrease full speed by 25 feet
+              window.nSpecial2FullSpeedMult.setValue(0 - 25);
+
+              -- decrease attack modifiers by 1
+              window.nSpecial2AttackMod.setValue(0 - 1);
+
+              -- when moving through difficult terrain, treat every other space of difficult terrain as normal terrain (minimum 1/2 speed).
+              -- note: we will need to add a DIFFICULT TERRAIN movement mode when exporting (results in 3/4 speed instead of 1/2 speed)
+
+              -- can move on land and rough terrain
+              window.sSpecial2Notes.setValue("Can move on land and rough terrain.");
+
+              -- note: we will need to add a ROUGH TERRAIN movement mode when exporting
+              window.sSpecial2Notes.setValue("Can move on land and rough terrain.");
+            end
+
+            if sOrigin == "amphibious" then
+              sf.DebugOut("amphibious origin");
+              -- increase cost by 10%
+              local nCost = nBasePrice * 0.10; -- adds 10% cost
+              window.nSpecial2Price.setValue(nCost);
+
+              -- can move on land and water
+              window.sSpecial2Notes.setValue("Can move on land and water.");
+
+              -- note: we will need to add a LAND and WATER movement mode when exporting
+            end
+
+            if sOrigin == "armored" then
+              sf.DebugOut("armored origin");
+
+              -- increase price by 20%
+              local nCost = math.floor(nBasePrice * 0.20); -- adds 20% cost
+              window.nSpecial2Price.setValue(nCost);
+
+              -- descrease speed by 10 feet
+              window.nSpecial2Speed.setValue(0 - 10);
+
+              -- increase EAC and KAC by 2
+              window.nSpecial2EAC.setValue(2);
+              window.nSpecial2KAC.setValue(2);
+
+              -- increase HP by 10%
+              local HP = window.nBaseHP.getValue() * 0.10; -- adds 10% HP
+              window.nSpecial2HP.setValue(math.floor(HP));
+
+              -- increase hardness by 10%
+              local nHardness = math.floor(window.nBaseHardness.getValue() * 0.10); -- adds 10% Hardness
+              window.nSpecial2Hardness.setValue( nHardness );
+
+              -- increase cover by one step  (partial to cover, cover to improved, etc)
+              -- done with the total update function
+
+              window.sSpecial2Notes.setValue("Cannot have the Tank type graft, increases Cover by one level.");
+            end
+
+            if sOrigin == "computer-assisted" then
+              sf.DebugOut("computer-assisted origin");
+
+              -- increase price by 15%
+              local nCost = math.floor(nBasePrice * 0.15); -- adds 15% cost
+              window.nSpecial2Price.setValue(nCost);
+
+              -- decrease piloting mod by 2
+              window.nSpecial2PilotingMod.setValue(2);
+
+              -- increase attack mod by 2
+              window.nSpecial2AttackMod.setValue(2);
+
+              window.sSpecial2Notes.setValue("Gains an autopilot with Piloting bonus of 4 + (1.5 * vehicles level.)");
+            end
+
+            if sOrigin == "hover" then
+              sf.DebugOut("hover origin");
+
+              -- increase price by 10%
+              local nCost = math.floor(nBasePrice * 0.10); -- adds 10% cost
+              window.nSpecial2Price.setValue(nCost);
+
+              -- increase speed by 5 feet
+              window.nSpecial2Speed.setValue(5);
+
+              -- decrease eac and kac by 1
+              window.nSpecial2EAC.setValue(0 - 1);
+              window.nSpecial2KAC.setValue(0 - 1);
+
+              -- decrease hp by 20%
+              local nHP = 0 - (window.nBaseHP.getValue() * 0.20); -- decreases 20% HP
+              window.nSpecial2HP.setValue(math.floor(nHP));
+
+              -- It can hover up to 5 feet over surfaces and ignores difficult terrain.
+              -- note: we will need to add a HOVER movement mode when exporting
+
+              -- note requires a land speed and grants a fly speed.
+              window.sSpecial2Notes.setValue("Requires a land speed and grants a fly speed.");
+            end
+
+            if sOrigin == "hybrid aircraft" then
+              sf.DebugOut("hybrid aircraft origin");
+
+              -- increase price by 15%
+              local nCost = math.floor(nBasePrice * 0.15); -- adds 15% cost
+              window.nSpecial2Price.setValue(nCost);
+
+              -- increase speed by 10 feet
+              window.nSpecial2Speed.setValue(10);
+
+              -- decrease eac and kac by 1
+              window.nSpecial2EAC.setValue(0 - 1);
+              window.nSpecial2KAC.setValue(0 - 1);
+
+              -- decrease hp by 10%
+              local nHP = 0 - (window.nBaseHP.getValue() * 0.10); -- decreases 10% HP
+              window.nSpecial2HP.setValue(math.floor(nHP));
+
+              -- note requires either a land or air speed and grants the other speed.
+              window.sSpecial2Notes.setValue("Requires either a land or air speed and grants the other speed.");
+            end
+            
+            if sOrigin == "junk" or sOrigin == "Junk" then
+              sf.DebugOut("junk origin");
+
+              -- decrease cost by 50% (-50%)
+              local nCost = 0 - nBasePrice * 0.50; -- minus 50% cost
+              window.nSpecial2Price.setValue(nCost);
+
+              -- decrease full speed by 50 feet.              
+              window.nSpecial2FullSpeedMult.setValue(0 - 50);
+
+              -- decrease piloting mod by 3
+              window.nSpecial2PilotingMod.setValue(0 - 3);
+
+              -- decrease attack mod by 1
+              window.nSpecial2AttackMod.setValue(0 - 1);
+
+              -- gain broken condition at 75% not 50% of HP.
+
+              -- unstable engine: When broken, it explodes in 1d4 rounds dealing damage in a 10 ft burst 
+              window.sSpecial2Notes.setValue("Unstable engine: When broken, it explodes in 1d4 rounds dealing damage in a 10 ft burst.");
+            end
+
+            if sOrigin == "luxury" then
+              sf.DebugOut("luxury origin");
+
+              -- increase cost by 20% (+20%)
+              local nCost = nBasePrice * 0.20; -- adds 20% cost
+              window.nSpecial2Price.setValue(nCost);
+
+              -- decrease attack mod by 1
+              window.nSpecial2AttackMod.setValue(1);
+
+              -- gains a planetary comm unit and autocontrol with a Piloting bonus of 4 + (1.5 * vehicles level).
+              window.sSpecial2Notes.setValue("Gains a planetary comm unit and autocontrol with a Piloting bonus of 4 + (1.5 * vehicles level).");
+            end
+
+            if sOrigin == "racer" then
+              sf.DebugOut("racer origin");
+
+              -- increase full speed by 5 feet.
+              window.nSpecial2Speed.setValue(5);
+
+              -- decrease HP by 10%
+              local nHP = 0 - (window.nBaseHP.getValue() * 0.10); -- decreases 10% HP
+              window.nSpecial2HP.setValue(math.floor(nHP));
+
+              -- decreaste Hardness by 20%
+              local nHardness = 0 - math.floor(window.nBaseHardness.getValue() * 0.20); -- decreases 20% Hardness
+              window.nSpecial2Hardness.setValue( nHardness );
+
+              -- decrease passengers by 50%
+              local nPassengers = window.nBasePassengers.getValue() * 0.50;
+              window.nSpecial2Passengers.setValue(math.floor(0 - nPassengers));
+
+              -- note that it gets +25% top speed after calculating top speeds
+              window.sSpecial2Notes.setValue("Gets +25% top speed after calculating top speeds.");
+            end
+
+            if sOrigin == "transport" then
+              sf.DebugOut("transport origin");
+
+              -- increase overland speed by 20%
+              local nSpeedMulti = window.nBaseFullSpeedMult.getValue();
+              local nSpeed = window.nBaseSpeed.getValue();
+              local nBonusTopSpeed = math.floor((nSpeedMulti * nSpeed) * 0.20);
+              window.nSpecial2FullSpeedMult.setValue( nBonusTopSpeed );
+
+              -- decrease piloting modifier by 1
+              window.nSpecial2PilotingMod.setValue(1);
+
+              -- increase passengers by 100%
+              local nPassengers = window.nBasePassengers.getValue();
+              window.nSpecial2Passengers.setValue(nPassengers);
+
+              -- gain +20% overland speed after calculating top speeds
+              window.sSpecial2Notes.setValue("Gains +20% overland speed after calculating top speeds.");
+            end
+            
+          end
+				</script>
+        <tooltip textres="vhBuilder_StringCyclerVehSpecial2_Tooltip" />
+			</button_stringcycler>
+
+      <!-- step 2 special 2 row 1 -->
+      <number name="nSpecial2Price">
+        <frame name="fieldlight" />
+        <bounds>400,100,120,30</bounds>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+		  </number>
+      <label_fieldtop>
+        <bounds>400,80,120,20</bounds>
+        <static>Price Adj</static>
+      </label_fieldtop>
+      <!-- BELOW HERE-->
+      <number name="nSpecial2Speed">
+        <frame name="fieldlight" />
+        <bounds>550,100,120,30</bounds>
+			  <default>0</default>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+		  </number>
+      <label_fieldtop>
+        <bounds>550,80,120,20</bounds>
+        <static>Speed Adj</static>
+      </label_fieldtop>
+      <number name="nSpecial2Passengers">
+        <frame name="fieldlight" />
+        <bounds>400,140,120,30</bounds>
+        <default>0</default>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+        <bounds>400,120,120,20</bounds>
+        <static>Passengers</static>
+      </label_fieldtop>
+      <number name="nSpecial2PilotingMod">
+        <frame name="fieldlight" />
+        <bounds>550,140,120,30</bounds>
+			  <displaysign />
+        <hideonvalue>0</hideonvalue>
+		  </number>
+      <label_fieldtop>
+        <bounds>550,120,120,20</bounds>
+        <static>Piloting</static>
+      </label_fieldtop>
+      <number name="nSpecial2AttackMod">
+        <frame name="fieldlight" />
+        <bounds>400,180,80,30</bounds>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+        <bounds>400,160,80,20</bounds>
+        <static>Attack</static>
+      </label_fieldtop>
+
+      <!-- step 2 special 2 row 2 -->
+      <number name="nSpecial2FullSpeedMult">
+        <frame name="fieldlight" />
+        <bounds>500,180,140,30</bounds>
+			  <default>0</default>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+        <bounds>500,160,140,20</bounds>
+        <static>Full Speed</static>
+      </label_fieldtop>
+      <number name="nSpecial2Hardness">
+        <frame name="fieldlight" />
+        <bounds>510,220,100,30</bounds>
+        <default>0</default>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+        <bounds>510,200,100,20</bounds>
+        <static>Hardness</static>
+      </label_fieldtop>
+      <number name="nSpecial2HP">
+        <frame name="fieldlight" />
+        <bounds>400,220,100,30</bounds>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+      </number>
+      <label_fieldtop>
+        <bounds>400,200,100,20</bounds>
+        <static>HP Adj</static>
+      </label_fieldtop>      
+      <number name="nSpecial2EAC">
+        <frame name="fieldlight" />
+        <bounds>620,220,60,30</bounds>
+			  <default>0</default>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+		  </number>
+      <label_fieldtop>
+        <bounds>620,200,60,20</bounds>
+        <static>EAC</static>
+      </label_fieldtop>
+      <number name="nSpecial2KAC">
+        <frame name="fieldlight" />
+        <bounds>690,220,60,30</bounds>
+			  <default>0</default>
+        <displaysign />
+        <hideonvalue>0</hideonvalue>
+		  </number>
+      <label_fieldtop>
+        <bounds>690,200,60,20</bounds>
+        <static>KAC</static>
+      </label_fieldtop>
+
+      <stringcontrol name="sSpecial2Notes">
+        <bounds>400,260,320,24</bounds>
+        <center />
+        <static textres="" />
+        <readonly />
+      </stringcontrol>
+      <!-- end STEP 5 - Special 2 -->
+
+		</sheetdata>
+	</windowclass>
+
+  <windowclass name="vhBuilderTabbed">
+    <frame>recordsheet</frame>
+    <placement>
+      <size height="600" width="740" />
+    </placement>
+		<sheetdata>
+
+      <!-- total stats -->
+      <genericcontrol name="frameTotal">
+        <bounds>10,15,-10,-10</bounds>
+        <frame name="referenceblock-sidebar2" />
+      </genericcontrol>
+
+      <stringcontrol name="sVehName">
+        <empty textres="vhBuilder_sVehName_Label_Vehicle_Name" />
+        <font>reference-i</font>
+        <bounds>35,30,240,22</bounds>
+        <frame name="fielddark"  offset="10,5,5,5" />
+      </stringcontrol>
+
+      <button_details name="button_update_totals">
+        <bounds>310,30,20,20</bounds>
+        <icon normal="button_dialog_ok" />
+        <icon normal="button_dialog_ok_down" />
+				<script>
+					function onButtonPress()
+            window.nTotalPrice.update();
+
+            window.nTotalSpeed.update();
+            window.nTotalFullSpeedMult.update();
+            window.nTotalOverlandSpeed.update();
+
+            window.nTotalPilotingMod.update();
+            window.nTotalAttackMod.update();
+            window.nTotalAttackFullMod.update();
+
+            window.nTotalEAC.update();
+            window.nTotalKAC.update();            
+            window.nTotalHardness.update();
+
+            window.nTotalHP.update();
+            window.nBrokenHP.update();
+
+            window.nTotalPassengers.update();
+
+            window.nTotalDiceSize.update();
+            window.nTotalDiceCount.update();
+            window.nTotalCollisionDC.update();
+
+            window.nTotalModSlots.update();
+
+            window.sTotalVehCover.update();
+					end
+				</script>
+			</button_details>
+      <label_fieldtop>
+        <bounds>330,30,40,20</bounds>
+        <static>Update</static>
+      </label_fieldtop>
+      <button_details name="button_create_vehicle">
+        <bounds>390,750,20,20</bounds>
+        <icon normal="button_forward_add" />
+				<script>
+					function onButtonPress()
+            -- First update all totals
+            window.button_update_totals.onButtonPress();
+            
+            -- Get the character DB node that this window was opened with
+            local charNode = window.getDatabaseNode();
+            
+            -- Create the vehicle record (returns the vehicle node)
+            local vehicleNode = vehBuilder.createVehicleRecord(charNode, window);
+            
+            if vehicleNode then
+              -- Now that the vehicle is in the database, create the self-referencing link
+              vehBuilder.createVehicleLink(vehicleNode);
+              
+              -- Send success message
+              local vehicleName = DB.getValue(vehicleNode, "name", "Vehicle");
+              sf.sendChat("Vehicle '" .. vehicleName .. "' added to character sheet!", true);
+              
+              -- Open the newly created vehicle window
+              Interface.openWindow("charvehicle", vehicleNode);
+            else
+              sf.DebugOut("ERROR: Failed to create vehicle");
+            end
+					end
+				</script>
+			</button_details>
+      <label_fieldtop>
+        <bounds>405,30,40,20</bounds>
+        <static>Save</static>
+      </label_fieldtop>
+
+      <!-- totals row 1 -->
+      <number name="nTotalPrice">
+        <bounds>20,70,100,30</bounds>
+        <frame name="fielddark" />        
+        <script>
+          function update()
+            local nBasePrice = DB.getValue("SF_Helpers.vehicleBuilder.nBasePrice",0);
+            local nVehTypePrice = DB.getValue("SF_Helpers.vehicleBuilder.nVehTypePrice",0);
+            local nSizePrice = DB.getValue("SF_Helpers.vehicleBuilder.nSizePrice",0);
+            local nSpecial1Price = DB.getValue("SF_Helpers.vehicleBuilder.nSpecial1Price",0);
+            local nSpecial2Price = DB.getValue("SF_Helpers.vehicleBuilder.nSpecial2Price",0);
+            local nOriginPrice = DB.getValue("SF_Helpers.vehicleBuilder.nOriginPrice",0);
+            local nPrice = nBasePrice + nVehTypePrice + nSizePrice + nSpecial1Price + nSpecial2Price + nOriginPrice;
+            setValue(nPrice);
+          end
+        </script>
+			</number>
+      <label_fieldtop>
+        <bounds>20,55,80,20</bounds>
+        <static>Total Price</static>
+      </label_fieldtop>
+
+      <number name="nTotalSpeed">
+        <frame name="fielddark" />
+        <bounds>140,70,100,30</bounds>
+				<default>0</default>
+        <script>
+          function update()
+            local nSpeed = window.nBaseSpeed.getValue() + window.nVehTypeSpeedMod.getValue() + window.nSpecial1Speed.getValue() + window.nSpecial2Speed.getValue();
+            setValue(nSpeed);
+          end
+        </script>
+			</number>
+      <label_fieldtop>
+        <bounds>140,55,100,23</bounds>
+        <static>Speed</static>
+      </label_fieldtop>
+
+      <number name="nTotalFullSpeedMult">
+        <frame name="fielddark" />
+        <bounds>140,110,100,30</bounds>
+				<default>0</default>
+				<hideonvalue>0</hideonvalue>
+        <script>
+          function update()            
+            local nFullSpeed = window.nTotalSpeed.getValue();
+            local nFullSpeedMult = window.nBaseFullSpeedMult.getValue();
+            local nFullSpeedMods = window.nSpecial1FullSpeedMult.getValue() + window.nSpecial2FullSpeedMult.getValue();
+            local nTotalFullSpeed = (nFullSpeed * nFullSpeedMult) + nFullSpeedMods;
+
+            if (window.StringCyclerVehSpecial2.getStringValue() == "racer" or window.StringCyclerVehSpecial1.getStringValue() == "racer") then
+              nTotalFullSpeed = math.floor(nTotalFullSpeed * 1.25); -- racers gets 25% bonus after all calculations
+            end
+
+
+            setValue(nTotalFullSpeed);
+            
+            -- Update overland speed when full speed changes
+            window.nTotalOverlandSpeed.update();
+          end
+        </script>
+			</number>
+      <label_fieldtop>
+        <bounds>140,95,100,23</bounds>
+        <static>Top speed</static>
+      </label_fieldtop>
+
+      <number name="nTotalOverlandSpeed">
+        <frame name="fielddark" />
+        <bounds>140,150,100,30</bounds>
+				<default>0</default>
+				<hideonvalue>0</hideonvalue>
+        <script>
+          function update()
+            -- Base calculation: 1/10 of full speed
+            local nFullSpeed = window.nTotalFullSpeedMult.getValue();
+            local nOverlandSpeed = nFullSpeed / 10;
+            
+            -- Check if transport special ability is active
+            local sSpecial1 = window.StringCyclerVehSpecial1.getStringValue();
+            local sSpecial2 = window.StringCyclerVehSpecial2.getStringValue();
+            
+            if (sSpecial1 == "transport" or sSpecial2 == "transport") then
+              nOverlandSpeed = nOverlandSpeed * 1.20; -- +20% bonus for transport
+            end
+            
+            setValue(math.floor(nOverlandSpeed));
+          end
+        </script>
+			</number>
+      <label_fieldtop>
+        <bounds>140,135,100,23</bounds>
+        <static>overland (mph)</static>
+      </label_fieldtop>
+
+      <number name="nTotalPassengers">
+        <frame name="fielddark" />
+        <bounds>260,70,100,30</bounds>
+				<default>0</default>
+				<hideonvalue>0</hideonvalue>
+        <script>
+          function update()
+            local nPassengers = window.nBasePassengers.getValue() + window.nSizePassengers.getValue() + window.nSpecial1Passengers.getValue() + window.nSpecial2Passengers.getValue();
+            local sName = window.sVehName.getValue();
+            if sf.isGt(0, nPassengers) then
+              nPassengers = 0; -- can't have negative passengers
+            end
+            if sName == "cycle" and sf.isGt(nPassengers, 1) then
+                nPassengers = 1; -- cycles can only hold 1 passenger
+            end
+            setValue(nPassengers);
+          end
+        </script>
+			</number>
+      <label_fieldtop>
+        <bounds>260,55,100,23</bounds>
+        <static>passengers</static>
+      </label_fieldtop>
+
+      <number name="nTotalPilotingMod">
+        <frame name="fielddark" />
+        <bounds>380,70,100,30</bounds>
+				<displaysign />
+        <script>
+          function update()
+            local nPiloting = window.nBasePilotingMod.getValue() + window.nSizePilotingMod.getValue() + window.nSpecial1PilotingMod.getValue() + window.nSpecial2PilotingMod.getValue();
+            setValue(nPiloting);
+          end
+        </script>
+			</number>
+      <label_fieldtop>
+        <bounds>380,55,100,20</bounds>
+        <static>piloting</static>
+      </label_fieldtop>
+
+      <number name="nTotalAttackMod">
+        <frame name="fielddark" />
+        <bounds>620,70,40,30</bounds>
+				<displaysign />
+        <script>
+          function update()
+            local nAttack = window.nBaseAttackMod.getValue() + window.nSizeAttackMod.getValue() + window.nSpecial1AttackMod.getValue() + window.nSpecial2AttackMod.getValue();
+            setValue(nAttack);
+          end
+        </script>
+			</number>
+      <label_fieldtop>
+        <bounds>620,55,40,20</bounds>
+        <static>Attack</static>
+      </label_fieldtop>
+      <number name="nTotalAttackFullMod">
+        <frame name="fielddark" />
+        <bounds>680,70,40,30</bounds>
+				<displaysign />
+        <script>
+          function update()
+            local nAttack = window.nBaseAttackFullMod.getValue() + window.nSizeAttackMod.getValue() + window.nSpecial1AttackMod.getValue() + window.nSpecial2AttackMod.getValue();
+            setValue(nAttack);
+          end
+        </script>
+			</number>
+      <label_fieldtop>
+        <bounds>680,55,40,20</bounds>
+        <static>(Full)</static>
+      </label_fieldtop>      
+      
+      <number name="nTotalEAC">
+        <frame name="fielddark" />
+        <bounds>500,70,40,30</bounds>
+				<default>0</default>
+        <script>
+          function update()
+            local nEAC = window.nBaseEAC.getValue() + window.nVehTypeEACmod.getValue() + window.nSpecial1EAC.getValue() + window.nSpecial2EAC.getValue();
+            setValue(nEAC);
+          end
+        </script>
+			</number>
+        <label_fieldtop>
+        <bounds>500,55,40,23</bounds>
+        <static>EAC</static>
+      </label_fieldtop>
+      <number name="nTotalKAC">
+        <frame name="fielddark" />
+        <bounds>560,70,40,30</bounds>
+				<default>0</default>
+        <script>
+          function update()
+            local nKAC = window.nBaseKAC.getValue() + window.nVehTypeKACmod.getValue() + window.nSpecial1KAC.getValue() + window.nSpecial2KAC.getValue();
+            setValue(nKAC);
+          end
+        </script>
+			</number>
+        <label_fieldtop>
+        <bounds>560,55,40,23</bounds>
+        <static>KAC</static>
+      </label_fieldtop>
+
+      <number name="nTotalHP">
+        <frame name="fielddark" />
+        <bounds>260,110,100,30</bounds>
+				<default>0</default>
+        <script>
+          function update()
+            local nHP = window.nBaseHP.getValue() + window.nVehTypeHP.getValue() + window.nSizeHP.getValue() + window.nSpecial1HP.getValue() + window.nSpecial2HP.getValue();
+            setValue(nHP);
+          end
+        </script>
+			</number>
+        <label_fieldtop>
+        <bounds>260,95,100,23</bounds>
+        <static>Hit Points</static>
+      </label_fieldtop>
+
+        <number name="nBrokenHP">
+        <frame name="fielddark" />
+        <bounds>260,150,100,30</bounds>
+				<default>0</default>
+        <script>
+          function update()
+            local nBrokenHP = math.floor(window.nTotalHP.getValue() * 0.50);
+            if (window.StringCyclerVehSpecial2.getStringValue() == "junk" or window.StringCyclerVehSpecial1.getStringValue() == "junk") then
+              nBrokenHP = math.floor(window.nTotalHP.getValue() * 0.75);
+            end
+            setValue(nBrokenHP);
+          end
+        </script>
+			</number>
+        <label_fieldtop>
+        <bounds>260,135,100,23</bounds>
+        <static>Broken HP</static>
+      </label_fieldtop>
+
+      <number name="nTotalHardness">
+        <frame name="fielddark" />
+        <bounds>380,110,100,30</bounds>
+				<default>5</default>
+        <minimum>5</minimum>
+        <script>
+          function update()
+            local nHardness = window.nBaseHardness.getValue() + window.nVehTypeHardness.getValue() + window.nSpecial1Hardness.getValue() + window.nSpecial2Hardness.getValue();
+            setValue(nHardness);
+          end
+        </script>
+			</number>
+      <label_fieldtop>
+        <bounds>380,95,100,23</bounds>
+        <static>Hardness</static>
+      </label_fieldtop>
+
+      <number name="nTotalDiceCount">
+        <frame name="fielddark" />
+        <bounds>500,110,40,30</bounds>
+        <script>
+          function update()
+            local nDice = window.nBaseDiceCount.getValue() + window.nSizeDiceCount.getValue();
+            setValue(nDice);
+          end
+        </script>
+			</number>
+      <number name="nTotalDiceSize">
+        <frame name="fielddark" />
+        <bounds>560,110,40,30</bounds>
+        <script>
+          function update()
+            local nDiceSize = window.nBaseDiceSize.getValue();
+            setValue(nDiceSize);
+          end
+        </script>
+			</number>
+      <label_fieldtop>
+        <bounds>542,110,20,20</bounds>
+        <static>d</static>
+      </label_fieldtop>      
+      <label_fieldtop>
+        <bounds>500,95,100,23</bounds>
+        <static>Collision DMG</static>
+      </label_fieldtop>
+
+      <number name="nTotalCollisionDC">
+        <frame name="fielddark" />
+        <bounds>620,110,100,30</bounds>
+				<default>0</default>
+        <script>
+          function update()
+            local nDC = window.nBaseCollisionDC.getValue() + window.nSizeCollisionDC.getValue();
+            setValue(nDC);
+          end
+        </script>
+			</number>
+        <label_fieldtop>
+        <bounds>620,95,100,23</bounds>
+        <static>Collision DC</static>
+      </label_fieldtop>
+
+      <number name="nTotalModSlots">
+        <frame name="fielddark" />
+        <bounds>620,150,100,30</bounds>        
+				<default>0</default>
+        <displaysign />
+        <script>
+          function update()
+            local nModSlots = window.nOriginModSlots.getValue() + window.nBaseModSlots.getValue();
+            if sf.isGt(1,nModSlots) then
+              nModSlots = 1; -- minimum of 1 mod slot
+            end
+            setValue(nModSlots);
+          end
+        </script>
+			</number>
+      <label_fieldtop>
+        <bounds>620,135,100,20</bounds>
+        <static>Mod Slots</static>
+      </label_fieldtop>
+
+      <stringcontrol name="sTotalVehCover">
+        <bounds>500,150,100,30</bounds>
+        <center />
+        <frame name="fielddark"  />
+				<static textres="" />
+				<readonly />
+        <script>
+          function update()
+            local sCover = window.sVehCover.getValue();
+            if window.StringCyclerVehSpecial2.getStringValue() == "armored" or window.StringCyclerVehSpecial1.getStringValue() == "armored" then
+              if sCover == "" or sCover == "none" then
+                sCover = "partial";
+              elseif sCover == "partial" then
+                sCover = "cover";
+              elseif sCover == "cover" then
+                sCover = "improved";
+              elseif sCover == "improved" then
+                sCover = "total";
+              end
+            end
+            setValue(sCover);
+          end
+          </script>
+			</stringcontrol>
+      <label_fieldtop>
+        <bounds>500,135,100,20</bounds>
+        <static>cover provided</static>
+      </label_fieldtop>
+
+      <!-- tabbed sections for step 1 to 5 ... changes on those tabs update the totals on this main sheet -->
+      <!-- sub windows -->
+      <subwindow name="vehStep1">
+				<bounds>10,300,-10,-10</bounds>
+				<class>sw_veh_step1</class>
+			</subwindow>
+      <subwindow name="vehStep2">
+				<bounds>10,300,-10,-10</bounds>
+				<class>sw_veh_step2</class>
+			</subwindow>
+      <subwindow name="vehStep3">
+				<bounds>10,300,-10,-10</bounds>
+				<class>sw_veh_step3</class>
+			</subwindow>
+      <subwindow name="vehStep4">
+				<bounds>10,300,-10,-10</bounds>
+				<class>sw_veh_step4</class>
+			</subwindow>
+      <subwindow name="vehStep5">
+				<bounds>10,300,-10,-10</bounds>
+				<class>sw_veh_step5</class>
+			</subwindow>
+
+      <!-- horizontal tabs -->
+			<buttongroup_tabs_h name="tabs">
+				<anchored width="92" height="18">
+					<top offset="280" />
+					<left offset="23" />
+				</anchored>
+				<tab>
+					<tabres>tab_veh_level</tabres>
+					<subwindow>vehStep1</subwindow>
+				</tab>
+				<tab>
+					<tabres>tab_veh_type</tabres>
+					<subwindow>vehStep2</subwindow>
+				</tab>
+        <tab>
+          <tabres>tab_veh_size</tabres>
+          <subwindow>vehStep3</subwindow>
+        </tab>
+        <tab>
+          <tabres>tab_veh_origin</tabres>
+          <subwindow>vehStep4</subwindow>
+        </tab>
+        <tab>
+          <tabres>tab_veh_special</tabres>
+          <subwindow>vehStep5</subwindow>
+        </tab>
+			</buttongroup_tabs_h>
+
+      <!-- close button -->
+      <buttoncontrol name="closeButton">
+        <frame>
+        	<name>buttonup</name>
+       	</frame>
+        <bounds>-25,-25,20,20</bounds>
+        <state icon="button_toolbar_window_close" />
+				<script>
+				function onButtonPress()
+        	window.close();
+				end
+				</script>
+      </buttoncontrol>
+
+		</sheetdata>
+	</windowclass>
+
+  <windowclass name="charsheet_inv_vehicles" merge="join">
+    <sheetdata>
+
+      <button_details name="button_vehBuilderTabbed">
+        <bounds>5,100,20,20</bounds>
+				<script>
+          function onInit()
+            -- on init, check if the Vehicle wizard helper is enabled; if not, hide the button
+            if not sf_init.isVehicleWizard_On() then
+              setVisible(false);
+            else
+              setVisible(true);
+            end
+          end
+					function onButtonPress()
+            local sDBnode = window.getDatabaseNode();
+            sf.DebugOut("DB Node: " .. sDBnode.getPath());
+
+            if not sf_init.isVehicleWizard_On() then
+              sf.ErrorOut("Vehicle Wizard helper is disabled; not opening ability boost details.");
+              return;
+            end
+
+            local sDBnodeChild = DB.createChild(sDBnode, "vehicleBuilder");
+            sf.DebugOut("Created child node: " .. sDBnodeChild.getPath());
+
+            Interface.openWindow("vhBuilderTabbed", sDBnodeChild);
+					end
+				</script>
+			</button_details>
+
+    </sheetdata>
+  </windowclass>
+
+</root>
