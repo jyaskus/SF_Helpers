@@ -95,7 +95,7 @@
   <string name="SF_option_val_disabled">disabled</string> 
 
   <string name="SF_option_helper_ability_wizard">Enable the Character Ability score Pop-Up helper</string>
-  <string name="SF_option_helper_companion_wizard">Enable the creature Companion wizard (for companions)</string>
+  <string name="SF_option_helper_companion_wizard">Enable the creature Companion wizard</string>
   <string name="SF_option_helper_vehicle_wizard">Enable the Vehicle Builder Pop-Up helper</string>
   <string name="SF_option_helper_grenade_autoreload">Enable Grenade Auto-Reloads</string>
 
