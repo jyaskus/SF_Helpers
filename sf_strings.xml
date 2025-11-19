@@ -99,4 +99,8 @@
   <string name="SF_option_helper_vehicle_wizard">Enable the Vehicle Builder Pop-Up helper</string>
   <string name="SF_option_helper_grenade_autoreload">Enable Grenade Auto-Reloads</string>
 
+  <!-- tool tips -->
+  <string name="vhBuilder_StringCyclerVehSpecial1_Tooltip">Select up to (2) special features for your vehicle. Each special feature adds unique benefits and may affect the vehicle's price and performance.</string>
+  <string name="vhBuilder_StringCyclerVehSpecial2_Tooltip">Select up to (2) special features for your vehicle. Each special feature adds unique benefits and may affect the vehicle's price and performance.</string>
+
 </root>
