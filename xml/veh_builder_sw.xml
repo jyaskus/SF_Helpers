@@ -37,7 +37,7 @@
       </buttoncontrol>
       <number name="nLevel" source="SF_Helpers.vehicleBuilder.nLevel">
         <frame name="fielddark" />
-        <bounds>320,15,60,50</bounds>
+        <bounds>320,5,60,50</bounds>
         <default>1</default>
         <minimum>1</minimum>
         <script>
@@ -58,8 +58,11 @@
               nLevel = 20;
               setValue(nLevel);
             end
-            -- should not be need with the source in place 
-            -- DB.setValue("SF_Helpers.vehicleBuilder.nLevel", "number", nLevel);
+            local nodePath = "SF_Helpers.vehicleBuilder.nLevel";
+            local nStoredValue = DB.getValue(nodePath, 1);
+            if nStoredValue ~= nLevel then
+              DB.setValue(nodePath, "number", nLevel);
+            end
             updateBaseLevelStats();
           end
 
@@ -162,6 +165,17 @@
       <number name="nBasePrice" source ="SF_Helpers.vehicleBuilder.nBasePrice">
         <frame name="fieldlight" />
         <bounds>20,60,100,30</bounds>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nBasePrice";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>20,45,100,20</bounds>
@@ -172,6 +186,17 @@
         <frame name="fieldlight" />
         <bounds>140,60,100,30</bounds>
         <default>0</default>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nBaseSpeed";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>140,45,100,20</bounds>
@@ -181,10 +206,32 @@
       <number name="nBaseDiceCount" source ="SF_Helpers.vehicleBuilder.nBaseDiceCount">
         <frame name="fieldlight" />
         <bounds>500,20,40,30</bounds>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nBaseDiceCount";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <number name="nBaseDiceSize" source ="SF_Helpers.vehicleBuilder.nBaseDiceSize">
         <frame name="fieldlight" />
         <bounds>560,20,40,30</bounds>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nBaseDiceSize";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
         <label_fieldtop>
         <bounds>542,25,20,18</bounds>
@@ -199,6 +246,17 @@
         <frame name="fieldlight" />
         <bounds>620,20,100,30</bounds>
         <default>0</default>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nBaseCollisionDC";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>620,5,100,20</bounds>
@@ -209,6 +267,17 @@
         <frame name="fieldlight" />
         <bounds>260,60,100,30</bounds>
         <default>0</default>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nBaseHP";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>260,45,100,20</bounds>
@@ -220,6 +289,17 @@
         <bounds>380,60,100,30</bounds>
         <default>5</default>
         <minimum>5</minimum>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nBaseHardness";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>380,45,100,20</bounds>
@@ -230,6 +310,17 @@
         <frame name="fieldlight" />
         <bounds>500,60,40,30</bounds>
         <default>0</default>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nBaseEAC";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>500,45,40,20</bounds>
@@ -240,6 +331,17 @@
         <frame name="fieldlight" />
         <bounds>560,60,40,30</bounds>
         <default>0</default>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nBaseKAC";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>560,45,40,20</bounds>
@@ -250,6 +352,17 @@
         <frame name="fieldlight" />
         <bounds>620,60,100,30</bounds>
         <default>0</default>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nBaseModSlots";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>620,45,100,20</bounds>
@@ -297,6 +410,12 @@
             window.StringCyclerVehOrigin.updateVehOrigin();
             window.StringCyclerVehSpecial1.updateSpecial1();
             window.StringCyclerVehSpecial2.updateSpecial2();
+                local nodePath = "SF_Helpers.vehicleBuilder.sVehTypeGraft";
+                local sSourceValue = getStringValue();
+                local sStoredValue = DB.getValue(nodePath, "");
+                if sStoredValue ~= sSourceValue then
+                  DB.setValue(nodePath, "string", sSourceValue);
+                end
           end
           function updateVehType()
 						local sVehType = getStringValue();
@@ -345,7 +464,7 @@
               local nVehTypePrice = nBasePrice * 0.10; -- adds 10% cost
               window.nVehTypePrice.setValue(nVehTypePrice);
               window.nVehTypeKACmod.setValue(1); -- adds +1 KAC
-              local nHP = (window.nBaseHP.getValue() * 0.10); -- adds 10% HP
+              local nHP = math.floor(DB.getValue("SF_Helpers.vehicleBuilder.nBaseHP", 0) * 0.10); -- adds 10% HP
               window.nVehTypeHP.setValue(math.floor(nHP));
               window.sVehDescription.setValue("The Cruiser uses powerful propulsion methods that enable travel at high speeds over open terrain.");
             end
@@ -474,6 +593,17 @@
         <center />
         <static textres="" />
         <readonly />
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.sVehDescription";
+            local sSourceValue = getValue();
+            local sStoredValue = DB.getValue(nodePath, "");
+            if sStoredValue ~= sSourceValue then
+              DB.setValue(nodePath, "string", sSourceValue);
+            end
+          end
+        </script>
+
       </stringcontrol>
 
       <stringcontrol name="sVehTypeNotes" source="SF_Helpers.vehicleBuilder.sVehTypeNotes">
@@ -481,6 +611,17 @@
         <color>#FF0000</color>
         <center />
         <readonly />
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.sVehTypeNotes";
+            local sSourceValue = getValue();
+            local sStoredValue = DB.getValue(nodePath, "");
+            if sStoredValue ~= sSourceValue then
+              DB.setValue(nodePath, "string", sSourceValue);
+            end
+          end
+        </script>
+
       </stringcontrol>
 
       <number name="nVehTypePrice" source="SF_Helpers.vehicleBuilder.nVehTypePrice">
@@ -489,6 +630,17 @@
         <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nVehTypePrice";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
 		  </number>
       <label_fieldtop>
           <bounds>20,45,100,20</bounds>
@@ -501,6 +653,17 @@
 			  <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nVehTypeSpeedMod";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
 		  </number>
       <label_fieldtop>
           <bounds>140,45,100,20</bounds>
@@ -512,6 +675,17 @@
           <bounds>260,65,100,30</bounds>
 			  <default>0</default>
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nBasePassengers";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
           <bounds>260,45,100,20</bounds>
@@ -522,6 +696,17 @@
         <frame name="fieldlight" />
           <bounds>380,65,100,30</bounds>
         <displaysign />
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nBasePilotingMod";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
         <label_fieldtop>
           <bounds>380,45,100,20</bounds>
@@ -533,6 +718,17 @@
         <frame name="fieldlight" />
           <bounds>520,65,40,30</bounds>
         <displaysign />
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nBaseAttackMod";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
         <label_fieldtop>
           <bounds>520,45,40,20</bounds>
@@ -542,6 +738,17 @@
         <frame name="fieldlight" />
           <bounds>580,65,40,30</bounds>
         <displaysign />
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nBaseAttackFullMod";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
         <label_fieldtop>
           <bounds>580,45,40,20</bounds>
@@ -553,6 +760,17 @@
           <bounds>20,120,100,30</bounds>
         <default>0</default>
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nBaseFullSpeedMult";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
           <bounds>20,100,100,20</bounds>
@@ -565,6 +783,17 @@
         <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nVehTypeHP";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>140,100,100,20</bounds>
@@ -577,6 +806,17 @@
         <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nVehTypeHardness";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
           <bounds>260,100,100,20</bounds>
@@ -590,6 +830,17 @@
         <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nVehTypeEACmod";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
           <bounds>520,100,40,20</bounds>
@@ -601,6 +852,17 @@
         <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nVehTypeKACmod";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
           <bounds>580,100,40,20</bounds>
@@ -613,9 +875,20 @@
         <frame name="fieldlight"  />
         <static textres="" />
         <readonly />
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.sVehCover";
+            local sSourceValue = getValue();
+            local sStoredValue = DB.getValue(nodePath, "");
+            if sStoredValue ~= sSourceValue then
+              DB.setValue(nodePath, "string", sSourceValue);
+            end
+          end
+        </script>
+
       </stringcontrol>
       <label_fieldtop>
-          <bounds>640,100,80,20</bounds>
+        <bounds>640,100,80,20</bounds>
         <static>Cover</static>
       </label_fieldtop>
 
@@ -654,7 +927,13 @@
         <script>
 					function onValueChanged()
 						updateVehSize();
-						
+              local nodePath = "SF_Helpers.vehicleBuilder.sVehSize";
+              local sSourceValue = getStringValue();
+              local sStoredValue = DB.getValue(nodePath, "");
+              if sStoredValue ~= sSourceValue then
+                DB.setValue(nodePath, "string", sSourceValue);
+              end
+					
 						-- Recalculate all dependent steps when size changes
 						window.StringCyclerVehOrigin.updateVehOrigin();
 						window.StringCyclerVehSpecial1.updateSpecial1();
@@ -767,6 +1046,17 @@
         <displaysign />
         <hideonvalue>0</hideonvalue>
         <bounds>20,55,100,30</bounds>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSizePrice";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>20,40,60,20</bounds>
@@ -779,6 +1069,17 @@
         <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSizePassengers";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>260,40,100,20</bounds>
@@ -790,6 +1091,17 @@
         <bounds>380,55,100,30</bounds>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSizePilotingMod";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>380,40,100,20</bounds>
@@ -801,6 +1113,17 @@
         <bounds>620,55,100,30</bounds>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSizeAttackMod";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>620,330,100,20</bounds>
@@ -813,6 +1136,17 @@
         <hideonvalue>0</hideonvalue>
         <bounds>140,55,100,30</bounds>
         <default>0</default>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSizeHP";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>140,40,100,20</bounds>
@@ -824,6 +1158,17 @@
         <displaysign />
         <hideonvalue>0</hideonvalue>
         <bounds>500,55,40,30</bounds>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSizeDiceCount";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>500,40,40,20</bounds>
@@ -836,6 +1181,17 @@
         <hideonvalue>0</hideonvalue>
         <bounds>560,55,40,30</bounds>
         <default>0</default>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSizeCollisionDC";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>560,40,40,20</bounds>
@@ -881,6 +1237,12 @@
             -- Recalculate all dependent steps when origin changes
             window.StringCyclerVehSpecial1.updateSpecial1();
             window.StringCyclerVehSpecial2.updateSpecial2();
+            local nodePath = "SF_Helpers.vehicleBuilder.sVehOrigin";
+            local sSourceValue = getStringValue();
+            local sStoredValue = DB.getValue(nodePath, "");
+            if sStoredValue ~= sSourceValue then
+              DB.setValue(nodePath, "string", sSourceValue);
+            end
           end
 					
           function updateVehOrigin()
@@ -937,6 +1299,17 @@
         <displaysign />
         <hideonvalue>0</hideonvalue>
         <bounds>20,70,120,30</bounds>
+	      <script>
+	        function onValueChanged()
+	          local nodePath = "SF_Helpers.vehicleBuilder.nOriginPrice";
+	          local nSourceValue = getValue();
+	          local nStoredValue = DB.getValue(nodePath, 0);
+	          if nStoredValue ~= nSourceValue then
+	            DB.setValue(nodePath, "number", nSourceValue);
+	          end
+	        end
+	      </script>
+
       </number>
       <label_fieldtop>
         <bounds>20,50,120,20</bounds>
@@ -948,6 +1321,17 @@
         <center />
         <font>reference-i</font>
         <readonly />
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nOriginNotes";
+            local sSourceValue = getValue();
+            local sStoredValue = DB.getValue(nodePath, "");
+            if sStoredValue ~= sSourceValue then
+              DB.setValue(nodePath, "string", sSourceValue);
+            end
+          end
+        </script>
+
       </stringcontrol>
 
       <number name="nOriginModSlots" source="SF_Helpers.vehicleBuilder.nOriginModSlots">
@@ -956,6 +1340,17 @@
         <hideonvalue>0</hideonvalue>
         <bounds>160,70,120,30</bounds>
         <default>0</default>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nOriginModSlots";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>160,50,120,20</bounds>
@@ -1003,6 +1398,12 @@
 						
 						-- Recalculate Special2 when Special1 changes
 						window.StringCyclerVehSpecial2.updateSpecial2();
+              local nodePath = "SF_Helpers.vehicleBuilder.sSpecial1";
+              local sSourceValue = getStringValue();
+              local sStoredValue = DB.getValue(nodePath, "");
+              if sStoredValue ~= sSourceValue then
+                DB.setValue(nodePath, "string", sSourceValue);
+              end
 					end
           function updateSpecial1()
             local sOrigin = getStringValue();
@@ -1239,6 +1640,17 @@
       <bounds>20,100,120,30</bounds>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+	      <script>
+	        function onValueChanged()
+	          local nodePath = "SF_Helpers.vehicleBuilder.nSpecial1Price";
+	          local nSourceValue = getValue();
+	          local nStoredValue = DB.getValue(nodePath, 0);
+	          if nStoredValue ~= nSourceValue then
+	            DB.setValue(nodePath, "number", nSourceValue);
+	          end
+	        end
+	      </script>
+
 		  </number>
       <label_fieldtop>
       <bounds>20,80,120,20</bounds>
@@ -1251,6 +1663,17 @@
 			  <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSpecial1Speed";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
 		  </number>
       <label_fieldtop>
       <bounds>170,80,120,20</bounds>
@@ -1263,6 +1686,17 @@
         <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+	      <script>
+	        function onValueChanged()
+	          local nodePath = "SF_Helpers.vehicleBuilder.nSpecial1Passengers";
+	          local nSourceValue = getValue();
+	          local nStoredValue = DB.getValue(nodePath, 0);
+	          if nStoredValue ~= nSourceValue then
+	            DB.setValue(nodePath, "number", nSourceValue);
+	          end
+	        end
+	      </script>
+
       </number>
       <label_fieldtop>
 		  <bounds>20,120,120,20</bounds>
@@ -1273,6 +1707,17 @@
       <bounds>170,140,120,30</bounds>
 			  <displaysign />
         <hideonvalue>0</hideonvalue>
+	      <script>
+	        function onValueChanged()
+	          local nodePath = "SF_Helpers.vehicleBuilder.nSpecial1PilotingMod";
+	          local nSourceValue = getValue();
+	          local nStoredValue = DB.getValue(nodePath, 0);
+	          if nStoredValue ~= nSourceValue then
+	            DB.setValue(nodePath, "number", nSourceValue);
+	          end
+	        end
+	      </script>
+
 		  </number>
       <label_fieldtop>
       <bounds>170,120,120,20</bounds>
@@ -1283,6 +1728,17 @@
 		  <bounds>20,180,80,30</bounds>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+	      <script>
+	        function onValueChanged()
+	          local nodePath = "SF_Helpers.vehicleBuilder.nSpecial1AttackMod";
+	          local nSourceValue = getValue();
+	          local nStoredValue = DB.getValue(nodePath, 0);
+	          if nStoredValue ~= nSourceValue then
+	            DB.setValue(nodePath, "number", nSourceValue);
+	          end
+	        end
+	      </script>
+
       </number>
       <label_fieldtop>
 		  <bounds>20,160,80,20</bounds>
@@ -1294,6 +1750,17 @@
 		  <bounds>20,220,100,30</bounds>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+	      <script>
+	        function onValueChanged()
+	          local nodePath = "SF_Helpers.vehicleBuilder.nSpecial1HP";
+	          local nSourceValue = getValue();
+	          local nStoredValue = DB.getValue(nodePath, 0);
+	          if nStoredValue ~= nSourceValue then
+	            DB.setValue(nodePath, "number", nSourceValue);
+	          end
+	        end
+	      </script>
+
       </number>
       <label_fieldtop>
 		  <bounds>20,200,100,20</bounds>
@@ -1305,6 +1772,17 @@
 		  <bounds>130,220,100,30</bounds>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+	      <script>
+	        function onValueChanged()
+	          local nodePath = "SF_Helpers.vehicleBuilder.nSpecial1Hardness";
+	          local nSourceValue = getValue();
+	          local nStoredValue = DB.getValue(nodePath, 0);
+	          if nStoredValue ~= nSourceValue then
+	            DB.setValue(nodePath, "number", nSourceValue);
+	          end
+	        end
+	      </script>
+
       </number>
       <label_fieldtop>
 		  <bounds>130,200,100,20</bounds>
@@ -1317,6 +1795,17 @@
 			  <default>0</default>
         <displaysign />
 			  <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSpecial1FullSpeedMult";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
 		  </number>
       <label_fieldtop>
       <bounds>120,160,140,20</bounds>
@@ -1328,6 +1817,17 @@
 		  <bounds>240,220,60,30</bounds>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSpecial1EAC";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
 		  <bounds>240,200,60,20</bounds>
@@ -1339,6 +1839,17 @@
 		  <bounds>310,220,60,30</bounds>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSpecial1KAC";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>        
       <label_fieldtop>
 		  <bounds>310,200,60,20</bounds>
@@ -1350,6 +1861,17 @@
         <center />
 			  <static textres="" />
 			  <readonly />
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.sSpecial1Notes";
+            local sSourceValue = getValue();
+            local sStoredValue = DB.getValue(nodePath, "");
+            if sStoredValue ~= sSourceValue then
+              DB.setValue(nodePath, "string", sSourceValue);
+            end
+          end
+        </script>
+
 		  </stringcontrol>
 
        <!-- STEP 5 - Special 2 -->    
@@ -1364,6 +1886,12 @@
         <script>
 					function onValueChanged()
 						updateSpecial2();
+              local nodePath = "SF_Helpers.vehicleBuilder.sSpecial2";
+              local sSourceValue = getStringValue();
+              local sStoredValue = DB.getValue(nodePath, "");
+              if sStoredValue ~= sSourceValue then
+                DB.setValue(nodePath, "string", sSourceValue);
+              end
 					end
           function updateSpecial2()
             local sOrigin = getStringValue();
@@ -1606,6 +2134,17 @@
         <bounds>400,100,120,30</bounds>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSpecial2Price";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
 		  </number>
       <label_fieldtop>
         <bounds>400,80,120,20</bounds>
@@ -1618,6 +2157,17 @@
 			  <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSpecial2Speed";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
 		  </number>
       <label_fieldtop>
         <bounds>550,80,120,20</bounds>
@@ -1629,6 +2179,17 @@
         <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSpecial2Passengers";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>400,120,120,20</bounds>
@@ -1639,6 +2200,17 @@
         <bounds>550,140,120,30</bounds>
 			  <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSpecial2PilotingMod";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
 		  </number>
       <label_fieldtop>
         <bounds>550,120,120,20</bounds>
@@ -1649,6 +2221,17 @@
         <bounds>400,180,80,30</bounds>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSpecial2AttackMod";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>400,160,80,20</bounds>
@@ -1662,6 +2245,17 @@
 			  <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSpecial2FullSpeedMult";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>500,160,140,20</bounds>
@@ -1673,6 +2267,17 @@
         <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSpecial2Hardness";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>510,200,100,20</bounds>
@@ -1683,6 +2288,17 @@
         <bounds>400,220,100,30</bounds>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSpecial2HP";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
       </number>
       <label_fieldtop>
         <bounds>400,200,100,20</bounds>
@@ -1694,6 +2310,17 @@
 			  <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSpecial2EAC";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
 		  </number>
       <label_fieldtop>
         <bounds>620,200,60,20</bounds>
@@ -1705,6 +2332,17 @@
 			  <default>0</default>
         <displaysign />
         <hideonvalue>0</hideonvalue>
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.nSpecial2KAC";
+            local nSourceValue = getValue();
+            local nStoredValue = DB.getValue(nodePath, 0);
+            if nStoredValue ~= nSourceValue then
+              DB.setValue(nodePath, "number", nSourceValue);
+            end
+          end
+        </script>
+
 		  </number>
       <label_fieldtop>
         <bounds>690,200,60,20</bounds>
@@ -1716,6 +2354,17 @@
         <center />
         <static textres="" />
         <readonly />
+        <script>
+          function onValueChanged()
+            local nodePath = "SF_Helpers.vehicleBuilder.sSpecial2Notes";
+            local sSourceValue = getValue();
+            local sStoredValue = DB.getValue(nodePath, "");
+            if sStoredValue ~= sSourceValue then
+              DB.setValue(nodePath, "string", sSourceValue);
+            end
+          end
+        </script>
+
       </stringcontrol>
       <!-- end STEP 5 - Special 2 -->
 

@@ -67,6 +67,17 @@ function onInit()
 
   -- "SF_Helpers.vehicleBuilder.sVehTypeGraft"
   DB.createChild(vehNode, "sVehTypeGraft", "string");
+  -- "SF_Helpers.vehicleBuilder.sVehCover"
+  DB.createChild(vehNode, "sVehCover", "string");
+  -- "SF_Helpers.vehicleBuilder.sSizeGraft"
+  DB.createChild(vehNode, "sSizeGraft", "string");
+  -- "SF_Helpers.vehicleBuilder.sSpecial1Graft"
+  DB.createChild(vehNode, "sSpecial1Graft", "string");
+  -- "SF_Helpers.vehicleBuilder.sSpecial2Graft"
+  DB.createChild(vehNode, "sSpecial2Graft", "string");
+  -- "SF_Helpers.vehicleBuilder.sOriginGraft"
+  DB.createChild(vehNode, "sOriginGraft", "string");
+  
 
 
 
