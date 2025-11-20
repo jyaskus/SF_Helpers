@@ -15,10 +15,6 @@
 	</properties>
 
 	<base>
-
-    <!-- initialization -->
-    <script name="sf_init" file="scripts/sf_init.lua" />
-
     <!-- helper functions -->
     <script name="sf" file="scripts/sf_helper.lua" />
 
@@ -29,15 +25,21 @@
     <includefile source="xml/sf_charsheet.xml" />
     <includefile source="xml/sf_abilityboost.xml" />
 
-    <!-- vehicle builder (legacy) -->
-    <!-- 
+    <!-- vehicle builder (legacy) 
     <includefile source="xml/veh_builder.xml" /> 
-    <script name="vehBuilder" file="scripts/veh_builder.lua" /> -->
+    <script name="vehBuilder" file="scripts/veh_builder.lua" />
+    -->
+    
+    <!-- shared vehicle data/helpers -->
+    <script name="VehicleGraftData" file="Data/VehicleGraftData.lua" />
+    <script name="vehParts" file="scripts/veh_parts.lua" />
 
     <!-- vehicle wizard -->
     <includefile source="xml/vehicle_wizard.xml" />
     <script name="vehWizard" file="scripts/veh_wizard.lua" />
-    <script name="VehicleGraftData" file="Data/VehicleGraftData.lua" />
+
+    <!-- initialization -->
+    <script name="sf_init" file="scripts/sf_init.lua" />
 
 	</base>
 </root>

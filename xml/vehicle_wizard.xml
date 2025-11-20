@@ -206,6 +206,29 @@
           end
         </script>
 			</stringcontrol>
+      <buttoncontrol name="buttonTypeLockUnlock">
+        <bounds>260,118,24,24</bounds>
+        <icon normal="button_toolbar_locked_false" />
+        <script>
+          function onButtonPress()
+            if vehWizard and vehWizard.setStepLock then
+              vehWizard.setStepLock(window, "type", true);
+            end
+          end
+        </script>
+      </buttoncontrol>
+      <buttoncontrol name="buttonTypeLockLocked">
+        <bounds>260,118,24,24</bounds>
+        <visible>0</visible>
+        <icon normal="button_toolbar_locked_true" />
+        <script>
+          function onButtonPress()
+            if vehWizard and vehWizard.setStepLock then
+              vehWizard.setStepLock(window, "type", false);
+            end
+          end
+        </script>
+      </buttoncontrol>
       <button_stringcycler name="StringCyclerVehType">
 				<frame name="fielddarksolid" offset="0,0,0,0" />
         <font>reference-header</font>
@@ -399,6 +422,29 @@
           end
         </script>
 			</stringcontrol>
+      <buttoncontrol name="buttonSizeLockUnlock">
+        <bounds>260,303,24,24</bounds>
+        <icon normal="button_toolbar_locked_false" />
+        <script>
+          function onButtonPress()
+            if vehWizard and vehWizard.setStepLock then
+              vehWizard.setStepLock(window, "size", true);
+            end
+          end
+        </script>
+      </buttoncontrol>
+      <buttoncontrol name="buttonSizeLockLocked">
+        <bounds>260,303,24,24</bounds>
+        <visible>0</visible>
+        <icon normal="button_toolbar_locked_true" />
+        <script>
+          function onButtonPress()
+            if vehWizard and vehWizard.setStepLock then
+              vehWizard.setStepLock(window, "size", false);
+            end
+          end
+        </script>
+      </buttoncontrol>
       <button_stringcycler name="StringCyclerVehSize">
 				<frame name="fielddarksolid" offset="0,0,0,0" />
         <font>reference-header</font>
@@ -420,6 +466,10 @@
 					function updateVehSize()
 						local sSize = getStringValue();
 						sf.DebugOut("vehicle size is: " .. sSize);
+
+            if vehWizard and vehWizard.onSizeChanged then
+              vehWizard.onSizeChanged(window, sSize);
+            end
 
             -- defaults
             window.nSizePrice.setValue(0);
@@ -614,6 +664,29 @@
         end
       </script>
       </stringcontrol>
+      <buttoncontrol name="buttonOriginLockUnlock">
+        <bounds>260,398,24,24</bounds>
+        <icon normal="button_toolbar_locked_false" />
+        <script>
+          function onButtonPress()
+            if vehWizard and vehWizard.setStepLock then
+              vehWizard.setStepLock(window, "origin", true);
+            end
+          end
+        </script>
+      </buttoncontrol>
+      <buttoncontrol name="buttonOriginLockLocked">
+        <bounds>260,398,24,24</bounds>
+        <visible>0</visible>
+        <icon normal="button_toolbar_locked_true" />
+        <script>
+          function onButtonPress()
+            if vehWizard and vehWizard.setStepLock then
+              vehWizard.setStepLock(window, "origin", false);
+            end
+          end
+        </script>
+      </buttoncontrol>
       <button_stringcycler name="StringCyclerVehOrigin">
         <frame name="fielddarksolid" offset="0,0,0,0" />
         <font>reference-header</font>
@@ -634,6 +707,10 @@
           function updateVehOrigin()
             local sOrigin = getStringValue();
             sf.DebugOut("vehicle origin is: " .. sOrigin);
+
+            if vehWizard and vehWizard.onOriginChanged then
+              vehWizard.onOriginChanged(window, sOrigin);
+            end
 
             -- set defaults
             window.nOriginPrice.setValue(0);
@@ -725,6 +802,29 @@
           end
         </script>
 			</stringcontrol>
+      <buttoncontrol name="buttonSpecial1LockUnlock">
+        <bounds>260,488,24,24</bounds>
+        <icon normal="button_toolbar_locked_false" />
+        <script>
+          function onButtonPress()
+            if vehWizard and vehWizard.setStepLock then
+              vehWizard.setStepLock(window, "special1", true);
+            end
+          end
+        </script>
+      </buttoncontrol>
+      <buttoncontrol name="buttonSpecial1LockLocked">
+        <bounds>260,488,24,24</bounds>
+        <visible>0</visible>
+        <icon normal="button_toolbar_locked_true" />
+        <script>
+          function onButtonPress()
+            if vehWizard and vehWizard.setStepLock then
+              vehWizard.setStepLock(window, "special1", false);
+            end
+          end
+        </script>
+      </buttoncontrol>
       <button_stringcycler name="StringCyclerVehSpecial1">
 				<frame name="fielddarksolid" offset="0,0,0,0" />
         <font>reference-header</font>
@@ -743,6 +843,10 @@
           function updateSpecial1()
             local sOrigin = getStringValue();
             sf.DebugOut("vehicle special 1 is: " .. sOrigin);
+
+            if vehWizard and vehWizard.onSpecialChanged then
+              vehWizard.onSpecialChanged(window, 1, sOrigin);
+            end
 
             -- defaults
             window.nSpecial1Price.setValue(0);
@@ -1087,6 +1191,29 @@
 		  </stringcontrol>
 
        <!-- STEP 5 - Special 2 -->    
+      <buttoncontrol name="buttonSpecial2LockUnlock">
+        <bounds>460,488,24,24</bounds>
+        <icon normal="button_toolbar_locked_false" />
+        <script>
+          function onButtonPress()
+            if vehWizard and vehWizard.setStepLock then
+              vehWizard.setStepLock(window, "special2", true);
+            end
+          end
+        </script>
+      </buttoncontrol>
+      <buttoncontrol name="buttonSpecial2LockLocked">
+        <bounds>460,488,24,24</bounds>
+        <visible>0</visible>
+        <icon normal="button_toolbar_locked_true" />
+        <script>
+          function onButtonPress()
+            if vehWizard and vehWizard.setStepLock then
+              vehWizard.setStepLock(window, "special2", false);
+            end
+          end
+        </script>
+      </buttoncontrol>
       <button_stringcycler name="StringCyclerVehSpecial2">
 				<frame name="fielddarksolid" offset="0,0,0,0" />
         <font>reference-header</font>
@@ -1102,6 +1229,10 @@
           function updateSpecial2()
             local sOrigin = getStringValue();
             sf.DebugOut("vehicle special 2 is: " .. sOrigin);
+
+            if vehWizard and vehWizard.onSpecialChanged then
+              vehWizard.onSpecialChanged(window, 2, sOrigin);
+            end
 
             -- defaults
             window.nSpecial2Price.setValue(0);
@@ -1895,7 +2026,10 @@
     <sheetdata>
 
       <button_details name="button_veh_wizard">
-        <bounds>5,-100,20,20</bounds>
+        <bounds>5,100,20,20</bounds>
+        <state icon="button_forward_add" />
+        <frame name="buttonup" />
+        <tooltip textres="vhBuilder_button_veh_wizard_Tooltip" />
 				<script>
           function onInit()
             -- on init, check if the Vehicle wizard helper is enabled; if not, hide the button

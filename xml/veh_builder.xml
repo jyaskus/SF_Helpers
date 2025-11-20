@@ -2121,10 +2121,9 @@
     <sheetdata>
 
       <button_details name="button_vehBuilder">
-        <bounds>5,-100,20,20</bounds>
+        <bounds>5,-100,20,20</bounds>        
 				<script>
           function onInit()
-            -- on init, check if the Vehicle wizard helper is enabled; if not, hide the button
             if not sf_init.isVehicleWizard_On() then
               setVisible(false);
             else

@@ -185,6 +185,20 @@ registerTypeRule("tank")
 registerTypeRule("truck")
 registerTypeRule("walker")
 
+local SIZE_VALUES = { "medium", "large", "huge", "gargantuan", "colossal" }
+local ORIGIN_VALUES = { "experimental", "factory-made", "prototype" }
+local SPECIAL_VALUES = { "all-terrain", "amphibious", "armored", "computer-assisted", "hover", "hybrid aircraft", "junk", "luxury", "racer", "transport" }
+
+local STEP_LOCK_CONFIG = {
+  type = { control = "StringCyclerVehType", unlock = "buttonTypeLockUnlock", lock = "buttonTypeLockLocked" },
+  size = { control = "StringCyclerVehSize", unlock = "buttonSizeLockUnlock", lock = "buttonSizeLockLocked" },
+  origin = { control = "StringCyclerVehOrigin", unlock = "buttonOriginLockUnlock", lock = "buttonOriginLockLocked" },
+  special1 = { control = "StringCyclerVehSpecial1", unlock = "buttonSpecial1LockUnlock", lock = "buttonSpecial1LockLocked" },
+  special2 = { control = "StringCyclerVehSpecial2", unlock = "buttonSpecial2LockUnlock", lock = "buttonSpecial2LockLocked" }
+}
+
+local LOCKABLE_STEPS = { "type", "size", "origin", "special1", "special2" }
+
 local function clampLevel(nLevel)
   local n = tonumber(nLevel) or 1
   if n < 1 then
@@ -270,6 +284,53 @@ local function trySetCyclerValue(control, value)
   end
 
   return false
+end
+
+local function setCyclerValue(control, value)
+  if not control then
+    return
+  end
+
+  local node = control.getDatabaseNode and control.getDatabaseNode()
+  if node then
+    DB.setValue(node, "", "string", value or "")
+  else
+    trySetCyclerValue(control, value)
+  end
+end
+
+local function matchValueFromList(tList, fnLookup, sValue)
+  local normalized = normalizeString(sValue)
+  if normalized == "" then
+    return ""
+  end
+
+  for _, key in ipairs(tList) do
+    if normalized == normalizeString(key) then
+      return key
+    end
+
+    if fnLookup then
+      local data = fnLookup(key)
+      if data and normalizeString(data.name) == normalized then
+        return key
+      end
+    end
+  end
+
+  return normalized
+end
+
+local function resolveSizeValue(value)
+  return matchValueFromList(SIZE_VALUES, VehicleGraftData and VehicleGraftData.getSizeGraftData, value)
+end
+
+local function resolveOriginValue(value)
+  return matchValueFromList(ORIGIN_VALUES, VehicleGraftData and VehicleGraftData.getOriginGraftData, value)
+end
+
+local function resolveSpecialValue(value)
+  return matchValueFromList(SPECIAL_VALUES, VehicleGraftData and VehicleGraftData.getSpecialGraftData, value)
 end
 
 local function clearTypeFields(w)
@@ -420,6 +481,22 @@ local function getVehicleNode(w)
   return nil
 end
 
+local function ensureConvertedState(nodeVehicle, bUnlocked)
+  if not nodeVehicle then
+    return false
+  end
+
+  local nCurrent = DB.getValue(nodeVehicle, "converted", 0)
+  local nTarget = bUnlocked and 0 or 1
+
+  if nCurrent == nTarget then
+    return false
+  end
+
+  DB.setValue(nodeVehicle, "converted", "number", nTarget)
+  return true
+end
+
 local function getWizardState(w)
   if not w then
     return nil
@@ -539,15 +616,29 @@ local function updateVehicleTypeFields(nodeVehicle, ruleKey)
   local rule = TYPE_RULES[ruleKey]
   DB.setValue(nodeVehicle, "typegraft", "string", rule.display or rule.cycler)
 
-  local sClass, sRecord = "", ""
-  if VehicleGraftData and VehicleGraftData.getTypeGraftReference then
-    sClass, sRecord = VehicleGraftData.getTypeGraftReference(rule.cycler)
-  elseif getTypeGraftReference then
-    sClass, sRecord = getTypeGraftReference(rule.cycler)
+  local sLinkClass = ""
+  local sLinkRecord = ""
+  if vehParts and vehParts.ensureTypePart then
+    local partNode, sPartRecord = vehParts.ensureTypePart(nodeVehicle, ruleKey)
+    if partNode then
+      sLinkClass = "item"
+      sLinkRecord = sPartRecord
+
+      if (not sLinkRecord or sLinkRecord == "") and vehParts.getPartLink then
+        local sPartId = (vehParts.PART_IDS and vehParts.PART_IDS.type) or "id-00001"
+        sLinkRecord = vehParts.getPartLink(nodeVehicle, sPartId)
+      end
+    end
   end
 
-  if sClass and sClass ~= "" and sRecord and sRecord ~= "" then
-    DB.setValue(nodeVehicle, "typegraftlink", "windowreference", sClass, sRecord)
+  if (sLinkRecord == nil or sLinkRecord == "") and VehicleGraftData and VehicleGraftData.getTypeGraftReference then
+    sLinkClass, sLinkRecord = VehicleGraftData.getTypeGraftReference(rule.cycler)
+  elseif (sLinkRecord == nil or sLinkRecord == "") and getTypeGraftReference then
+    sLinkClass, sLinkRecord = getTypeGraftReference(rule.cycler)
+  end
+
+  if sLinkClass and sLinkClass ~= "" and sLinkRecord and sLinkRecord ~= "" then
+    DB.setValue(nodeVehicle, "typegraftlink", "windowreference", sLinkClass, sLinkRecord)
   else
     DB.setValue(nodeVehicle, "typegraftlink", "windowreference", "", "")
   end
@@ -588,6 +679,7 @@ function vehWizard.onInit(w)
   w._vehicleNode = nodeVehicle
   w._wizardState = vehWizard.ensureWizardState(nodeVehicle)
   w._syncing = false
+  w._convertedNeedsRestore = ensureConvertedState(nodeVehicle, true)
 
   vehWizard.cacheBaseSnapshot(w)
   vehWizard.syncUIFromRecord(w)
@@ -598,9 +690,15 @@ function vehWizard.onClose(w)
     return
   end
 
+  local nodeVehicle = w._vehicleNode
+  if nodeVehicle and w._convertedNeedsRestore then
+    ensureConvertedState(nodeVehicle, false)
+  end
+
   w._vehicleNode = nil
   w._wizardState = nil
   w._syncing = nil
+  w._convertedNeedsRestore = nil
 end
 
 -----------------------------------------------------------------------

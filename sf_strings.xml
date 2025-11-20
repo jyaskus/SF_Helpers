@@ -103,4 +103,6 @@
   <string name="vhBuilder_StringCyclerVehSpecial1_Tooltip">Select up to (2) special features for your vehicle. Each special feature adds unique benefits and may affect the vehicle's price and performance.</string>
   <string name="vhBuilder_StringCyclerVehSpecial2_Tooltip">Select up to (2) special features for your vehicle. Each special feature adds unique benefits and may affect the vehicle's price and performance.</string>
 
+  <string name="vhBuilder_button_veh_wizard_Tooltip">Open the Vehicle Builder helper to create a new vehicle based on your selected options.</string> 
+
 </root>
