@@ -16,31 +16,28 @@
 
 	<base>
 
-    <!--strings-->
-    <includefile source="sf_strings.xml" />
-
-    <!-- icons -->
-    <includefile source="graphics/graphics_icons.xml" />
+    <!-- initialization -->
+    <script name="sf_init" file="scripts/sf_init.lua" />
 
     <!-- helper functions -->
     <script name="sf" file="scripts/sf_helper.lua" />
 
+    <!--strings-->
+    <includefile source="sf_strings.xml" />
+    
     <!-- ability score details -->
     <includefile source="xml/sf_charsheet.xml" />
     <includefile source="xml/sf_abilityboost.xml" />
 
-    <!-- vehicle wizard -->
+    <!-- vehicle builder (legacy) -->
+    <!-- 
     <includefile source="xml/veh_builder.xml" /> 
-    <includefile source="xml/veh_builder_sw.xml" /> 
-    <script name="vehBuilder" file="scripts/veh_builder.lua" />
+    <script name="vehBuilder" file="scripts/veh_builder.lua" /> -->
+
+    <!-- vehicle wizard -->
+    <includefile source="xml/vehicle_wizard.xml" />
+    <script name="vehWizard" file="scripts/veh_wizard.lua" />
     <script name="VehicleGraftData" file="Data/VehicleGraftData.lua" />
-
-    <!-- companion and npc wizard -->
-    <includefile source="xml/sf_companions.xml" />
-    <script name="CompanionData" file="Data/CompanionData.lua" />
-
-    <!-- initialization -->
-    <script name="sf_init" file="scripts/sf_init.lua" />
 
 	</base>
 </root>

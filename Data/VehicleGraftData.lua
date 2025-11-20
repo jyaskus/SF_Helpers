@@ -3,6 +3,20 @@
 -- Contains all vehicle graft information and FGU reference links
 --
 
+local function asString(value)
+  if value == nil then
+    return ""
+  end
+  if type(value) == "string" then
+    return value
+  end
+  return tostring(value)
+end
+
+local function lowerString(value)
+  return asString(value):lower()
+end
+
 -- Type Grafts with their actual FGU recordnames
 local typeGrafts = {
   ["boat"] = {
@@ -213,7 +227,7 @@ local originGrafts = {
 
 -- Public accessor functions for type grafts
 function getTypeGraftData(sVehType)
-  local sKey = string.lower(sVehType);
+  local sKey = lowerString(sVehType);
   return typeGrafts[sKey];
 end
 
@@ -227,7 +241,7 @@ end
 
 -- Public accessor functions for size grafts
 function getSizeGraftData(sSize)
-  local sKey = string.lower(sSize);
+  local sKey = lowerString(sSize);
   return sizeGrafts[sKey];
 end
 
@@ -241,7 +255,7 @@ end
 
 -- Public accessor functions for special grafts  
 function getSpecialGraftData(sSpecial)
-  local sKey = string.lower(sSpecial);
+  local sKey = lowerString(sSpecial);
   return specialGrafts[sKey];
 end
 
@@ -255,7 +269,7 @@ end
 
 -- Public accessor functions for origin grafts
 function getOriginGraftData(sOrigin)
-  local sKey = string.lower(sOrigin);
+  local sKey = lowerString(sOrigin);
   return originGrafts[sKey];
 end
 
