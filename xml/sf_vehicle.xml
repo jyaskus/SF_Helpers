@@ -6,7 +6,7 @@
 
       <button_details name="button_veh_wizard">
         <bounds>5,75,20,20</bounds>
-        <state icon="button_forward_add" />
+        <state icon="button_ctnextround" />
         <frame name="buttonup" />
         <tooltip textres="vhBuilder_button_veh_wizard_Tooltip" />
 				<script>

@@ -25,13 +25,7 @@
     <includefile source="xml/sf_charsheet.xml" />
     <includefile source="xml/sf_abilityboost.xml" />
 
-    <!-- vehicle builder (legacy) -->
-    <!--
-      <includefile source="xml/veh_builder.xml" /> 
-      <script name="vehBuilder" file="scripts/veh_builder.lua" />
-      <script name="VehicleGraftData" file="Data/VehicleGraftData.lua" />
-    -->
-
+    <!-- vehicle helper -->
     <script name="sf_vehicle" file="scripts/sf_vehicle.lua" />
     <includefile source="xml/sf_vehicle.xml" />
     

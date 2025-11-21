@@ -280,7 +280,7 @@ local ORIGIN_GRAFTS = {
     mods = 1,
     notes = "These prototypes are created by those with experimental vehicle class feature (mechanics)."
   },
-  ["Factory-made"] = {
+  ["Factory-Made"] = {
     cost = -0.10,
     mods = - 1,
     notes = "While in a settlement, decrease repair costs by 10% and repair time by 25%."
@@ -322,7 +322,11 @@ function updateVehicleMetaData(nodeVehicle)
 
   -- step 2: veh type graft
   local sVehType = DB.getValue(nodeVehicle, "typegraft", "");
-   local sVehTypeClean = sVehType:match("^(%w+)");
+  local sVehTypeClean = sVehType:match("^(.-)%s*%(")
+  if sVehTypeClean == nil or sVehTypeClean == "" then
+    sVehTypeClean = sVehType;
+  end
+  sVehTypeClean = sVehTypeClean:gsub("%s+$", "");
   if sVehTypeClean == "" then
     Debug.console("Vehicle type graft not set; cannot continue vehicle meta update.");
     return;
@@ -615,11 +619,11 @@ function updateVehicleMetaData(nodeVehicle)
   Debug.console("Overland speed before specials: " .. nOverland);
 
   if sVehSpecial1 == "Transport" or sVehSpecial2 == "Transport" then
-    nOverland = nOverland * 1.20; -- +20% bonus for transport
+    nOverland = math.floor(nOverland * 1.20); -- +20% bonus for transport
   end
   Debug.console("Final overland speed: " .. nOverland);
 
-  createMovementEntries(nodeVehicle, sVehType, sVehSpecial1, sVehSpecial2, nSpeed, nFullSpeed, nOverland);
+  createMovementEntries(nodeVehicle, sVehTypeClean, sVehSpecial1, sVehSpecial2, nSpeed, nFullSpeed, nOverland);
 
   -- SPECIAL ABILITIES NOTES
   -- Build vehicle description with special abilities
@@ -664,15 +668,18 @@ end
 -- Function to create movement entries based on vehicle type and special abilities
 function createMovementEntries(vehicleNode, sVehType, sSpecial1, sSpecial2, nSpeed, nFullSpeed, nOverland)
   local movementsNode = DB.createChild(vehicleNode, "movements");
+  Debug.console("Creating movement entries for vehicle type: " .. sVehType);
   
-  -- Determine base movement type from vehicle type
-  local baseMovementType = getMovementType(sVehType);
+    -- Determine base movement type from vehicle type
+  local baseMovementType = getMovementType(sVehType:lower());
   local movementTypes = {};
+
+  Debug.console("Base movement type: " .. baseMovementType);
   
-  -- Add base movement type
+    -- Add base movement type
   table.insert(movementTypes, baseMovementType);
   
-  -- Check special abilities for additional movement types
+    -- Check special abilities for additional movement types
   local specials = { sSpecial1, sSpecial2 };
   for _, special in ipairs(specials) do
     if special then
@@ -683,9 +690,12 @@ function createMovementEntries(vehicleNode, sVehType, sSpecial1, sSpecial2, nSpe
         if not hasMovementType(movementTypes, "swim") then
           table.insert(movementTypes, "swim");
         end
+        if not hasMovementType(movementTypes, "drive") then
+          table.insert(movementTypes, "drive");
+        end
       
       -- Hover adds hover movement (and requires land speed)
-      elseif sKey == "hover" then
+      elseif sKey == "hover"  then
         if not hasMovementType(movementTypes, "hover") then
           table.insert(movementTypes, "hover");
         end
@@ -697,7 +707,7 @@ function createMovementEntries(vehicleNode, sVehType, sSpecial1, sSpecial2, nSpe
         end
       
       -- Hybrid aircraft adds fly movement  
-      elseif sKey == "hybrid aircraft" then
+      elseif (sKey == "hybrid aircraft" ) then
         if not hasMovementType(movementTypes, "fly") then
           table.insert(movementTypes, "fly");
         end
