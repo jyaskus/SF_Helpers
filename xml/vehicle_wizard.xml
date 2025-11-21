@@ -238,7 +238,9 @@
 					<values>Boat|Cruiser|Cycle|Fast Flyer|Hovering Flyer|Submersible|Tank|Truck|Walker</values>
 				</parameters>
         <script>
-					function onValueChanged()
+				function onValueChanged()
+          Debug.console("Vehicle Type changed to: " .. getStringValue());
+          
           updateVehType();
 					
           -- Recalculate all dependent steps when type changes
@@ -248,8 +250,13 @@
           window.StringCyclerVehSpecial2.updateSpecial2();
         end
         function updateVehType()
+          local sValue = getStringValue();
+          if sValue == nil or sValue == "" then
+            return;
+          end
+
           if vehWizard and vehWizard.onTypeChanged then
-            vehWizard.onTypeChanged(window, getStringValue());
+            vehWizard.onTypeChanged(window, sValue);
           end
         end				
 				</script>

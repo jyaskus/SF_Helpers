@@ -357,7 +357,7 @@
               local nHP = 0 - (window.nBaseHP.getValue() * 0.10); -- decreases 10% HP
               window.nVehTypeHP.setValue(math.floor(nHP));
               window.sVehTypeNotes.setValue("Cycles cannot increase passengers beyond 1 with other Grafts.");
-              window.sVehDescription.setValue("Cycles are vehicles that the pilot and sometimes a passenger, ride directly on top of, and they can have a wide variety of uses.");
+              window.sVehDescription.setValue("Cycles are light vehicles that the pilot and sometimes a passenger ride directly on top of.");
             end
             if sVehType == "Fast Flyer" then
               window.VehSubTypeLabel.setValue(" (Air Vehicle)");
@@ -1935,7 +1935,7 @@
           end
         </script>
 			</number>
-        <label_fieldtop>
+      <label_fieldtop>
         <bounds>500,775,40,23</bounds>
         <static>EAC</static>
       </label_fieldtop>
@@ -1971,7 +1971,7 @@
         <static>Hit Points</static>
       </label_fieldtop>
 
-        <number name="nBrokenHP">
+      <number name="nBrokenHP">
         <frame name="fielddark" />
         <bounds>260,870,100,30</bounds>
 				<default>0</default>

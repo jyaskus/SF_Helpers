@@ -62,7 +62,7 @@ local TYPE_RULES = {
     eacMod = -2,
     hpPct = -0.10,
     notes = "Cycles cannot increase passengers beyond 1 with other Grafts.",
-    description = "Cycles are vehicles that the pilot and sometimes a passenger ride directly on top of, and they can have a wide variety of uses."
+    description = "Cycles are light vehicles that the pilot and sometimes a passenger ride directly on top of."
   },
   ["fast flyer"] = {
     cycler = "Fast Flyer",
@@ -199,6 +199,299 @@ local STEP_LOCK_CONFIG = {
 
 local LOCKABLE_STEPS = { "type", "size", "origin", "special1", "special2" }
 
+local DEFAULT_PART_IDS = {
+  type = "id-00001",
+  size = "id-00002",
+  special1 = "id-00003",
+  special2 = "id-00004",
+  origin = "id-00005"
+}
+
+local function getPartSummary(nodeVehicle)
+  if not nodeVehicle then
+    return "<no vehicle>"
+  end
+
+  local nodeParts = DB.getChild(nodeVehicle, "parts")
+  if not nodeParts then
+    return "<no parts node>"
+  end
+
+  local summaries = {}
+  for _, nodePart in pairs(DB.getChildren(nodeParts)) do
+    local name = DB.getValue(nodePart, "name", "<unnamed>")
+    local subtype = DB.getValue(nodePart, "subtype", "?")
+    local nodeName = nodePart.getName and nodePart:getName() or "<child>"
+    table.insert(summaries, string.format("%s[%s]=%s", nodeName, subtype, name))
+  end
+
+  if #summaries == 0 then
+    return "<no parts entries>"
+  end
+
+  return table.concat(summaries, "; ")
+end
+
+local function getPartId(partKey)
+  if vehParts and vehParts.PART_IDS and vehParts.PART_IDS[partKey] then
+    return vehParts.PART_IDS[partKey]
+  end
+  return DEFAULT_PART_IDS[partKey]
+end
+
+local function getVehiclePartNode(nodeVehicle, partKey)
+  if not nodeVehicle or not partKey then
+    return nil
+  end
+
+  local partId = getPartId(partKey)
+  if not partId then
+    return nil
+  end
+
+  local nodeParts = DB.getChild(nodeVehicle, "parts")
+  if not nodeParts then
+    return nil
+  end
+
+  return DB.getChild(nodeParts, partId)
+end
+
+local function getTypeKeyFromVehicle(nodeVehicle)
+  if not nodeVehicle then
+    return nil
+  end
+
+  local sTypeKey = resolveTypeKey(DB.getValue(nodeVehicle, "typegraft", ""))
+  debugWizard(string.format("getTypeKeyFromVehicle: typegraft='%s' resolved='%s'", DB.getValue(nodeVehicle, "typegraft", ""), tostring(sTypeKey)))
+  if sTypeKey and TYPE_RULES[sTypeKey] then
+    return sTypeKey
+  end
+
+  local nodeType = getVehiclePartNode(nodeVehicle, "type")
+  if nodeType then
+    local partName = DB.getValue(nodeType, "name", "")
+    local sPartKey = resolveTypeKey(partName)
+    debugWizard(string.format("getTypeKeyFromVehicle: part('%s') -> '%s'", partName or "", sPartKey or ""))
+    if sPartKey and TYPE_RULES[sPartKey] then
+      return sPartKey
+    end
+  end
+
+  debugWizard("getTypeKeyFromVehicle: no match; parts=" .. getPartSummary(nodeVehicle))
+  return nil
+end
+
+local function getSizeValueFromVehicle(nodeVehicle)
+  if not nodeVehicle then
+    return ""
+  end
+
+  local source = DB.getValue(nodeVehicle, "sizegraft", "")
+  local sValue = resolveSizeValue(source)
+  debugWizard(string.format("getSizeValueFromVehicle: sizegraft='%s' resolved='%s'", source, sValue or ""))
+  if sValue ~= "" then
+    return sValue
+  end
+
+  local nodePart = getVehiclePartNode(nodeVehicle, "size")
+  if nodePart then
+    local partName = DB.getValue(nodePart, "name", "")
+    sValue = resolveSizeValue(partName)
+    debugWizard(string.format("getSizeValueFromVehicle: part('%s') -> '%s'", partName or "", sValue or ""))
+    if sValue ~= "" then
+      return sValue
+    end
+  end
+
+  debugWizard("getSizeValueFromVehicle: no match; parts=" .. getPartSummary(nodeVehicle))
+  return ""
+end
+
+local function getOriginValueFromVehicle(nodeVehicle)
+  if not nodeVehicle then
+    return ""
+  end
+
+  local source = DB.getValue(nodeVehicle, "origingraft", "")
+  local sValue = resolveOriginValue(source)
+  debugWizard(string.format("getOriginValueFromVehicle: origingraft='%s' resolved='%s'", source, sValue or ""))
+  if sValue ~= "" then
+    return sValue
+  end
+
+  local nodePart = getVehiclePartNode(nodeVehicle, "origin")
+  if nodePart then
+    local partName = DB.getValue(nodePart, "name", "")
+    sValue = resolveOriginValue(partName)
+    debugWizard(string.format("getOriginValueFromVehicle: part('%s') -> '%s'", partName or "", sValue or ""))
+    if sValue ~= "" then
+      return sValue
+    end
+  end
+
+  debugWizard("getOriginValueFromVehicle: no match; parts=" .. getPartSummary(nodeVehicle))
+  return ""
+end
+
+local function getSpecialValueFromPart(nodeVehicle, slot)
+  if not nodeVehicle then
+    return ""
+  end
+
+  local partKey = (slot == 2) and "special2" or "special1"
+  local nodePart = getVehiclePartNode(nodeVehicle, partKey)
+  if not nodePart then
+    debugWizard(string.format("getSpecialValueFromPart: no node for slot %d; parts=%s", slot or -1, getPartSummary(nodeVehicle)))
+    return ""
+  end
+
+  local partName = DB.getValue(nodePart, "name", "")
+  local resolved = resolveSpecialValue(partName)
+  debugWizard(string.format("getSpecialValueFromPart: part('%s') -> '%s'", partName or "", resolved or ""))
+  return resolved
+end
+
+local function getSpecialValueFromVehicle(nodeVehicle, slot)
+  if not nodeVehicle then
+    return ""
+  end
+
+  local sValue = getSpecialValueFromPart(nodeVehicle, slot)
+  if sValue ~= "" then
+    return sValue
+  end
+
+  if slot == 1 then
+    sValue = resolveSpecialValue(DB.getValue(nodeVehicle, "specialgraft", ""))
+  end
+
+  return sValue or ""
+end
+
+local function getControlStringValue(control)
+  if not control then
+    return ""
+  end
+
+  if control.getStringValue then
+    return control.getStringValue() or ""
+  end
+
+  if control.getValue then
+    local value = control.getValue()
+    if type(value) == "string" then
+      return value
+    end
+    if value == nil then
+      return ""
+    end
+    return tostring(value)
+  end
+
+  return ""
+end
+
+local function setControlLockState(control, bLocked)
+  if not control then
+    return
+  end
+
+  if control.setReadOnly then
+    control.setReadOnly(bLocked and true or false)
+  elseif control.setEnabled then
+    control.setEnabled(not bLocked)
+  end
+end
+
+local function applyLockButtonState(button, bVisible)
+  if not button or not button.setVisible then
+    return
+  end
+
+  button.setVisible(bVisible and true or false)
+  if button.setEnabled then
+    button.setEnabled(bVisible and true or false)
+  end
+end
+
+local function applyStepLockVisuals(w, stepKey, bLocked)
+  if not w then
+    return
+  end
+
+  local config = STEP_LOCK_CONFIG[stepKey]
+  if not config then
+    return
+  end
+
+  setControlLockState(w[config.control], bLocked)
+  applyLockButtonState(w[config.unlock], not bLocked)
+  applyLockButtonState(w[config.lock], bLocked)
+end
+
+local function commitTypeSelection(w)
+  if not w or not w.StringCyclerVehType then
+    return false
+  end
+
+  local value = getControlStringValue(w.StringCyclerVehType)
+  if value == "" then
+    return false
+  end
+
+  onTypeChanged(w, value)
+  return true
+end
+
+local function commitStepSelection(w, stepKey)
+  if stepKey == "type" then
+    return commitTypeSelection(w)
+  end
+  return false
+end
+
+function vehWizard.isStepLocked(w, stepKey)
+  if not w or not stepKey then
+    return false
+  end
+
+  if not w._lockedSteps then
+    return false
+  end
+
+  return w._lockedSteps[stepKey] and true or false
+end
+
+function vehWizard.setStepLock(w, stepKey, bLock, tOptions)
+  if not w or not stepKey then
+    return false
+  end
+
+  if not STEP_LOCK_CONFIG[stepKey] then
+    return false
+  end
+
+  w._lockedSteps = w._lockedSteps or {}
+
+  local bLocked = bLock and true or false
+  local bCurrent = w._lockedSteps[stepKey] and true or false
+
+  if bCurrent == bLocked and not (tOptions and tOptions.force) then
+    applyStepLockVisuals(w, stepKey, bLocked)
+    return bLocked
+  end
+
+  w._lockedSteps[stepKey] = bLocked
+  applyStepLockVisuals(w, stepKey, bLocked)
+
+  if bLocked and not (tOptions and tOptions.skipWrite) then
+    commitStepSelection(w, stepKey)
+  end
+
+  return bLocked
+end
+
 local function clampLevel(nLevel)
   local n = tonumber(nLevel) or 1
   if n < 1 then
@@ -267,9 +560,15 @@ local function resolveTypeKey(value)
   return nil
 end
 
+local function debugWizard(message)
+  if Debug and Debug.console then
+    Debug.console("[vehWizard] " .. (message or ""))
+  end
+end
+
 local function trySetCyclerValue(control, value)
   if not control or not value then
-    return
+    return false
   end
 
   local attempts = { "setListValue", "setStringValue", "setValue" }
@@ -288,15 +587,31 @@ end
 
 local function setCyclerValue(control, value)
   if not control then
-    return
+    debugWizard("setCyclerValue: control nil")
+    return false
+  end
+
+  local normalized = value or ""
+  if trySetCyclerValue(control, normalized) then
+    return true
   end
 
   local node = control.getDatabaseNode and control.getDatabaseNode()
   if node then
-    DB.setValue(node, "", "string", value or "")
-  else
-    trySetCyclerValue(control, value)
+    DB.setValue(node, "", "string", normalized)
+    return true
   end
+
+  if control.setValue then
+    local ok = pcall(control.setValue, control, normalized)
+    if ok then
+      return true
+    end
+  end
+
+  local name = control.getName and control:getName() or "<control>"
+  debugWizard(string.format("setCyclerValue: unable to apply value '%s' to control '%s'", normalized, name))
+  return false
 end
 
 local function matchValueFromList(tList, fnLookup, sValue)
@@ -667,6 +982,7 @@ end
 
 function vehWizard.onInit(w)
   if not w then
+    Debug.console("vehWizard.onInit: no window provided");
     return
   end
 
@@ -683,6 +999,7 @@ function vehWizard.onInit(w)
 
   vehWizard.cacheBaseSnapshot(w)
   vehWizard.syncUIFromRecord(w)
+  vehWizard.autoLockExistingSteps(w)
 end
 
 function vehWizard.onClose(w)
@@ -771,12 +1088,15 @@ end
 function vehWizard.syncUIFromRecord(w)
   local nodeVehicle = w._vehicleNode
   if not nodeVehicle then
+    Debug.console("vehWizard.syncUIFromRecord: no vehicle node found");
     return
   end
 
-  local nodeState = getWizardState(w)
+  debugWizard("syncUIFromRecord: begin for " .. (nodeVehicle.getPath and nodeVehicle:getPath() or "<vehicle>"))
   local sStoredType = DB.getValue(nodeVehicle, "typegraft", "")
-  local sTypeKey = resolveTypeKey(sStoredType)
+  local nodeState = getWizardState(w)
+  local sTypeKey = getTypeKeyFromVehicle(nodeVehicle)
+  debugWizard(string.format("syncUIFromRecord: stored type='%s' resolved='%s'", sStoredType, sTypeKey or ""))
 
   if (not sTypeKey or sTypeKey == "") and nodeState then
     local nodeWorking = getWorkingNode(nodeState)
@@ -784,6 +1104,7 @@ function vehWizard.syncUIFromRecord(w)
       local nodeType = DB.getChild(nodeWorking, "type")
       if nodeType then
         sTypeKey = resolveTypeKey(DB.getValue(nodeType, "key", ""))
+        debugWizard(string.format("syncUIFromRecord: fallback working type key='%s'", sTypeKey or ""))
       end
     end
   end
@@ -792,7 +1113,55 @@ function vehWizard.syncUIFromRecord(w)
   w._suspendTypeUpdate = not (sTypeKey and TYPE_RULES[sTypeKey])
 
   if sTypeKey and w.StringCyclerVehType and TYPE_RULES[sTypeKey] then
-    trySetCyclerValue(w.StringCyclerVehType, TYPE_RULES[sTypeKey].cycler)
+    local label = TYPE_RULES[sTypeKey].cycler
+    local ok = setCyclerValue(w.StringCyclerVehType, label)
+    debugWizard(string.format("syncUIFromRecord: applied type cycler='%s' success=%s", label, tostring(ok)))
+  else
+    debugWizard("syncUIFromRecord: no valid type key to apply")
+  end
+
+  local sSizeValue = getSizeValueFromVehicle(nodeVehicle)
+  if sSizeValue ~= "" and w.StringCyclerVehSize then
+    local ok = setCyclerValue(w.StringCyclerVehSize, sSizeValue)
+    debugWizard(string.format("syncUIFromRecord: applied size='%s' success=%s", sSizeValue, tostring(ok)))
+    if w.StringCyclerVehSize.updateVehSize then
+      w.StringCyclerVehSize.updateVehSize()
+    end
+  else
+    debugWizard("syncUIFromRecord: no size value found")
+  end
+
+  local sOriginValue = getOriginValueFromVehicle(nodeVehicle)
+  if sOriginValue ~= "" and w.StringCyclerVehOrigin then
+    local ok = setCyclerValue(w.StringCyclerVehOrigin, sOriginValue)
+    debugWizard(string.format("syncUIFromRecord: applied origin='%s' success=%s", sOriginValue, tostring(ok)))
+    if w.StringCyclerVehOrigin.updateVehOrigin then
+      w.StringCyclerVehOrigin.updateVehOrigin()
+    end
+  else
+    debugWizard("syncUIFromRecord: no origin value found")
+  end
+
+  local sSpecial1Value = getSpecialValueFromVehicle(nodeVehicle, 1)
+  if sSpecial1Value ~= "" and w.StringCyclerVehSpecial1 then
+    local ok = setCyclerValue(w.StringCyclerVehSpecial1, sSpecial1Value)
+    debugWizard(string.format("syncUIFromRecord: applied special1='%s' success=%s", sSpecial1Value, tostring(ok)))
+    if w.StringCyclerVehSpecial1.updateSpecial1 then
+      w.StringCyclerVehSpecial1.updateSpecial1()
+    end
+  else
+    debugWizard("syncUIFromRecord: no special1 value found")
+  end
+
+  local sSpecial2Value = getSpecialValueFromVehicle(nodeVehicle, 2)
+  if sSpecial2Value ~= "" and w.StringCyclerVehSpecial2 then
+    local ok = setCyclerValue(w.StringCyclerVehSpecial2, sSpecial2Value)
+    debugWizard(string.format("syncUIFromRecord: applied special2='%s' success=%s", sSpecial2Value, tostring(ok)))
+    if w.StringCyclerVehSpecial2.updateSpecial2 then
+      w.StringCyclerVehSpecial2.updateSpecial2()
+    end
+  else
+    debugWizard("syncUIFromRecord: no special2 value found")
   end
 
   local nLevel = DB.getValue(nodeVehicle, "level", 1)
@@ -811,6 +1180,48 @@ function vehWizard.syncUIFromRecord(w)
   end
 
   w._syncing = false
+end
+
+function vehWizard.autoLockExistingSteps(w)
+  if not w then
+    return
+  end
+
+  local nodeVehicle = getVehicleNode(w)
+  if not nodeVehicle then
+    return
+  end
+
+  local lockTargets = {}
+
+  local typeKey = getTypeKeyFromVehicle(nodeVehicle)
+  if typeKey and TYPE_RULES[typeKey] then
+    lockTargets.type = true
+  end
+
+  local sizeValue = getSizeValueFromVehicle(nodeVehicle)
+  if sizeValue ~= "" then
+    lockTargets.size = true
+  end
+
+  local originValue = getOriginValueFromVehicle(nodeVehicle)
+  if originValue ~= "" then
+    lockTargets.origin = true
+  end
+
+  local special1Value = getSpecialValueFromVehicle(nodeVehicle, 1)
+  if special1Value ~= "" then
+    lockTargets.special1 = true
+  end
+
+  local special2Value = getSpecialValueFromVehicle(nodeVehicle, 2)
+  if special2Value ~= "" then
+    lockTargets.special2 = true
+  end
+
+  for stepKey in pairs(lockTargets) do
+    vehWizard.setStepLock(w, stepKey, true, { skipWrite = true })
+  end
 end
 
 function onLevelChanged(w)
@@ -855,8 +1266,6 @@ function onTypeChanged(w, sValue)
   end
 
   if w._suspendTypeUpdate then
-    clearTypeFields(w)
-    w._currentTypeKey = nil
     return
   end
 
