@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+
+  <windowclass name="charvehicle" merge="join">
+    <sheetdata>
+
+      <button_details name="button_veh_wizard">
+        <bounds>5,75,20,20</bounds>
+        <state icon="button_ctnextround" />
+        <frame name="buttonup" />
+        <tooltip textres="vhBuilder_button_veh_wizard_Tooltip" />
+				<script>
+          function onInit()
+            -- on init, check if the Vehicle wizard helper is enabled; if not, hide the button
+            if not sf_init.isVehicleWizard_On() then
+              setVisible(false);
+            else
+              setVisible(true);
+            end
+          end
+					function onButtonPress()
+            local nodeVehicle = window.getDatabaseNode();
+            if not nodeVehicle then
+              sf.ErrorOut("Vehicle Wizard could not resolve vehicle node.");
+              return;
+            end
+            sf.DebugOut("Vehicle wizard node: " .. nodeVehicle.getPath());
+
+            if not sf_init.isVehicleWizard_On() then
+              sf.ErrorOut("Vehicle Wizard helper is disabled; not opening ability boost details.");
+              return;
+            end
+
+            sf.DebugOut("Opening Vehicle Wizard for vehicle node: " .. nodeVehicle.getPath());
+
+            sf_vehicle.updateVehicleMetaData(nodeVehicle);
+					end
+				</script>
+			</button_details>
+
+    </sheetdata>
+  </windowclass>
+
+</root>

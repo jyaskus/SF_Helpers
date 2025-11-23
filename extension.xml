@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root version="3.0">
 
-  <announcement text="QoL improvements for Starfinder 1e (11.17.2025)" font="emotefont"  />
+  <announcement text="QoL improvements for Starfinder 1e (11.18.2025)" font="emotefont"  />
 
 	<properties>
     <author>SgtWhy</author>
@@ -15,29 +15,20 @@
 	</properties>
 
 	<base>
-
-    <!--strings-->
-    <includefile source="sf_strings.xml" />
-
-    <!-- icons -->
-    <includefile source="graphics/graphics_icons.xml" />
-
     <!-- helper functions -->
     <script name="sf" file="scripts/sf_helper.lua" />
 
+    <!--strings-->
+    <includefile source="sf_strings.xml" />
+    
     <!-- ability score details -->
     <includefile source="xml/sf_charsheet.xml" />
     <includefile source="xml/sf_abilityboost.xml" />
 
-    <!-- vehicle wizard -->
-    <includefile source="xml/veh_builder.xml" /> 
-    <script name="vehBuilder" file="scripts/veh_builder.lua" />
-    <script name="VehicleGraftData" file="Data/VehicleGraftData.lua" />
-
-    <!-- companion and npc wizard -->
-    <includefile source="xml/sf_companions.xml" />
-    <script name="CompanionData" file="Data/CompanionData.lua" />
-
+    <!-- vehicle helper -->
+    <script name="sf_vehicle" file="scripts/sf_vehicle.lua" />
+    <includefile source="xml/sf_vehicle.xml" />
+    
     <!-- initialization -->
     <script name="sf_init" file="scripts/sf_init.lua" />
 
