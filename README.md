@@ -9,17 +9,3 @@ Enhancement suite for Fantasy Grounds Unity's Starfinder ruleset. This extension
 2. **Vehicle Helper** – Start by setting the vehicle level which determines all of its metadata. First build the record in FGU, pick grafts (size, type, specials) to define you vehicle, then use this to calculate and populate all of the meta data. This allows for rapid prototyping of new vehicles.
 
 3. **Grenade Auto-Reloads** – Double-clicking a grenade weapon keeps the weapon `uses` node and the inventory stack in lockstep, instantly refunding or deducting grenades as they’re consumed.
-
-## Usage Notes
-
-- Embedded Lua inside XML controls cannot use `<`, `>`, `<=`, or `>=`. Use the helper comparisons (`sf.isGt`, `sf.isGe`, etc.) instead.
-- Prefer `sf.DebugOut`/`sf.ErrorOut` for logging. Keep `Debug.console` in place only while actively troubleshooting.
-- When reading `windowreference` fields like weapon shortcuts, retrieve both class and record name via `DB.getValue(node, "shortcut")` to avoid nil values in split fields.
-- Vehicle builder creates finished vehicles under the owning charsheet's `vehicles` node (not the temporary builder node) and prefixes auto-generated names with the character name.
-
-## Contributing
-
-See `.github/copilot-instructions.md` for the active workspace checklist. When submitting PRs, include:
-
-- Repro steps, including campaign DB nodes and console excerpts if applicable.
-- Validation notes from Fantasy Grounds Unity (e.g., grenade reload test results, vehicle creation).
