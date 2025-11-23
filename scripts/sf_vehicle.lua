@@ -294,17 +294,17 @@ local ORIGIN_GRAFTS = {
 
 function updateVehicleMetaData(nodeVehicle)
   if not nodeVehicle then
-    Debug.console("No vehicle node provided; cannot continue vehicle meta update.");
+    sf.ErrorOut("No vehicle node provided; cannot continue vehicle meta update.");
     return;
   end
 
   -- determine base values as set by the vehicle level
   local nLevel = DB.getValue(nodeVehicle, "level", 0);
   if nLevel < 1 or nLevel > 20 then
-    Debug.console("Vehicle level is out of range; cannot continue vehicle meta update.");
+    sf.ErrorOut("Vehicle level is out of range; cannot continue vehicle meta update.");
     return;
   else
-    Debug.console("Updating vehicle meta data for level " .. nLevel);
+    sf.DebugOut("Updating vehicle meta data for level " .. nLevel);
   end
 
   -- step 1: base values defined from level
@@ -328,10 +328,10 @@ function updateVehicleMetaData(nodeVehicle)
   end
   sVehTypeClean = sVehTypeClean:gsub("%s+$", "");
   if sVehTypeClean == "" then
-    Debug.console("Vehicle type graft not set; cannot continue vehicle meta update.");
+    sf.DebugOut("Vehicle type graft not set; cannot continue vehicle meta update.");
     return;
   else
-    Debug.console("Vehicle type graft: " .. sVehTypeClean);
+    sf.DebugOut("Vehicle type graft: " .. sVehTypeClean);
   end
 
   local typeMeta = VEH_TYPES[sVehTypeClean:lower()];
@@ -352,16 +352,16 @@ function updateVehicleMetaData(nodeVehicle)
   -- step 3: vehicle size graft
   local sVehSize = DB.getValue(nodeVehicle, "sizegraft", "");
   if sVehSize == "" then
-    Debug.console("Vehicle type graft not set; cannot continue vehicle meta update.");
+    sf.ErrorOut("Vehicle type graft not set; cannot continue vehicle meta update.");
     return;
   end
 
   local sizeMeta = SIZE_GRAFTS[sVehSize];
   if not sizeMeta then
-    Debug.console("Vehicle size graft invalid; cannot continue vehicle meta update.");
+    sf.ErrorOut("Vehicle size graft invalid; cannot continue vehicle meta update.");
     return;
   else
-    Debug.console("Vehicle size graft: " .. sVehSize);
+    sf.DebugOut("Vehicle size graft: " .. sVehSize);
   end
 
   --    ["colossal"] = {
@@ -379,9 +379,9 @@ function updateVehicleMetaData(nodeVehicle)
   local originMeta = {};
   if sVehOrigin ~= "" then
     originMeta = ORIGIN_GRAFTS[sVehOrigin];
-    Debug.console("Vehicle origin graft: " .. sVehOrigin);
+    sf.DebugOut("Vehicle origin graft: " .. sVehOrigin);
   else
-    Debug.console("No origin graft selected.");
+    sf.DebugOut("No origin graft selected.");
   end
 
   -- step 5: special graft(s)
@@ -390,7 +390,7 @@ function updateVehicleMetaData(nodeVehicle)
   local specialMeta1 = {};
   if sVehSpecial1 ~= "" then
     specialMeta1 = SPECIAL_GRAFTS[sVehSpecial1];
-    Debug.console("Vehicle special graft 1: " .. sVehSpecial1);
+    sf.DebugOut("Vehicle special graft 1: " .. sVehSpecial1);
   end
 
   -- <vehicle>.<id-00001>.<parts>.<id-00001>.<subtype> = "Special Graft"
@@ -407,7 +407,7 @@ function updateVehicleMetaData(nodeVehicle)
         if not (sName == sVehSpecial1) then
           sVehSpecial2 = sName;
           specialMeta2 = SPECIAL_GRAFTS[sName];
-          Debug.console("Vehicle special graft 2: " .. sName);
+          sf.DebugOut("Vehicle special graft 2: " .. sName);
         end
       end
     end
@@ -588,18 +588,18 @@ function updateVehicleMetaData(nodeVehicle)
 
   -- SPEED, Base
   local nSpeed = baseMeta.speed + (typeMeta.speedMod or 0);
-  Debug.console("Base speed: " .. baseMeta.speed .. ", Type mod: " .. (typeMeta.speedMod or 0) );
+  sf.DebugOut("Base speed: " .. baseMeta.speed .. ", Type mod: " .. (typeMeta.speedMod or 0) );
   if (specialMeta1 and specialMeta1.speed) then
     nSpeed = nSpeed + specialMeta1.speed;
   end
   if (specialMeta2 and specialMeta2.speed) then
     nSpeed = nSpeed + specialMeta2.speed;
   end
-  Debug.console("adjusted Base speed: " .. nSpeed);
+  sf.DebugOut("adjusted Base speed: " .. nSpeed);
 
   -- SPEED, Full
   local nFullSpeed = nSpeed * (typeMeta.fullspeed or 1);
-  Debug.console("Full speed before specials: " .. nFullSpeed);
+  sf.DebugOut("Full speed before specials: " .. nFullSpeed);
 
   if (specialMeta1 and specialMeta1.fullspeed) then
     nFullSpeed = nFullSpeed + specialMeta1.fullspeed;
@@ -607,21 +607,21 @@ function updateVehicleMetaData(nodeVehicle)
   if (specialMeta2 and specialMeta2.fullspeed) then
     nFullSpeed = nFullSpeed + specialMeta2.fullspeed;
   end
-  Debug.console("Full speed after special grafts: " .. nFullSpeed);
+  sf.DebugOut("Full speed after special grafts: " .. nFullSpeed);
 
   if sVehSpecial1 == "Racer" or sVehSpecial2 == "Racer" then
     nFullSpeed = math.floor(nFullSpeed * 1.25); -- +25% bonus for racers
   end
-  Debug.console("Final full speed: " .. nFullSpeed);
+  sf.DebugOut("Final full speed: " .. nFullSpeed);
 
   -- SPEED, Overland
   local nOverland = math.floor(nFullSpeed / 10);
-  Debug.console("Overland speed before specials: " .. nOverland);
+  sf.DebugOut("Overland speed before specials: " .. nOverland);
 
   if sVehSpecial1 == "Transport" or sVehSpecial2 == "Transport" then
     nOverland = math.floor(nOverland * 1.20); -- +20% bonus for transport
   end
-  Debug.console("Final overland speed: " .. nOverland);
+  sf.DebugOut("Final overland speed: " .. nOverland);
 
   createMovementEntries(nodeVehicle, sVehTypeClean, sVehSpecial1, sVehSpecial2, nSpeed, nFullSpeed, nOverland);
 
@@ -668,13 +668,13 @@ end
 -- Function to create movement entries based on vehicle type and special abilities
 function createMovementEntries(vehicleNode, sVehType, sSpecial1, sSpecial2, nSpeed, nFullSpeed, nOverland)
   local movementsNode = DB.createChild(vehicleNode, "movements");
-  Debug.console("Creating movement entries for vehicle type: " .. sVehType);
+  sf.DebugOut("Creating movement entries for vehicle type: " .. sVehType);
   
     -- Determine base movement type from vehicle type
   local baseMovementType = getMovementType(sVehType:lower());
   local movementTypes = {};
 
-  Debug.console("Base movement type: " .. baseMovementType);
+  sf.DebugOut("Base movement type: " .. baseMovementType);
   
     -- Add base movement type
   table.insert(movementTypes, baseMovementType);

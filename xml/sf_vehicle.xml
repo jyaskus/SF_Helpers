@@ -31,7 +31,7 @@
               return;
             end
 
-            Debug.console("Opening Vehicle Wizard for vehicle node: " .. nodeVehicle.getPath());
+            sf.DebugOut("Opening Vehicle Wizard for vehicle node: " .. nodeVehicle.getPath());
 
             sf_vehicle.updateVehicleMetaData(nodeVehicle);
 					end

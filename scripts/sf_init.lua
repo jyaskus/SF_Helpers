@@ -19,7 +19,7 @@ function onInit()
   end
   -- create the database root node
   local tNode = DB.createNode(dbRootName);
-	DB.setPublic(tNode, true);
+  DB.setPublic(tNode, true);
   
   -- load data from OGL
   -- loadOGLData();
