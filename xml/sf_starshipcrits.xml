@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  
+  <windowclass name="char_shiplist" merge="join">
+    <sheetdata>
+
+      <button_details name="button_starship_crits">
+        <bounds>260,30,20,20</bounds>
+        <!--frame name="buttonup" /-->
+				<icon normal="roll_attack_crit" pressed="button_skillcr" />
+				<script>
+        function onInit()
+          -- on init, check if the starship crits helper is enabled; if not, hide the button
+          if not sf_init.isStarshipCrits_On() then
+            setVisible(false);
+          else
+            setVisible(true);
+          end
+        end
+				function onButtonPress()
+          local sDBnode = "SF_Helpers";
+
+          if not sf_init.isStarshipCrits_On() then
+            sf.ErrorOut("Starship Crew Action Critical Effects helper is disabled; not opening details.");
+            return;
+          end
+
+          Interface.openWindow("char_ship_crits", sDBnode);
+				end
+				</script>
+        <tooltip textres="SF_helper_tooltip_starship_action_crits" />
+			</button_details>
+
+    </sheetdata>
+  </windowclass>
+
+  <windowclass name="char_ship_crits" >
+    <frame>referenceblock-book</frame>
+    <placement>
+      <size width="510" height="250" />
+    </placement>
+    <sizelimits>
+      <minimum width="510" height="250" />
+      <dynamic />
+    </sizelimits>
+    <softclose />
+    <sheetdata>
+
+      <formattedtextfield name="sf_crits_text_help_notes">
+				<bounds>15,15,-10,-10</bounds>
+				<script>
+				function onInit()
+					setValue( sf.getText_StarshipCriticals() );
+				end
+				</script>
+				<readonly />
+			</formattedtextfield>
+      
+      <scrollbarcontrol name="scrollbar_text">
+        <bounds>-26,40,20,-35</bounds>
+        <frame>
+          <name>scrollbar_base</name>
+          <offset>0,12,0,12</offset>
+        </frame>
+        <target>sf_crits_text_help_notes</target>
+        <normal name="scrollbutton_normal">
+          <minimum height="scrollbutton_normal" />
+        </normal>
+      </scrollbarcontrol>
+
+      <buttoncontrol name="closeButton">
+        <frame>
+        	<name>buttonup</name>
+       	</frame>
+        <bounds>-20,5,20,20</bounds>
+        <state icon="button_toolbar_window_close" />
+				<script>
+				function onButtonPress()
+        	window.close();
+				end
+				</script>
+      </buttoncontrol>
+
+    </sheetdata>
+  </windowclass>
+
+</root>

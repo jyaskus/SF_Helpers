@@ -14,8 +14,35 @@
   <string name="SF_option_helper_ability_wizard">Enable the Character Ability score details button</string>
   <string name="SF_option_helper_vehicle_wizard">Enable the Vehicle record wizard button</string>
   <string name="SF_option_helper_grenade_autoreload">Enable Grenade inventory updates with Reloads</string>
+  <string name="SF_helper_tooltip_starship_action_crits">Starship Crew Action Critical Effects</string>
+  <string name="SF_helper_tooltip_resolve_usage">(optional) Resolve Point usage</string>
 
   <!-- vehicle wizard tooltip -->
   <string name="vhBuilder_button_veh_wizard_Tooltip">Update the Vehicles metadata based on level and Grafts.</string>
+
+  <!-- companion wizard -->
+  <string name="tooltip_apply_stats_button">Apply the selected primary and secondary stats to the companion.</string>
+  <string name="label_good">Good</string>
+  <string name="label_poor">Poor</string>
+  <string name="label_companion_defaults">Companion Defaults</string>
+  <string name="skill_list_default">Acrobatics, Athletics, Perception, Stealth, Survival</string>
+  <string name="tooltip_update_skills_button">Update the companion's skill list based on their current level and class.</string>
+  <string name="char_tooltip_abilitypointstotal">Total Ability Points (normally 10 pts)</string>
+
+  <!-- SF abilities scores -->  
+  <string name="label_strength">Strength</string>
+  <string name="label_dexterity">Dexterity</string> 
+  <string name="label_constitution">Constitution</string>
+  <string name="label_intelligence">Intelligence</string>
+  <string name="label_wisdom">Wisdom</string>
+  <string name="label_charisma">Charisma</string>
+
+  <!-- companion size labels -->
+	<string name="label_size_diminutive">Diminutive</string>
+	<string name="label_size_tiny">Tiny</string>
+	<string name="label_size_small">Small</string>
+	<string name="label_size_medium">Medium</string>
+	<string name="label_size_large">Large</string>
+	<string name="label_size_huge">Huge</string>
 
 </root>
