@@ -13,7 +13,7 @@
           function onInit()
             -- on init, check if the Vehicle wizard helper is enabled; if not, hide the button
             if not sf_init.isVehicleWizard_On() then
-              setVisible(false);
+              --setVisible(false);
             else
               setVisible(true);
             end
@@ -21,17 +21,17 @@
 					function onButtonPress()
             local nodeVehicle = window.getDatabaseNode();
             if not nodeVehicle then
-              sf.ErrorOut("Vehicle Wizard could not resolve vehicle node.");
+              Debug.console("Vehicle Wizard could not resolve vehicle node.");
               return;
             end
-            sf.DebugOut("Vehicle wizard node: " .. nodeVehicle.getPath());
+            Debug.console("Vehicle wizard node: " .. nodeVehicle.getPath());
 
             if not sf_init.isVehicleWizard_On() then
-              sf.ErrorOut("Vehicle Wizard helper is disabled; not opening ability boost details.");
+              Debug.console("Vehicle Wizard helper is disabled; not opening ability boost details.");
               return;
             end
 
-            sf.DebugOut("Opening Vehicle Wizard for vehicle node: " .. nodeVehicle.getPath());
+            Debug.console("Opening Vehicle Wizard for vehicle node: " .. nodeVehicle.getPath());
 
             sf_vehicle.updateVehicleMetaData(nodeVehicle);
 					end
