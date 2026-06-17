@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root version="3.0">
 
-  <!-- SF ability score details -->  
-  <string name="char_tooltip_abilitypointstotal">Total Ability Points (normally 10 pts)</string>
-
   <!-- options for new features -->
   <string name="SF_option_header">Starfinder Helper</string>
   <string name="SF_option_header_debug">SF_Helper options</string>

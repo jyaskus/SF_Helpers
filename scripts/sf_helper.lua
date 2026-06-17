@@ -70,7 +70,7 @@ end
 
 function getText_StarshipCriticals()
   local sfText ="<h>Rolling a natural 20</h> \
-  <p>This is a list of the optional ways to give any crew member the potential to achive extraordinary results when attempting starship crew actions.</p>\
+  <p>This is a list of the optional ways to give any crew member the potential to achieve extraordinary results when attempting starship crew actions.</p>\
 <p><h>Captain Actions</h></p>\
   <p><b>Demand</b></p>\
   <p>You can attempt the demand crew action with the targeted crew member one additional time during the current starship combat.</p>\
@@ -84,7 +84,7 @@ function getText_StarshipCriticals()
   <p>The penalty your taunt action applies to an enemy ship continues through all three phases of combat instead of just one.</p>\
 <p><h>Chief Mate Actions</h></p>\
   <p><b>Hard Turn</b></p>\
-  <p>You improve the manueverability of your ship by one step until the start of the next turn.</p>\
+  <p>You improve the maneuverability of your ship by one step until the start of the next turn.</p>\
   <p><b>Maintenance Panel Access</b></p>\
   <p>The next time an engineer attempts an Engineering check to divert power, they can roll twice and use the better result.</p>\
   <p><b>Manual Realignment</b></p>\
@@ -101,9 +101,9 @@ function getText_StarshipCriticals()
   <p><b>Overpower</b></p>\
   <p>One of the three targeted systems also benefits of the Divert critical effect.</p>\
   <p><b>Patch</b></p>\
-  <p>If the targeted system recieves another critical hit, it removes the patch but doesnt trigger additional critical damage.</p>\
+  <p>If the targeted system receives another critical hit, it removes the patch but doesn't trigger additional critical damage.</p>\
   <p><b>Quick Fix</b></p>\
-  <p>Your efforts results in a lasting repair, remove the critical damage condition from the system for 1 day instead of 1 hour.</p>\
+  <p>Your efforts result in a lasting repair, removing the critical damage condition from the system for 1 day instead of 1 hour.</p>\
 <p><h>Magic Officer Actions</h></p>\
   <p><b>Eldritch Shot</b></p>\
   <p>On your next attack with the augmented weapon, treat each damage die roll that results in a 1 as a 2 instead.</p>\
@@ -120,7 +120,7 @@ function getText_StarshipCriticals()
   <p>You gain a +4 circumstance bonus to your ships AC and TL until the start of the next round.</p>\
   <p><b>Full Power</b></p>\
   <p>Add only 1 to your starship's distance between turns.</p>\
-  <p><b>Manuever</b></p>\
+  <p><b>Maneuver</b></p>\
   <p>You gain the effects of a successful evade stunt until the start of the next turn.</p>\
   <p><b>Stunt</b></p>\
   <p>The results differ depending on the specific stunt performed.</p><list><li><b>Back Off</b>Your starship can move up to its full speed and make turns as normal.</li><li><b>Barrel Roll</b>You gain the effects of a successful evade stunt until the start of the next turn.</li><li><b>Evade</b>Increase the bonus to AC and TL by +4 instead.</li><li><b>Flip and Burn</b>The starship move up to its full speed without turning and then rotate 180 degrees to face the aft edge after the movement.</li><li><b>Flyby</b>The gunner gain a +2 circumstance bonus to the associated check.</li><li><b>Ramming Speed</b>You gain a +2 circumstance bonus to the gunnery check to ram and deal additional damage to the targeted starship equal to your starships tier.</li><li><b>Slide</b>At the end of the movement, your starship can turn once step.</li></list>\
