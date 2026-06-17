@@ -19,10 +19,11 @@ local tFieldToControl = {
 };
 
 local function getValidSizeValue(sSize)
-  if tSizeDefaults[sSize] then
+  Debug.console("Validating size value: " .. tostring(sSize));
+  if tSizeDefaults[sSize:lower()] then
     return sSize;
   end
-  return "medium";
+  return "Medium";
 end
 
 
@@ -56,7 +57,7 @@ function applySizeValues(window, nodeRoot, sSize, bForce)
   end
 
   local sValidSize = getValidSizeValue(sSize);
-  local tEntry = tSizeDefaults[sValidSize];
+  local tEntry = tSizeDefaults[sValidSize:lower()];
   if not tEntry then
     return;
   end
@@ -111,7 +112,7 @@ function onSizeCyclerChanged(window, control)
   end
 
   -- grab it from the DB holding the stringcycler value rather than the control directly
-  local sSize = DB.getValue(nodeRoot, "sSize", "medium");
+  local sSize = DB.getValue(nodeRoot, "sSize", "Medium");
 
   local sValidSize = getValidSizeValue(sSize);
   DB.setValue(nodeRoot, "size", "string", sValidSize);

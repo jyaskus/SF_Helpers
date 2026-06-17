@@ -29,13 +29,35 @@
         <default>1</default>
         <frame name="fieldlight" />
         <script>
+          function checkRaceLimits()
+            -- use the data section to find the maxlevel value
+            local sDBnode = window.getDatabaseNode();
+            local nodeData = DB.getChild(sDBnode, "data");
+            local nMaxLevel = DB.getValue(nodeData, "maxlevel", 20);
+            local nMinLevel = DB.getValue(nodeData, "minlevel", 1);
+            local nLevel = getValue() or 1;
+            if sf.isGt(nMinLevel, nLevel) then
+              nLevel = nMinLevel;
+              sf.sendChat("Level cannot be set below " .. nMinLevel .. " for this companion.");
+            elseif sf.isGt(nLevel, nMaxLevel) then
+              nLevel = nMaxLevel;
+              sf.sendChat("Level cannot be set above " .. nMaxLevel .. " for this companion.");
+            end
+            return nLevel;
+          end
           function onInit()
             local sDBnode = window.getDatabaseNode();
             nLevel = DB.getValue(sDBnode,"level",1);
 
-            -- use DB value as source of truth
+            -- use DB value as source of truth (checks if its between 1 and 20)
             nLevel = CompanionData.validateLevel(nLevel);
+            nLevel = checkRaceLimits();
             setValue(nLevel);
+
+            -- since the stat buttons cant have their onInit override
+            checkDataStats();
+            checkDataSaves();
+            checkDataSize();
           end
           function onValueChanged()
             local nLevel = CompanionData.validateLevel(getValue());
@@ -73,6 +95,64 @@
             window.nEAC.update();
             window.nKAC.update();
             window.nSkillBonus.update();
+          end
+          function checkDataStats()
+            local sDBnode = window.getDatabaseNode();
+            local nodeData = DB.getChild(sDBnode, "data");
+            local sPrimary = DB.getValue(nodeData, "stat1", "");
+            local sSecondary = DB.getValue(nodeData, "stat2", "");
+
+            if sPrimary ~= "" then
+              DB.setValue(sDBnode, "stat_primary", "string", sPrimary);
+              Debug.console("Initialized Primary Stat cycler to: " .. sPrimary);
+            else
+              Debug.console("No Primary Stat set in DB, leaving cycler blank.");
+            end
+
+            if sSecondary ~= "" then
+              DB.setValue(sDBnode, "stat_secondary", "string", sSecondary);
+              Debug.console("Initialized Secondary Stat cycler to: " .. sSecondary);
+            else
+              Debug.console("No Secondary Stat set in DB, leaving cycler blank.");
+            end
+          end
+          function checkDataSaves()
+            local sDBnode = window.getDatabaseNode();
+            local nodeData = DB.getChild(sDBnode, "saves");
+            local sFort = DB.getValue(nodeData, "fortitude.type", "Poor");
+            local sRef = DB.getValue(nodeData, "reflex.type", "Poor");
+            local sWill = DB.getValue(nodeData, "will.type", "Poor");
+
+            if sFort ~= "" then
+              DB.setValue(sDBnode, "save_fort", "string", sFort);
+              Debug.console("Initialized Fortitude Save to: " .. sFort);
+            else
+              Debug.console("No Fortitude Save set in DB, leaving cycler blank.");
+            end
+
+            if sRef ~= "" then
+              DB.setValue(sDBnode, "save_reflex", "string", sRef);
+              Debug.console("Initialized Reflex Save to: " .. sRef);
+            else
+              Debug.console("No Reflex Save set in DB, leaving cycler blank.");
+            end
+
+            if sWill ~= "" then
+              DB.setValue(sDBnode, "save_will", "string", sWill);
+              Debug.console("Initialized Will Save to: " .. sWill);
+            else
+              Debug.console("No Will Save set in DB, leaving cycler blank.");
+            end
+          end
+          function checkDataSize()
+            local sDBnode = window.getDatabaseNode();
+            local sSize = DB.getValue(sDBnode, "size", "Medium"); --sSize is the name of the associated size button cycler control
+            if sSize ~= "" then
+              DB.setValue(sDBnode, "sSize", "string", sSize);
+              Debug.console("Initialized Size cycler to: " .. sSize);
+            else
+              Debug.console("No Size set in DB, leaving cycler blank.");
+            end
           end
         </script>
       </number>
@@ -169,7 +249,7 @@
         <script>
         function onValueChanged()
           local sStat = getValue();
-          sf.DebugOut("Primary Stat selected: " .. sStat);
+          Debug.console("Primary Stat selected: " .. sStat);
         end
         </script>
       </button_stringcycler>
@@ -297,7 +377,7 @@
         <readonly />
       </stringcontrol>
 
-      <button_stringcycler name="fortitude_save">
+      <button_stringcycler name="save_fort">
         <frame>
           <name>filter</name>
           <offset>0,0,0,0</offset>
@@ -306,7 +386,7 @@
         <tooltip textres="actionUsagePopup_Tooltip" />
         <parameters>
           <labelsres>label_good|label_poor</labelsres>
-          <values>good|poor</values>
+          <values>Good|Poor</values>
         </parameters>
         <script>
         function onValueChanged()
@@ -319,9 +399,9 @@
           if sSaveType == "" then
             sf.DebugOut("No save type selected, skipping.");
             return;
-          elseif sSaveType == "good"  then
+          elseif sSaveType == "Good" or sSaveType == "good"  then
             nSaveBonus = CompanionData.getLevelGoodSave(nLevel);
-          elseif sSaveType == "poor" then
+          elseif sSaveType == "Poor" or sSaveType == "poor" then
             nSaveBonus = CompanionData.getLevelPoorSave(nLevel);
           end
 
@@ -336,7 +416,7 @@
         <static>Fortitude Save</static>
       </label_fieldtop>
 
-      <button_stringcycler name="reflex_save">
+      <button_stringcycler name="save_reflex">
         <frame>
           <name>filter</name>
           <offset>0,0,0,0</offset>
@@ -345,7 +425,7 @@
         <tooltip textres="actionUsagePopup_Tooltip" />
         <parameters>
           <labelsres>label_good|label_poor</labelsres>
-          <values>good|poor</values>
+          <values>Good|Poor</values>
         </parameters>
         <script>
         function onValueChanged()
@@ -375,7 +455,7 @@
         <static>Reflex Save</static>
       </label_fieldtop>
 
-      <button_stringcycler name="will_save">
+      <button_stringcycler name="save_will">
         <frame>
           <name>filter</name>
           <offset>0,0,0,0</offset>
@@ -384,7 +464,7 @@
         <tooltip textres="actionUsagePopup_Tooltip" />
         <parameters>
           <labelsres>label_good|label_poor</labelsres>
-          <values>good|poor</values>
+          <values>Good|Poor</values>
         </parameters>
         <script>
         function onValueChanged()
@@ -453,19 +533,17 @@
         </frame>
         <bounds>40,286,140,32</bounds>
         <parameters>
-          <!--defaultlabelres>label_size_medium</defaultlabelres-->
           <labelsres>label_size_diminutive|label_size_tiny|label_size_small|label_size_medium|label_size_large|label_size_huge</labelsres>
-          <values>diminutive|tiny|small|medium|large|huge</values>
+          <values>Diminutive|Tiny|Small|Medium|Large|Huge</values>
         </parameters>
         <script>
           function onValueChanged()
             sf.DebugOut("Creature Size selected: " .. getStringValue());
-            if window.onSizeCyclerChanged then
-              window.onSizeCyclerChanged(window, self);
-              sf.DebugOut("Called onSizeCyclerChanged");
-            elseif window.label_step4 and window.label_step4.handleSizeCyclerChanged then
-              window.label_step4.handleSizeCyclerChanged(self);
-              sf.DebugOut("Called handleSizeCyclerChanged on label_step4");
+
+            -- set the sDBnode.space and reach defaults based on size selection
+            if sfc.onSizeCyclerChanged then
+              sfc.onSizeCyclerChanged(window, self);
+              Debug.console("Called onSizeCyclerChanged");
             end
           end
         </script>
@@ -480,14 +558,14 @@
         <frame name="fielddark" />
         <script>
           function onInit()
-            if onSpaceInit then
-              onSpaceInit(window, self);
+            if sfc.onSpaceInit then
+              sfc.onSpaceInit(window, self);
             end
           end
 
           function onValueChanged()
-            if onSpaceChanged then
-              onSpaceChanged(window, self);
+            if sfc.onSpaceChanged then
+              sfc.onSpaceChanged(window, self);
             end
           end
         </script>
@@ -503,14 +581,14 @@
         <frame name="fielddark" />
         <script>
           function onInit()
-            if onReachInit then
-              onReachInit(window, self);
+            if sfc.onReachInit then
+              sfc.onReachInit(window, self);
             end
           end
 
           function onValueChanged()
-            if onReachChanged then
-              onReachChanged(window, self);
+            if sfc.onReachChanged then
+              sfc.onReachChanged(window, self);
             end
           end
         </script>
@@ -743,14 +821,12 @@
         <default textres="skill_list_default" />
       </stringcontrol>
       <label_fieldtop>
-        <bounds>35,426,200,16</bounds>
+        <bounds>25,425,200,16</bounds>
         <static>Skill List (comma-separated)</static>
       </label_fieldtop>
 
       <buttoncontrol name="closeButton">
-        <frame>
-         	<name>buttonup</name>
-        	</frame>
+        <frame name="buttonup" />
         <bounds>-30,5,20,20</bounds>
         <state icon="button_toolbar_window_close" />
 			<script>
@@ -759,6 +835,7 @@
 			end
 			</script>
       </buttoncontrol>
+
     </sheetdata>
 	</windowclass>
 
@@ -788,9 +865,17 @@
               return;
             end
 
+            -- check if the companion record has a data section which confirms it has a valid race applied; if not, show error and don't open the defaults window
+            if not DB.getChild(sDBnode, "data") then
+              local sCompanionName = DB.getValue(sDBnode, "name", "Unknown Companion");
+              sf.sendChat("Companion [" .. sCompanionName .. "] has no valid race applied; please assign a race before continuing.");
+              return;
+            end
+
             Interface.openWindow("companionSetDefaults", sDBnode);
 					end
 				</script>
+        <tooltip textres="companion_defaults_button" />
 			</button_details>
 
     </sheetdata>

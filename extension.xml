@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root version="3.0">
 
-  <announcement text="QoL improvements for Starfinder 1e (04.16.2026)" font="emotefont"  />
+  <announcement text="QoL improvements for Starfinder 1e (06.16.2026)" font="emotefont"  />
 
 	<properties>
     <author>SgtWhy</author>
     <loadorder>822</loadorder>
 		<name>SF_Helpers</name>
-		<version>1.0.3</version>
+		<version>1.0.5</version>
 
     <description>Quality of Life improvements for Fantasy Grounds Unity (Starfinder 1e); Uses rules from Starfinder Core Rulebook, 2017, Paizo Inc., Starfinder Tech Revolution, 2021, Paizo Inc and Alien Archive 3, 2019, Paizo Inc.</description>
 
@@ -38,6 +38,7 @@
     <!-- companion and npc wizard -->
     <includefile source="xml/sf_companions.xml" />
     <script name="CompanionData" file="Data/CompanionData.lua" />
+    <script name="sfc" file="scripts/companion_helper.lua" />
     
     <!-- initialization -->
     <script name="sf_init" file="scripts/sf_init.lua" />

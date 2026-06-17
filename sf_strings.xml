@@ -14,13 +14,15 @@
   <string name="SF_option_helper_ability_wizard">Enable the Character Ability score details button</string>
   <string name="SF_option_helper_vehicle_wizard">Enable the Vehicle record wizard button</string>
   <string name="SF_option_helper_grenade_autoreload">Enable Grenade inventory updates with Reloads</string>
-  <string name="SF_helper_tooltip_starship_action_crits">Starship Crew Action Critical Effects</string>
-  <string name="SF_helper_tooltip_resolve_usage">(optional) Resolve Point usage</string>
+  <string name="SF_option_helper_starship_crits">Starship Crew Action Critical Effects</string>
+  <string name="SF_option_helper_resolve_usage">(optional) Resolve Point usage</string>
+  <string name="SF_option_helper_companion_wizard">Enable the Companion record wizard button</string>
 
   <!-- vehicle wizard tooltip -->
   <string name="vhBuilder_button_veh_wizard_Tooltip">Update the Vehicles metadata based on level and Grafts.</string>
 
   <!-- companion wizard -->
+  <string name="companion_defaults_button">Companion Defaults Wizard</string>
   <string name="tooltip_apply_stats_button">Apply the selected primary and secondary stats to the companion.</string>
   <string name="label_good">Good</string>
   <string name="label_poor">Poor</string>
