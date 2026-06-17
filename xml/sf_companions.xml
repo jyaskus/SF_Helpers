@@ -47,7 +47,7 @@
           end
           function onInit()
             local sDBnode = window.getDatabaseNode();
-            nLevel = DB.getValue(sDBnode,"level",1);
+            local nLevel = DB.getValue(sDBnode,"level",1);
 
             -- use DB value as source of truth (checks if its between 1 and 20)
             nLevel = CompanionData.validateLevel(nLevel);
@@ -438,9 +438,9 @@
           if sSaveType == "" then
             sf.DebugOut("No save type selected, skipping.");
             return;
-          elseif sSaveType == "good"  then
+          elseif sSaveType == "Good" or sSaveType == "good"  then
             nSaveBonus = CompanionData.getLevelGoodSave(nLevel);
-          elseif sSaveType == "poor" then
+          elseif sSaveType == "Poor" or sSaveType == "poor" then
             nSaveBonus = CompanionData.getLevelPoorSave(nLevel);
           end
 
@@ -477,9 +477,9 @@
           if sSaveType == "" then
             sf.DebugOut("No save type selected, skipping.");
             return;
-          elseif sSaveType == "good"  then
+          elseif sSaveType == "Good" or sSaveType == "good"  then
             nSaveBonus = CompanionData.getLevelGoodSave(nLevel);
-          elseif sSaveType == "poor" then
+          elseif sSaveType == "Poor" or sSaveType == "poor" then
             nSaveBonus = CompanionData.getLevelPoorSave(nLevel);
           end
 
